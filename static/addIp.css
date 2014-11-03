@@ -1,0 +1,114 @@
+div#addIpDiv {
+    position: absolute;
+    /*top: 120px;*/
+    /*right: 280px;*/
+    background-color: #ffffff;
+    border: 1px solid #000000;
+}
+
+div#addIpHeaderDiv {
+    background-color: #5cdfff;
+    border-bottom: 1px solid #ffffff;
+}
+
+div#addIpHeaderDiv:after {
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+div#addIpHeaderClose {
+    color: #ffffff;
+    float: right;
+    margin: 0 5px;
+    width: 20px;
+    text-align: center;
+}
+
+div#addIpHeaderClose:hover {
+    color: #ff0a05;
+    float: right;
+    margin: 0 5px;
+    width: 20px;
+    text-align: center;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+div#addIpLabelsDiv {
+    background-color: #5cdfff;
+    padding: 0 5px;
+}
+
+div#addIpLabelsDiv:after {
+    content: '';
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+div.addIpLabel {
+    float: left;
+}
+
+div.addIpLabel:hover {
+    float: left;
+    background-color: #5cdfff;
+    cursor: pointer;
+}
+
+div.ipCommitDiv {
+    margin: 5px 0 0 0;
+}
+
+div.ipCommitDiv:after {
+    content: '';
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+div.ipCommit {
+    float: left;
+    padding: 0 5px;
+    border: 1px solid #5cdfff;
+}
+
+div.ipCommit:hover {
+    float: left;
+    padding: 0 5px;
+    border: 1px solid #03aa00;
+    background-color: #03aa00;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+div.ipCommitStatus {
+    float: right;
+    color: #ffffff;
+    background-color: #5cdfff;
+}
+
+/*normal start*/
+div#addIpLabel {
+    margin: 5px 0;
+    padding: 0 5px;
+    border: 1px solid #5cdfff;
+}
+
+textarea#addIpText {
+    min-height: 140px;
+    max-height: 140px;
+    min-width: 140px;
+    max-width: 140px;
+}
+/*normal end*/
+
+/*advanced start*/
+div#ipHeadLabel, div#ipFromLabel, div#ipToLabel {
+    padding: 0 5px;
+    margin: 5px 0;
+    border: 1px solid #5cdfff;
+}
+/*advanced end*/

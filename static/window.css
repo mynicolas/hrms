@@ -1,0 +1,155 @@
+/*window begin*/
+div#windowDiv {
+    border: 1px solid #000000;
+}
+
+div#windowHeader {
+    text-align: center;
+    background-color: #5cdfff;
+}
+
+div#windowBodyDiv {
+    padding: 5px;
+    background-color: #ffffff;
+    height: 400px;
+    overflow-y: auto;
+    overflow-x: auto;;
+}
+/*window end*/
+
+/*leftWindow begin*/
+div#queryButton {
+    background-color: #5cdfff;
+    width: 80%;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #ffffff;
+}
+
+div#queryButton:hover {
+    background-color: #5cdfff;
+    width: 80%;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 5px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid #000000;
+}
+/*leftWindow end*/
+
+/*rightWindow begin*/
+div#tableHeader {
+    background-color: #5cdfff;
+    color: #ffffff;
+    width: 1570px;
+}
+
+div#tableHeader:after {
+    content: '';
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+div.tableHeaderItem {
+    float: left;
+    text-align: center;
+}
+
+div.aHostDiv {
+    margin: 5px 0;
+    width: 1570px;
+    border: 1px solid #5cdfff;
+}
+
+div.aHostDiv:after {
+    content: '';
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+div.hostName, div.hostCore, div.hostMem,
+div.hostDisk, div.hostMac, div.hostStart,
+div.hostEnd, div.hostCompany, div.hostRemotePort,
+div.hostDogN, div.hostDogP, div.hostBandwidth,
+div.hostNode, div.hostIp {
+    float: left;
+    text-align: center;
+    padding: 2px 0;
+    height: 18px;
+    transition: background-color 0.5s;
+    overflow-x: auto;
+}
+
+div.hostName:hover, div.hostCore:hover, div.hostMem:hover,
+div.hostDisk:hover, div.hostMac:hover, div.hostStart:hover,
+div.hostEnd:hover, div.hostCompany:hover, div.hostRemotePort:hover,
+div.hostDogN:hover, div.hostDogP:hover, div.hostBandwidth:hover,
+div.hostNode:hover, div.hostIp:hover {
+    float: left;
+    text-align: center;
+    padding: 2px 0;
+    color: #ffffff;
+    background-color: #5cdfff;
+}
+
+div#hostNameH, div.hostName {
+    width: 100px;
+}
+
+div#hostCoreH, div.hostCore {
+    width: 40px;
+}
+
+div#hostMemH, div.hostMem {
+    width: 60px;
+}
+
+div#hostDiskH, div.hostDisk {
+    width: 60px;
+}
+
+div#hostMacH, div.hostMac {
+    width: 140px;
+}
+
+div#hostStartH, div.hostStart {
+    width: 140px;
+}
+
+div#hostEndH, div.hostEnd {
+    width: 140px;
+}
+
+div#hostCompanyH, div.hostCompany {
+    width: 200px;
+}
+
+div#hostRemotePortH, div.hostRemotePort {
+    width: 70px;
+}
+
+div#hostDogNH, div.hostDogN {
+    width: 170px;
+}
+
+div#hostDogPH, div.hostDogP {
+    width: 70px;
+}
+
+div#hostBandwidthH, div.hostBandwidth {
+    width: 70px;
+}
+
+div#hostNodeH, div.hostNode {
+    width: 140px;
+}
+
+div#hostIpH, div.hostIp {
+    width: 140px;
+}
+/*rightWindow end*/

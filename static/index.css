@@ -1,0 +1,46 @@
+@import "header.css";
+@import "footer.css";
+@import "window.css";
+@import "add.css";
+@import "addIp.css";
+@import "log.css";
+@import "help.css";
+
+html {
+    background-color: #bfbdc1;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    select: none;
+    -moz-user-select: none;
+    -webkit-select: none;
+}
+
+div#container {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div#container:after {
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+div#itemArea {
+    float: left;
+    padding-top: 10px;
+    width: 10%;
+}
+
+div#statusArea {
+    float: right;
+    padding-top: 10px;
+    width: 85%;
+}

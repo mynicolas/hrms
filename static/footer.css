@@ -1,0 +1,14 @@
+div#footer {
+    margin-left: 30%;
+    margin-right: 30%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    position: absolute;
+    bottom: 10px;
+    width: 40%;
+}
+
+div#footerText {
+    font-size: 20px;
+    text-align: center;
+}

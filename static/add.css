@@ -1,0 +1,102 @@
+div#addDiv {
+    position: absolute;
+    /*right: 200px;*/
+    /*top: 120px;*/
+    border: 1px solid #000000;
+}
+
+div#addHeaderDiv {
+    background-color: #5cdfff;
+    border-bottom: 1px solid #ffffff;
+}
+
+div#addHeaderDiv:after {
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+div#addHeaderClose {
+    color: #ffffff;
+    float: right;
+    margin: 0 5px;
+    width: 20px;
+    text-align: center;
+}
+
+div#addHeaderClose:hover {
+    color: #ff0a05;
+    float: right;
+    margin: 0 5px;
+    width: 20px;
+    text-align: center;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+div#addContent {
+    padding: 5px;
+    background-color: #ffffff;
+}
+
+div.addItemDiv {
+    padding: 3px;
+    margin: 3px 0;
+    border: 1px solid #5cdfff;
+}
+
+div.addItemDiv:after {
+    content: '';
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+div.addItemLabel {
+    float: left;
+    width: 100px;
+    padding: 3px 5px;
+    background-color: #5cdfff;
+}
+
+div.addItemInputDiv {
+    float: right;
+    padding: 2px 0;
+    magin: 3px 5px;
+}
+
+div#addCommit {
+    float: left;
+    margin: 0 50px;
+    padding: 0 5px;
+    border: 1px solid #5cdfff;
+}
+
+div#addClear {
+    float: right;
+    margin: 0 50px;
+    padding: 0 5px;
+    border: 1px solid #5cdfff;
+}
+
+div#addCommit:hover {
+    float: left;
+    margin: 0 50px;
+    padding: 0 5px;
+    border: 1px solid #03aa00;
+    background-color: #03aa00;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+div#addClear:hover {
+    float: right;
+    margin: 0 50px;
+    padding: 0 5px;
+    border: 1px solid #cd0a0a;
+    background-color: #cd0a0a;
+    color: #ffffff;
+    cursor: pointer;
+}
+

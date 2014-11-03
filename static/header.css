@@ -1,0 +1,55 @@
+@import "login.css";
+
+div#header {
+    height: 20%;
+    padding: 10px 30px;
+    background-color: #5cdfff;
+}
+
+div#header:after {
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+div#logo {
+    float: left;
+    margin-left: 10%;
+    width: 40%;
+}
+
+div#toolbarDiv {
+    float: right;
+    width: 30%;
+    padding-right: 4%;
+    padding-top: 40px;
+}
+
+div#toolbar {
+    margin-right: 20%;
+    padding: 7px 0;
+}
+
+div#toolbar:after {
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+div.toolItem {
+    float: right;
+    padding: 2px 15px;
+    border: 1px solid #000000;
+    background-color: #ffffff;
+}
+
+div.toolItem:hover {
+    float: right;
+    padding: 2px 15px;
+    border: 1px solid #000000;
+    background-color: #5cdfff;
+    color: #ffffff;
+    cursor: pointer;
+}

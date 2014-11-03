@@ -1,0 +1,47 @@
+div#helpDialog {
+    position: absolute;
+    border: 1px solid #000000;
+    right: 200px;
+    top: 130px;
+    width: 400px;
+    height: 300px;
+    background-color: #ffffff;
+}
+
+div#helpDialogHeader {
+    background-color: #5cdfff;
+    border-bottom: 1px solid #ffffff;
+}
+
+div#helpDialogHeader:after {
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+div#helpDialogClose {
+    color: #ffffff;
+    float: right;
+    margin: 0 5px;
+    width: 20px;
+    text-align: center;
+}
+
+div#helpDialogClose:hover {
+    color: #ff0a05;
+    float: right;
+    margin: 0 5px;
+    width: 20px;
+    text-align: center;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+div#helpContentDiv {
+    background-color: #ffffff;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 5px;
+    height: 90%;
+}

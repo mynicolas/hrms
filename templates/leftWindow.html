@@ -1,0 +1,50 @@
+{% extends 'window.html' %}
+
+{% block windowHeader %}
+    <div id="leftWindowHeader">Item Window</div>
+{% endblock %}
+
+{% block windowBodyDiv %}
+    <div id="leftWindowBody">
+        <div id="queryButton">query</div>
+        <div id="logButton">log</div>
+        <div id="logDiv">
+            <div id="logHeaderDiv">
+                <div id="logHeaderClose">x</div>
+            </div>
+            <div class="logQueryDialog" id="logQueryIntervalDialog">
+                <div class="logQueryDialogHeader">
+                    <div class="logQueryDialogClose">x</div>
+                </div>
+                <div class="logQueryDialogContentDiv">
+                    <div class="logQueryDialogContent">
+                        <div class="logQueryConditionDiv">
+                            <div class="logQueryConditionLabel">Host</div>
+                            <div class="logQueryCondition">
+                                <select id="logQueryConditionThisHost">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="logQueryConditionDiv">
+                            <div class="logQueryConditionLabel">From</div>
+                            <div class="logQueryCondition">
+                                <input id="logQueryConditionFrom"/>
+                            </div>
+                        </div>
+                        <div class="logQueryConditionDiv">
+                            <div class="logQueryConditionLabel">To</div>
+                            <div class="logQueryCondition">
+                                <input id="logQueryConditionTo"/>
+                            </div>
+                        </div>
+                        <div id="logQueryConditionTimeCommit" class="logQueryConditionCommit">Commit</div>
+                    </div>
+                </div>
+            </div>
+            <div id="logContent"></div>
+            <div id="logQueryDiv">
+                <div class="logQueryItem" id="logQueryInterval">condition</div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
