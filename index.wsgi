@@ -12,6 +12,5 @@ sys.path.append("D:\HRMS\HRMS")
 os.environ['DJANGO_SETTINGS_MODULE'] = 'HRMS.settings'
 os.environ['PYTHON_EGG_CACHE'] = '/tmp'
 
-
 import django.core.handlers.wsgi
 application = django.core.handlers.wsgi.WSGIHandler() 
