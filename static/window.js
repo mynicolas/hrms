@@ -641,6 +641,13 @@ $(document).ready(function()
         });
 
         // 当点击add对话框中的clear按钮
+        $('div#addClear').click(function()
+        {
+            $('div.addItemInputDiv').children().each(function()
+            {
+                $(this).val('');
+            });
+        });
     });
 
     // 从后台获取的数据中判断虚拟主机是否存在
