@@ -838,12 +838,6 @@ $(document).ready(function()
         });
     }
 
-    var loginDialog = $('div#loginDialog');
-    loginDialog.hide();
-    $('div#login').click(function()
-    {
-        $('div#loginDialog').fadeIn('fast');
-    });
     var helpDialog = $('div#helpDialog');
     helpDialog.hide();
     $('div#help').click(function()

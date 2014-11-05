@@ -1,11 +1,56 @@
-div#loginDialog {
-    position: absolute;
-    /*right: 200px;*/
-    /*top: 130px;*/
-    border: 1px solid #000000;
+html,body {
+    margin: 0;
+    padding: 0;
 }
 
-div#loginDialogClose {
+div#header {
+    height: 20%;
+    padding: 10px 30px;
+}
+
+div#header:after {
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+div#logo {
+    float: left;
+    margin-left: 10%;
+    width: 40%;
+}
+
+div#container {
+    position: absolute;
+    width: 100%;
+    height: 80%;
+    background-color: #3bedfe;
+}
+
+div#loginDiv {
+    position: absolute;
+    border: 1px solid #000000;
+    width: 20%;
+    margin-left: 40%;
+    margin-top: 10%;
+    margin-bottom: 5%;
+    background-color: rgb(255, 255, 255);
+}
+
+div#loginHeader {
+    background-color: #5cdfff;
+    border-bottom: 1px solid #ffffff;
+}
+
+div#loginHeader:after {
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+div#loginClose {
     color: #ffffff;
     float: right;
     margin: 0 5px;
@@ -13,7 +58,7 @@ div#loginDialogClose {
     text-align: center;
 }
 
-div#loginDialogClose:hover {
+div#loginClose:hover {
     color: #ff0a05;
     float: right;
     margin: 0 5px;
@@ -23,18 +68,51 @@ div#loginDialogClose:hover {
     cursor: pointer;
 }
 
-div#loginDialogHeader {
-    background-color: #5cdfff;
+div#loginSubmit, div#loginRegister {
+    padding: 2px;
+    border: 1px solid #03aa00;
 }
 
-div#loginDialogHeader:after {
+div#loginSubmit:hover, div#loginRegister:hover {
+    padding: 2px;
+    border: 1px solid #03aa00;
+    background-color: #03aa00;
+    cursor: pointer;
+}
+
+div.loginItem {
+    margin: 5px;
+}
+
+div#loginButtonDiv {
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+div.loginItem:after {
     content: '';
-    display: block;
     height: 0;
+    display: block;
     clear: both;
 }
 
-div#loginFormDiv {
-    padding: 5px;
-    background-color: #ffffff;
+div#usernameLabel, div#usernameInputDiv, div#passwordLabel,
+div#passwordInputDiv, div#loginRegister {
+    float: left;
+}
+
+div#loginSubmit {
+    float: right;
+}
+
+div#usernameLabel, div#passwordLabel {
+    width: 30%;
+}
+
+div#usernameInputDiv, div#passwordInputDiv {
+    width: 70%;
+}
+
+input#usernameInput, input#passwordInput {
+    width: 90%;
 }
