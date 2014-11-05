@@ -930,10 +930,14 @@ $(document).ready(function()
     dialogDrag(logDiv, logHeader);
     dialogDrag(addDiv, addHeader);
     dialogDrag(addIpDiv, addIpHeaderDiv);
-    dialogDrag(loginDialog, $('div#loginDialogHeader'));
     dialogDrag(helpDialog, $('div#helpDialogHeader'));
 
     dialogDrag(logQueryDialog, $('div.logQueryDialogHeader'), 'parent');
+
+    // 创建可拖动元素
+    // element：需要拖动的元素
+    // handler：拖动的手柄
+    // 拖动范围的参数，默认为'document'
     function dialogDrag(element, handler, limit)
     {
         var con;

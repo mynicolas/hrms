@@ -24,7 +24,7 @@ div#logo {
 div#container {
     position: absolute;
     width: 100%;
-    height: 80%;
+    height: 70%;
     background-color: #3bedfe;
 }
 
@@ -32,9 +32,8 @@ div#loginDiv {
     position: absolute;
     border: 1px solid #000000;
     width: 20%;
-    margin-left: 40%;
-    margin-top: 10%;
-    margin-bottom: 5%;
+    left: 40%;
+    top: 10%;
     background-color: rgb(255, 255, 255);
 }
 
@@ -68,18 +67,6 @@ div#loginClose:hover {
     cursor: pointer;
 }
 
-div#loginSubmit, div#loginRegister {
-    padding: 2px;
-    border: 1px solid #03aa00;
-}
-
-div#loginSubmit:hover, div#loginRegister:hover {
-    padding: 2px;
-    border: 1px solid #03aa00;
-    background-color: #03aa00;
-    cursor: pointer;
-}
-
 div.loginItem {
     margin: 5px;
 }
@@ -89,7 +76,7 @@ div#loginButtonDiv {
     padding-right: 5%;
 }
 
-div.loginItem:after {
+div.loginItem:after, div#registerButtonDiv:after {
     content: '';
     height: 0;
     display: block;
@@ -97,12 +84,8 @@ div.loginItem:after {
 }
 
 div#usernameLabel, div#usernameInputDiv, div#passwordLabel,
-div#passwordInputDiv, div#loginRegister {
+div#passwordInputDiv {
     float: left;
-}
-
-div#loginSubmit {
-    float: right;
 }
 
 div#usernameLabel, div#passwordLabel {
@@ -115,4 +98,128 @@ div#usernameInputDiv, div#passwordInputDiv {
 
 input#usernameInput, input#passwordInput {
     width: 90%;
+}
+
+div#footer {
+    position: absolute;
+    bottom: 50px;
+    width: 22%;
+    margin-left: 39%;
+    margin-right: 39%;
+}
+
+div#registerDiv {
+    position: absolute;
+    border: 1px solid #000000;
+    width: 20%;
+    left: 40%;
+    top: 10%;
+    background-color: rgb(255, 255, 255);
+}
+
+div#registerHeader {
+    background-color: #5cdfff;
+    border-bottom: 1px solid #ffffff;
+}
+
+div#registerHeader:after {
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+div#registerClose {
+    color: #ffffff;
+    float: right;
+    margin: 0 5px;
+    width: 20px;
+    text-align: center;
+}
+
+div#registerClose:hover {
+    color: #ff0a05;
+    float: right;
+    margin: 0 5px;
+    width: 20px;
+    text-align: center;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+div.registerDivElement {
+    margin: 5px 0;
+}
+
+div.registerDivElement:after {
+    content: '';
+    height: 0;
+    display: block;
+    clear: both;
+}
+
+div.registerLabelElement {
+    float: left;
+    width: 30%;
+    margin-left: 5%;
+}
+
+div.registerInputDivElement {
+    float: right;
+    width: 65%;
+}
+
+div.registerInputElement {
+    width: 90%;
+}
+
+div#registerButtonDiv {
+    padding-left: 5%;
+    padding-right: 5%;
+    margin-bottom: 5px;
+}
+
+div.loginRegisterLeftButton {
+    float: left;
+}
+
+div.loginRegisterRightButton {
+    float: right;
+}
+
+div#inputTip {
+    float: left;
+    padding: 0 5px;
+    color: #888;
+}
+
+div.loginRegisterLeftButton, div.loginRegisterRightButton {
+    padding: 2px;
+    border: 1px solid #03aa00;
+}
+
+div.loginRegisterLeftButton:hover, div.loginRegisterRightButton:hover {
+    padding: 2px;
+    border: 1px solid #03aa00;
+    background-color: #03aa00;
+    cursor: pointer;
+}
+
+div#loginDialogMini {
+    position: absolute;
+    left: 50%;
+    bottom: 10%;
+    width: 50px;
+    border: 1px solid #000000;
+    background-color: #ffffff;
+}
+
+div#loginDialogMini:hover {
+    position: absolute;
+    left: 50%;
+    bottom: 10%;
+    width: 50px;
+    border: 1px solid #000000;
+    background-color: #3bedfe;
+    cursor: pointer;
 }
