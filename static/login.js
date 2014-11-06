@@ -55,6 +55,7 @@ $(document).ready(function()
 
     registerDialog.hide();
 
+    // 当点击loginDialog中的register按钮时，loginDialog消失，registerDialog出现
     loginRegister.click(function()
     {
         loginDialog.fadeOut('fast');
@@ -93,24 +94,28 @@ $(document).ready(function()
         });
     }
 
+    // 当点击registerDialog的关闭按钮时，registerDialog关闭，loginDialog出现
     $('div#registerClose').click(function()
     {
         registerDialog.fadeOut('fast');
         loginDialog.fadeIn('fast');
     });
 
+    // 当点击loginDialog的关闭按钮时，loginDialog最小化
     $('div#loginClose').click(function()
     {
         loginDialog.fadeOut('fast');
         loginDialogMini.fadeIn();
     });
 
+    // 当点击loginDialog的最小化按钮时，loginDialog对话框最大化
     loginDialogMini.click(function()
     {
         loginDialog.fadeIn();
         $(this).fadeOut();
     });
 
+    // 当鼠标移到input上时，出现提示，移出时提示消失
     $('input.registerInputElement').mouseover(function()
     {
         var inputTip = $('div#inputTip');
@@ -132,4 +137,48 @@ $(document).ready(function()
             inputTip.text('');
         });
     });
+
+    // 当点击registerDialog中的clear按钮时，registerDialog中的所有input清空
+    registerClear.click(function()
+    {
+        $('input.registerInputElement').val('');
+    });
+
+    // url: post的地址
+    // content: post的内容
+    // return: xml文档
+    function post(url, content, func)
+    {
+        var xmlhttp;
+        if (window.XMLHttpRequest)
+        {// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        }
+        else
+        {// code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function()
+        {
+            if(xmlhttp.readyState == 1 || xmlhttp.readyState == 2
+                || xmlhttp.readyState == 3)
+            {
+                return false;
+            }
+            else if(xmlhttp.readyState == 4 && xmlhttp.status == 200)
+            {
+                var receive = xmlhttp.responseText;
+                if(func != undefined)
+                {
+                    func(receive);
+                }
+            }
+        };
+        xmlhttp.open("POST", url, true);
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xmlhttp.send(content);
+    }
+
+    //
+
 });
