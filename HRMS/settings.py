@@ -8,6 +8,7 @@ DEBUG = True
 TEMPLATE_DEBUG = False
 
 APPEND_SLASH = True
+LOGIN_URL = '/login/'
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),

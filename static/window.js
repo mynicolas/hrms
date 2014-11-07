@@ -987,6 +987,10 @@ $(document).ready(function()
 
     });
 
-
+    // 如果点击logout按钮时，注销登陆
+    $('div#logout').click(function()
+    {
+        location.href = '/logout/';
+    });
 
 });

@@ -186,9 +186,22 @@ $(document).ready(function()
         var password = $('input#passwordInput').val();
         if(username != '' && password != '')
         {
-            post('/login/', 'username=' + username + '&password=' + password, function(receive){location.href = receive;});
+            post('/login/', 'username=' + username + '&password=' + password, checkLogin);
         }
     });
+
+    // 检查登陆状态，如果登陆失败，弹出提示
+    function checkLogin(receive)
+    {
+        if(receive == 'error')
+        {
+            createTipDialog($('div#loginDiv'), 'Login failed, try again?');
+        }
+        else
+        {
+            location.href = '/index/';
+        }
+    }
 
     // 定义两个全局变量存储新注册的用户名和密码
     var newUsername;
