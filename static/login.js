@@ -190,6 +190,9 @@ $(document).ready(function()
         }
     });
 
+    // 定义两个全局变量存储新注册的用户名和密码
+    var newUsername;
+    var newPassword;
     // 当点击registerDialog中的submit按钮时，提交注册新用户信息
     registerSubmit.click(function()
     {
@@ -197,20 +200,47 @@ $(document).ready(function()
         var password = $('input#loginRegisterPasswordInput').val();
         var pswdConfirm = $('input#loginRegisterPasswordConfirmInput').val();
         var email = $('input#loginRegisterEmailInput').val();
-        if(password == pswdConfirm)
+        if(!matchType('username', username))
         {
-            post('/register/', 'username=' + username + '&password=' + password + '&email=' + email, registered);
+            alert('username\'s type is wrong');
+        }
+        else if(!matchType('password', password))
+        {
+            alert('password\'s type is wrong');
+        }
+        else if(!matchType('password', pswdConfirm))
+        {
+            alert('confirm password\'s type is wrong');
+        }
+        else if(!matchType('email', email))
+        {
+            alert('email\'s type is wrong');
+        }
+        if(matchType('username', username) && matchType('password', password)
+            && matchType('password', pswdConfirm) && matchType('email', email))
+        {
+            if(password == pswdConfirm)
+            {
+                post('/register/', 'username=' + username + '&password=' + password + '&email=' + email, registered);
+                newUsername = username;
+                newPassword = password;
+            }
+            else
+            {
+                registerFailed();
+            }
+            function registerFailed()
+            {
+                alert('two password aren\'t same');
+            }
         }
         else
         {
-            registerFailed();
-        }
-        function registerFailed()
-        {
-            alert('error');
+            alert('Check the type you inputed')
         }
     });
 
+    /* tipDialog start */
     (function()
     {
         var thisDialogDiv = "<div id='tipDialogDiv'>" +
@@ -221,28 +251,63 @@ $(document).ready(function()
         $('div#container').append(thisDialogDiv);
         $('div#tipDialogDiv').hide();
     })();
+    // 设置tipDialog的内容
     function setTipContent(content)
     {
         $('div#tipDialogContent').html(content);
     }
-    function createTipDialog(content)
+    // 创建tipDialog
+    // content：dialog内容
+    function createTipDialog(parent, content)
     {
+        parent.fadeOut('fast');
         setTipContent(content);
         $('div#tipDialogDiv').fadeIn('fast');
     }
+    // 关闭Dialog
     function tipDialogClose()
     {
         $('div#tipDialogDiv').fadeOut('fast');
+        $('div#loginDiv').fadeIn('fast');
     }
     $('div#tipDialogButton').click(function()
     {
         tipDialogClose();
+        $('input#usernameInput').val(newUsername);
+        $('input#passwordInput').val(newPassword);
     });
+    $('div#tipDialogClose').click(function()
+    {
+        tipDialogClose();
+        $('input#usernameInput').val(newUsername);
+        $('input#passwordInput').val(newPassword);
+    });
+
+    /* tipDialog end */
 
     // 如果注册成功
     function registered(receive)
     {
-        createTipDialog('password not matched');
+        createTipDialog($('div#registerDiv'), 'Register successful, hope to login?');
+    }
+
+    // 检测输入的值的类型是否符合所给类型
+    // type：给出的类型
+    // valua：需要检测的值
+    // return：boolean
+    function matchType(type, value)
+    {
+        var reg;
+        if(type == 'username' || type == 'password')
+        {
+            reg = /^[a-zA-Z]+[0-9]+$/;
+            return reg.test(value);
+        }
+        else if(type == 'email')
+        {
+            reg = /^[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?$/;
+            return reg.test(value);
+        }
     }
 
 });

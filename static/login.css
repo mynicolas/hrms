@@ -262,3 +262,26 @@ div#tipDialogClose:hover {
     background-color: #ffffff;
     cursor: pointer;
 }
+
+div#tipDialogButton {
+    width: 20%;
+    background-color: #ffffff;
+    border: 1px solid #000000;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+div#tipDialogButton:hover {
+    width: 20%;
+    background-color: #03aa00;
+    border: 1px solid #000000;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    cursor: pointer;
+}
