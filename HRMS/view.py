@@ -49,7 +49,7 @@ def register(request):
     else:
         return HttpResponse('404 not found')
 
-
+@login_required
 def logout(request):
     auth.logout(request)
     return HttpResponseRedirect('/login/')

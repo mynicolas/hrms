@@ -186,7 +186,7 @@ $(document).ready(function()
         var password = $('input#passwordInput').val();
         if(username != '' && password != '')
         {
-            post('/login/', 'username=' + username + '&password=' + password, checkLogin);
+            post('/checklogin/', 'username=' + username + '&password=' + password, checkLogin);
         }
     });
 
