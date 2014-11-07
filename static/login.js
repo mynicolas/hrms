@@ -179,6 +179,70 @@ $(document).ready(function()
         xmlhttp.send(content);
     }
 
-    //
+    // 登陆
+    loginSubmit.click(function()
+    {
+        var username = $('input#usernameInput').val();
+        var password = $('input#passwordInput').val();
+        if(username != '' && password != '')
+        {
+            post('/login/', 'username=' + username + '&password=' + password, function(receive){location.href = receive;});
+        }
+    });
+
+    // 当点击registerDialog中的submit按钮时，提交注册新用户信息
+    registerSubmit.click(function()
+    {
+        var username = $('input#loginRegisterUsernameInput').val();
+        var password = $('input#loginRegisterPasswordInput').val();
+        var pswdConfirm = $('input#loginRegisterPasswordConfirmInput').val();
+        var email = $('input#loginRegisterEmailInput').val();
+        if(password == pswdConfirm)
+        {
+            post('/register/', 'username=' + username + '&password=' + password + '&email=' + email, registered);
+        }
+        else
+        {
+            registerFailed();
+        }
+        function registerFailed()
+        {
+            alert('error');
+        }
+    });
+
+    (function()
+    {
+        var thisDialogDiv = "<div id='tipDialogDiv'>" +
+                        "<div id='tipDialogHeader'><div id='tipDialogClose'>x</div></div>" +
+                        "<div id='tipDialogContent'></div>" +
+                        "<div id='tipDialogButton'>OK</div>" +
+                    "</div>";
+        $('div#container').append(thisDialogDiv);
+        $('div#tipDialogDiv').hide();
+    })();
+    function setTipContent(content)
+    {
+        $('div#tipDialogContent').html(content);
+    }
+    function createTipDialog(content)
+    {
+        setTipContent(content);
+        $('div#tipDialogDiv').fadeIn('fast');
+    }
+    function tipDialogClose()
+    {
+        $('div#tipDialogDiv').fadeOut('fast');
+    }
+    $('div#tipDialogButton').click(function()
+    {
+        tipDialogClose();
+    });
+
+    // 如果注册成功
+    function registered(receive)
+    {
+        createTipDialog('password not matched');
+    }
 
 });

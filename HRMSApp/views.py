@@ -207,13 +207,13 @@ def renderLogCondition(request):
         logs = []
         condition = smart_str(request.POST['condition'])
         if condition == 'time':
-            global logs
+            # global logs
             interval = smart_str(request.POST['interval'])
             hostName = smart_str(request.POST['hostname'])
             logs = conditionLog(condition, hostName = hostName, interval = interval)
 
         elif condition == 'hostname':
-            global logs
+            # global logs
             logs = conditionLog(condition)
 
         sendContent = "<xml>"

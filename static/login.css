@@ -223,3 +223,42 @@ div#loginDialogMini:hover {
     background-color: #3bedfe;
     cursor: pointer;
 }
+
+div#tipDialogDiv {
+    position: absolute;
+    border: 1px solid #000000;
+    width: 20%;
+    left: 40%;
+    top: 20%;
+    background-color: rgb(255, 255, 255);
+}
+
+div#tipDialogHeader {
+    background-color: #5cdfff;
+    border-bottom: 1px solid #ffffff;
+}
+
+div#tipDialogHeader:after {
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+div#tipDialogClose {
+    color: #ffffff;
+    float: right;
+    margin: 0 5px;
+    width: 20px;
+    text-align: center;
+}
+
+div#tipDialogClose:hover {
+    color: #ff0a05;
+    float: right;
+    margin: 0 5px;
+    width: 20px;
+    text-align: center;
+    background-color: #ffffff;
+    cursor: pointer;
+}
