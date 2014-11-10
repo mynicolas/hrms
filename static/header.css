@@ -14,12 +14,12 @@ div#header:after {
 div#logo {
     float: left;
     margin-left: 10%;
-    width: 40%;
+    width: 30%;
 }
 
 div#toolbarDiv {
     float: right;
-    width: 30%;
+    width: 40%;
     padding-right: 4%;
     padding-top: 40px;
 }

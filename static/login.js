@@ -199,7 +199,8 @@ $(document).ready(function()
         }
         else
         {
-            location.href = '/index/';
+//            location.href = '/index/';
+            console.log(receive);
         }
     }
 
