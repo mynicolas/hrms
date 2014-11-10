@@ -4,10 +4,12 @@ $(document).ready(function()
                          "<div id = 'managerHeader'><div id = 'managerClose'>x</div></div>" +
                          "<div id = 'managerContentDiv'>" +
                              "<div id = 'allUsers'>" +
-                                 "<div id = 'allUsersHead'></div>" +
+                                 "<div id = 'allUsersHead'>all users</div>" +
+                                 "<div id = 'allUsersContent'></div>" +
                              "</div>" +
                              "<div id = 'newUsers'>" +
-                                 "<div id = 'newUsers'></div>" +
+                                 "<div id = 'newUsersHead'>new users</div>" +
+                                 "<div id = 'newUsersContent'></div>" +
                              "</div>" +
                          "</div>" +
                      "</div>";
@@ -15,6 +17,8 @@ $(document).ready(function()
     var managerDiv = $('div#managerDiv');
     var managerHeader = $('div#managerHeader');
     var managerClose = $('div#managerClose');
+    var allUsersDiv = $('div#allUsersContent');
+    var newUsersDiv = $('div#newUsersContent');
     managerDiv.hide();
 
     // 创建可拖动元素
@@ -54,5 +58,9 @@ $(document).ready(function()
     {
         managerDiv.fadeIn('fast');
         dialogDrag(managerDiv, managerHeader);
+        managerClose.click(function()
+        {
+            managerDiv.fadeOut('fast');
+        });
     });
 });

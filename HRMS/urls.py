@@ -24,4 +24,5 @@ urlpatterns = patterns('',
     url(r'^checklogin/$', view.login),
     url(r'^index/$', view.renderIndex),
     url(r'^query/', include(urls)),
+    url(r'^allusers/$', view.renderAllUsers),
 )
