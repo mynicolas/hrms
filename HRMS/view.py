@@ -19,19 +19,18 @@ def renderLogin(request):
 def renderIndex(request):
     return render_to_response('index.html')
 
-# @csrf_exempt
 @csrf_exempt
 def login(request):
     if request.method == 'POST':
-        return HttpResponse(smart_str(request.POST['password']))
-        # username = smart_str(request.POST['username'])
-        # password = smart_str(request.POST['password'])
-        # user = auth.authenticate(username = username, password = password)
-        # if user is not None and user.is_active:
-        #     auth.login(request, user)
-        #     return HttpResponseRedirect('/index/')
-        # else:
-        #     return HttpResponse('error')
+        # return HttpResponse(smart_str(request.POST['password']) + smart_str(request.POST['username']))
+        username = smart_str(request.POST['username'])
+        password = smart_str(request.POST['password'])
+        user = auth.authenticate(username = username, password = password)
+        if user is not None and user.is_active:
+            auth.login(request, user)
+            return HttpResponseRedirect('/index/')
+        else:
+            return HttpResponse('error')
 
 @csrf_exempt
 def register(request):

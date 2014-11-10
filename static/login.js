@@ -186,9 +186,36 @@ $(document).ready(function()
         var password = $('input#passwordInput').val();
         if(username != '' && password != '')
         {
-            post('/checklogin/', 'username=' + username + '&password=' + password, checkLogin);
+            post('/checklogin/', 'username=' + username + '&password=' + $.md5(password), checkLogin);
         }
     });
+
+    (function()
+    {
+        function login()
+        {
+            var username = $('input#usernameInput').val();
+            var password = $('input#passwordInput').val();
+            if(username != '' && password != '')
+            {
+                post('/checklogin/', 'username=' + username + '&password=' + $.md5(password), checkLogin);
+            }
+        }
+        if(!$('div#loginDiv').is(':hidden'))
+        {
+            loginSubmit.click(function()
+            {
+                login();
+            });
+            $(document).keydown(function(e)
+            {
+                if(e.keyCode == 13)
+                {
+                    login();
+                }
+            });
+        }
+    })();
 
     // 检查登陆状态，如果登陆失败，弹出提示
     function checkLogin(receive)
@@ -199,8 +226,8 @@ $(document).ready(function()
         }
         else
         {
-//            location.href = '/index/';
-            console.log(receive);
+            location.href = '/index/';
+//            console.log(receive);
         }
     }
 
@@ -235,7 +262,7 @@ $(document).ready(function()
         {
             if(password == pswdConfirm)
             {
-                post('/register/', 'username=' + username + '&password=' + password + '&email=' + email, registered);
+                post('/register/', 'username=' + username + '&password=' + $.md5(password) + '&email=' + email, registered);
                 newUsername = username;
                 newPassword = password;
             }
