@@ -25,21 +25,31 @@
     <splitter split-orientation="vertical" split-proportion="0.45820105">
       <split-first>
         <leaf>
-          <file leaf-file-name="view.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/HRMS/view.py">
+          <file leaf-file-name="login.js" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/static/login.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="118" max-vertical-offset="1320">
-                  <caret line="18" column="25" selection-start-line="18" selection-start-column="25" selection-end-line="18" selection-end-column="25" />
+                <state vertical-scroll-proportion="0.0" vertical-offset="1464" max-vertical-offset="8616">
+                  <caret line="67" column="14" selection-start-line="67" selection-start-column="14" selection-end-line="67" selection-end-column="14" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="header.html" pinned="false" current="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/templates/header.html">
+          <file leaf-file-name="window.js" pinned="false" current="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/static/window.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.39889196" vertical-offset="144" max-vertical-offset="1128">
-                  <caret line="12" column="14" selection-start-line="12" selection-start-column="14" selection-end-line="12" selection-end-column="14" />
+                <state vertical-scroll-proportion="0.30708662" vertical-offset="22875" max-vertical-offset="24096">
+                  <caret line="958" column="16" selection-start-line="958" selection-start-column="16" selection-end-line="958" selection-end-column="57" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="view.py" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/HRMS/view.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0" vertical-offset="118" max-vertical-offset="1320">
+                  <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
                   <folding />
                 </state>
               </provider>
@@ -48,14 +58,14 @@
         </leaf>
       </split-first>
       <split-second>
-        <splitter split-orientation="horizontal" split-proportion="0.5">
+        <splitter split-orientation="horizontal" split-proportion="0.6652819">
           <split-first>
             <leaf>
               <file leaf-file-name="header.js" pinned="false" current="true" current-in-tab="true">
                 <entry file="file://$PROJECT_DIR$/static/header.js">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state vertical-scroll-proportion="0.42384106" vertical-offset="72" max-vertical-offset="648">
-                      <caret line="11" column="28" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
+                    <state vertical-scroll-proportion="0.78807944" vertical-offset="771" max-vertical-offset="1512">
+                      <caret line="47" column="13" selection-start-line="47" selection-start-column="13" selection-end-line="47" selection-end-column="13" />
                       <folding />
                     </state>
                   </provider>
@@ -68,8 +78,8 @@
               <file leaf-file-name="manager.css" pinned="false" current="false" current-in-tab="true">
                 <entry file="file://$PROJECT_DIR$/static/manager.css">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="466">
-                      <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+                    <state vertical-scroll-proportion="0.4334764" vertical-offset="782" max-vertical-offset="1248">
+                      <caret line="41" column="13" selection-start-line="41" selection-start-column="13" selection-end-line="41" selection-end-column="13" />
                       <folding />
                     </state>
                   </provider>
@@ -95,7 +105,6 @@
         <option value="$PROJECT_DIR$/HRMSApp/views.py" />
         <option value="$PROJECT_DIR$/static/login.css" />
         <option value="$PROJECT_DIR$/HRMSApp/getdata.py" />
-        <option value="$PROJECT_DIR$/static/window.js" />
         <option value="$PROJECT_DIR$/HRMS/urls.py" />
         <option value="$PROJECT_DIR$/static/header.css" />
         <option value="$PROJECT_DIR$/HRMS/settings.py" />
@@ -104,8 +113,11 @@
         <option value="$PROJECT_DIR$/templates/manager.html" />
         <option value="$PROJECT_DIR$/templates/managerWindow.html" />
         <option value="$PROJECT_DIR$/static/login.js" />
-        <option value="$PROJECT_DIR$/static/header.js" />
         <option value="$PROJECT_DIR$/templates/header.html" />
+        <option value="$PROJECT_DIR$/static/manager.css" />
+        <option value="$PROJECT_DIR$/static/index.css" />
+        <option value="$PROJECT_DIR$/static/window.js" />
+        <option value="$PROJECT_DIR$/static/header.js" />
       </list>
     </option>
   </component>
@@ -678,13 +690,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/help.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6267806" vertical-offset="0" max-vertical-offset="1144">
-          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="38" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/jquery.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
@@ -766,22 +771,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="864">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="30" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/window.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="18696" max-vertical-offset="24048">
-          <caret line="780" column="20" selection-start-line="780" selection-start-column="20" selection-end-line="780" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/HRMS/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.23209876" vertical-offset="98" max-vertical-offset="792">
@@ -790,18 +779,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/manager.css">
+    <entry file="file://$PROJECT_DIR$/static/help.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="783">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1248">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="8" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/login.js">
+    <entry file="file://$PROJECT_DIR$/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33248731" vertical-offset="4885" max-vertical-offset="8616">
-          <caret line="209" column="19" selection-start-line="209" selection-start-column="19" selection-end-line="209" selection-end-column="19" />
+        <state vertical-scroll-proportion="0.19944598" vertical-offset="72" max-vertical-offset="864">
+          <caret line="6" column="51" selection-start-line="6" selection-start-column="51" selection-end-line="6" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/index.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.42639595" vertical-offset="0" max-vertical-offset="1272">
+          <caret line="7" column="20" selection-start-line="7" selection-start-column="20" selection-end-line="7" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/manager.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4334764" vertical-offset="782" max-vertical-offset="1248">
+          <caret line="41" column="13" selection-start-line="41" selection-start-column="13" selection-end-line="41" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/header.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.59833795" vertical-offset="432" max-vertical-offset="1128">
+          <caret line="9" column="19" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="19" />
           <folding />
         </state>
       </provider>
@@ -809,23 +822,31 @@
     <entry file="file://$PROJECT_DIR$/HRMS/view.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="118" max-vertical-offset="1320">
-          <caret line="18" column="25" selection-start-line="18" selection-start-column="25" selection-end-line="18" selection-end-column="25" />
+          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/header.html">
+    <entry file="file://$PROJECT_DIR$/static/login.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.39889196" vertical-offset="144" max-vertical-offset="1128">
-          <caret line="12" column="14" selection-start-line="12" selection-start-column="14" selection-end-line="12" selection-end-column="14" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1464" max-vertical-offset="8616">
+          <caret line="67" column="14" selection-start-line="67" selection-start-column="14" selection-end-line="67" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/window.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.30708662" vertical-offset="22875" max-vertical-offset="24096">
+          <caret line="958" column="16" selection-start-line="958" selection-start-column="16" selection-end-line="958" selection-end-column="57" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/static/header.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.42384106" vertical-offset="72" max-vertical-offset="648">
-          <caret line="11" column="28" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
+        <state vertical-scroll-proportion="0.78807944" vertical-offset="771" max-vertical-offset="1512">
+          <caret line="47" column="13" selection-start-line="47" selection-start-column="13" selection-end-line="47" selection-end-column="13" />
           <folding />
         </state>
       </provider>

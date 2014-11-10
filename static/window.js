@@ -955,11 +955,13 @@ $(document).ready(function()
             containment: con,
             start: function()
             {
-                $(this).css('opacity', '0.3');
+                $(this).css({'opacity': '0.3'});
+                $('.ui-draggable').css({'z-index': '1'});
+                $(this).css({'z-index': '100'});
             },
             stop: function()
             {
-                $(this).css('opacity', '1')
+                $(this).css({'opacity': '1'});
             }
         })
     }
