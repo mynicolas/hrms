@@ -15,7 +15,7 @@ $(document).ready(function()
     $('div#managerDiv').hide();
 
     // 当点击管理按钮时，弹出管理窗体
-    $('div#manger').click(function()
+    $('div#manager').click(function()
     {
         $('div#managerDiv').fadeIn('fast');
     });
