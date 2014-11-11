@@ -62,12 +62,12 @@ def register(request):
             User.objects.get(username = username)
             return HttpResponse('username existed')
         except:
-            newUser = User.objects.create(username = username, email = email, password = password)
+            newUser = User.objects.create_user(username = username, email = email, password = password)
             newUser.is_staff = True
             newUser.is_active = True
             newUser.profile_set.create(phone = phone, weixin = weixin, question = question, answer = answer)
             newUser.save()
-        return HttpResponse('register successful')
+            return HttpResponse('register successful')
     else:
         return HttpResponse('404 not found')
 
@@ -87,10 +87,12 @@ def renderAllUsers(request):
                     <email>email</email>
                     <datejoined>date_joined</datejoined>
                     <lastlogin>last_login</lastlogin>
-                    <lock>boolean</lock>
-                    <deleted>boolean</deleted>
+                    <isactive>is_active</isactive>
                     <isstuff>is_stuff</isstuff>
-                    <issuperuser>is_superuser</issuperuser>
+                    <weixin>weixinid</weixin>
+                    <phone>phone</phone>
+                    <question>question</question>
+                    <answer>answer</answer>
                 </user>
                 ... ...
             </xml>
@@ -100,11 +102,23 @@ def renderAllUsers(request):
         sendContent = "<xml>"
         for aUser in users:
             sendContent += "<user>"
-            sendContent += "<username>%s</username>" % aUser['username']
-            sendContent += "<password>%s</password>" % aUser['password']
-            sendContent += "<email>%s</email>" % aUser['email']
-            sendContent += "<datejoined>%s</datejoined>" % aUser['date_joined']
-            sendContent += "<"
+            sendContent += "<username>%s</username>" % aUser['username'].encode('utf-8')
+            sendContent += "<password>%s</password>" % aUser['password'].encode('utf-8')
+            sendContent += "<email>%s</email>" % aUser['email'].encode('utf-8')
+            sendContent += "<datejoined>%s</datejoined>" % aUser['date_joined'].encode('utf-8')
+            sendContent += "<lastlogin>%s</lastlogin>" % aUser['last_login'].encode('utf-8')
+            sendContent += "<isactive>%s</isactive>" % aUser['is_active'].encode('utf-8')
+            sendContent += "<isstuff>%s</isstuff>" % aUser['is_stuff'].encode('utf-8')
+            sendContent += "<weixin>%s</weixin>" % aUser['weixin'].encode('utf-8')
+            sendContent += "<phone>%s</phone>" % aUser['phone'].encode('utf-8')
+            sendContent += "<question>%s</question>" % aUser['question'].encode('utf-8')
+            sendContent += "<answer>%s</answer>" % aUser['answer'].encode('utf-8')
+            sendContent += "</user>"
+        sendContent += "</xml>"
+    else:
+        sendContent = "error"
+    return HttpResponse(sendContent)
+
 
 
 

@@ -2,10 +2,11 @@ div#managerDiv {
     position: absolute;
     border: 1px solid #000000;
     right: 200px;
-    top: 130px;
-    width: 600px;
-    height: 300px;
+    top: 80px;
+    width: 1000px;
+    height: 500px;
     background-color: #ffffff;
+    z-index: 2;
 }
 
 div#managerHeader {
@@ -56,12 +57,28 @@ div#managerContentDiv:after {
 div.usersTable {
     float: left;
     width: 50%;
-    overflow-x: hidden;
-    overflow-y: auto;
+    cursor: pointer;
 }
 
 div.usersTableHead {
     background: #5cdfff;
     text-align: center;
     border: 1px solid #ffffff
+}
+
+div.usersTableHeadClick {
+    background: #ffffff;
+    text-align: center;
+    border: 1px solid #ffffff
+}
+
+div#usersContentContainer:after {
+    content: '';
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+div.usersContentDiv {
+    float: left;
 }
