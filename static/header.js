@@ -3,12 +3,12 @@ $(document).ready(function()
     var managerDivHtml = "<div id = 'managerDiv'>" +
                          "<div id = 'managerHeader'><div id = 'managerClose'>x</div></div>" +
                          "<div id = 'managerContentDiv'>" +
-                             "<div id = 'allUsers'>" +
-                                 "<div id = 'allUsersHead'>all users</div>" +
+                             "<div class = 'usersTable' id = 'allUsers'>" +
+                                 "<div class = 'usersTableHead' id = 'allUsersHead'>all users</div>" +
                                  "<div id = 'allUsersContent'></div>" +
                              "</div>" +
-                             "<div id = 'newUsers'>" +
-                                 "<div id = 'newUsersHead'>new users</div>" +
+                             "<div class = 'usersTable' id = 'newUsers'>" +
+                                 "<div class = 'usersTableHead' id = 'newUsersHead'>new users</div>" +
                                  "<div id = 'newUsersContent'></div>" +
                              "</div>" +
                          "</div>" +

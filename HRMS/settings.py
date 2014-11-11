@@ -9,6 +9,7 @@ TEMPLATE_DEBUG = False
 
 APPEND_SLASH = True
 LOGIN_URL = '/login/'
+AUTH_PROFILE_MODULE = 'userprofile.Profile'
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -129,6 +130,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'HRMSApp',
+    'userprofile',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'

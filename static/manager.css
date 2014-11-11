@@ -45,3 +45,23 @@ div#managerContentDiv {
     padding: 5px;
     height: 90%;
 }
+
+div#managerContentDiv:after {
+    content: '';
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+div.usersTable {
+    float: left;
+    width: 50%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+div.usersTableHead {
+    background: #5cdfff;
+    text-align: center;
+    border: 1px solid #ffffff
+}

@@ -7,6 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.encoding import smart_str
+from getdata import *
+from userprofile.models import Profile
 
 @login_required
 def redirectLogin(request):
@@ -52,13 +54,18 @@ def register(request):
         username = smart_str(request.POST['username'])
         password = smart_str(request.POST['password'])
         email = smart_str(request.POST['email'])
+        weixin = smart_str(request.POST['weixin'])
+        phone = smart_str(request.POST['phone'])
+        question = smart_str(request.POST['question'])
+        answer = smart_str(request.POST['answer'])
         try:
             User.objects.get(username = username)
             return HttpResponse('username existed')
         except:
-            newUser = User.objects.create_user(username = username, email = email, password = password)
+            newUser = User.objects.create(username = username, email = email, password = password)
             newUser.is_staff = True
             newUser.is_active = True
+            newUser.profile_set.create(phone = phone, weixin = weixin, question = question, answer = answer)
             newUser.save()
         return HttpResponse('register successful')
     else:
@@ -71,5 +78,34 @@ def logout(request):
 
 @login_required
 def renderAllUsers(request):
+    """
+    获取所有用户及相关信息
+    :return: <xml>
+                <user>
+                    <username>username</username>
+                    <password>password</password>
+                    <email>email</email>
+                    <datejoined>date_joined</datejoined>
+                    <lastlogin>last_login</lastlogin>
+                    <lock>boolean</lock>
+                    <deleted>boolean</deleted>
+                    <isstuff>is_stuff</isstuff>
+                    <issuperuser>is_superuser</issuperuser>
+                </user>
+                ... ...
+            </xml>
+    """
     if request.method == "POST":
+        users = getAllUsers()
+        sendContent = "<xml>"
+        for aUser in users:
+            sendContent += "<user>"
+            sendContent += "<username>%s</username>" % aUser['username']
+            sendContent += "<password>%s</password>" % aUser['password']
+            sendContent += "<email>%s</email>" % aUser['email']
+            sendContent += "<datejoined>%s</datejoined>" % aUser['date_joined']
+            sendContent += "<"
+
+
+
 

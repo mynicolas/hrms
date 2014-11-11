@@ -285,3 +285,7 @@ div#tipDialogButton:hover {
     text-align: center;
     cursor: pointer;
 }
+
+span {
+    color: #ff0000;
+}

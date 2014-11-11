@@ -241,6 +241,10 @@ $(document).ready(function()
         var password = $('input#loginRegisterPasswordInput').val();
         var pswdConfirm = $('input#loginRegisterPasswordConfirmInput').val();
         var email = $('input#loginRegisterEmailInput').val();
+        var weixin = $('input#loginRegisterWeixinInput').val();
+        var phone = $('input#loginRegisterPhoneInput').val();
+        var question = $('input#loginRegisterQuestionInput').val();
+        var answer = $('input#loginRegisterAnswerInput').val();
         if(!matchType('username', username))
         {
             alert('username\'s type is wrong');
@@ -262,7 +266,8 @@ $(document).ready(function()
         {
             if(password == pswdConfirm)
             {
-                post('/register/', 'username=' + username + '&password=' + $.md5(password) + '&email=' + email, registered);
+                post('/register/', 'username=' + username + '&password=' + $.md5(password) + '&email=' + email +
+                '&weixin=' + weixin + '&phone=' + phone + '&question=' + question + '&answer=' + answer, registered);
                 newUsername = username;
                 newPassword = password;
             }
@@ -329,7 +334,15 @@ $(document).ready(function()
     // 如果注册成功
     function registered(receive)
     {
-        createTipDialog($('div#registerDiv'), 'Register successful, hope to login?');
+        var registerDialog = $('div#registerDiv');
+        if(receive == 'username existed')
+        {
+            createTipDialog(registerDialog, 'user existed');
+        }
+        else
+        {
+            createTipDialog(registerDialog, 'Register successful, hope to login?');
+        }
     }
 
     // 检测输入的值的类型是否符合所给类型
