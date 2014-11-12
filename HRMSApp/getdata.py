@@ -174,7 +174,7 @@ def hostElementMap(hostName, hostElement, data):
         companyName = host.company.companyName
         companyId = host.company.id
         try:
-            global companyId
+            # global companyId
             thisCompany = Company.objects.get(id = companyName)
             thisCompanyId = thisCompany.id
             companyId = thisCompanyId
@@ -182,7 +182,7 @@ def hostElementMap(hostName, hostElement, data):
 
         except:
             try:
-                global companyName
+                # global companyName
                 thisCompany = Company.objects.get(companyName = companyName)
                 thisCompany.companyName = data
                 thisCompany.save()

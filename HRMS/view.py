@@ -76,6 +76,7 @@ def logout(request):
     auth.logout(request)
     return HttpResponseRedirect('/login/')
 
+@csrf_exempt
 @login_required
 def renderAllUsers(request):
     """
@@ -98,28 +99,24 @@ def renderAllUsers(request):
             </xml>
     """
     if request.method == "POST":
-        users = getAllUsers()
-        sendContent = "<xml>"
-        for aUser in users:
-            sendContent += "<user>"
-            sendContent += "<username>%s</username>" % aUser['username'].encode('utf-8')
-            sendContent += "<password>%s</password>" % aUser['password'].encode('utf-8')
-            sendContent += "<email>%s</email>" % aUser['email'].encode('utf-8')
-            sendContent += "<datejoined>%s</datejoined>" % aUser['date_joined'].encode('utf-8')
-            sendContent += "<lastlogin>%s</lastlogin>" % aUser['last_login'].encode('utf-8')
-            sendContent += "<isactive>%s</isactive>" % aUser['is_active'].encode('utf-8')
-            sendContent += "<isstuff>%s</isstuff>" % aUser['is_stuff'].encode('utf-8')
-            sendContent += "<weixin>%s</weixin>" % aUser['weixin'].encode('utf-8')
-            sendContent += "<phone>%s</phone>" % aUser['phone'].encode('utf-8')
-            sendContent += "<question>%s</question>" % aUser['question'].encode('utf-8')
-            sendContent += "<answer>%s</answer>" % aUser['answer'].encode('utf-8')
-            sendContent += "</user>"
-        sendContent += "</xml>"
+        if smart_str(request.POST['users']) == "allusers":
+            users = getAllUsers()
+            sendContent = "<xml>"
+            for aUser in users:
+                sendContent += "<user>"
+                sendContent += "<username>%s</username>" % aUser['username'].encode('utf-8')
+                sendContent += "<password>%s</password>" % aUser['password'].encode('utf-8')
+                sendContent += "<email>%s</email>" % aUser['email'].encode('utf-8')
+                sendContent += "<datejoined>%s</datejoined>" % aUser['date_joined'].encode('utf-8')
+                sendContent += "<lastlogin>%s</lastlogin>" % aUser['last_login'].encode('utf-8')
+                sendContent += "<isactive>%s</isactive>" % aUser['is_active'].encode('utf-8')
+                sendContent += "<isstaff>%s</isstaff>" % aUser['is_staff'].encode('utf-8')
+                sendContent += "<weixin>%s</weixin>" % aUser['weixin'].encode('utf-8')
+                sendContent += "<phone>%s</phone>" % aUser['phone'].encode('utf-8')
+                sendContent += "<question>%s</question>" % aUser['question'].encode('utf-8')
+                sendContent += "<answer>%s</answer>" % aUser['answer'].encode('utf-8')
+                sendContent += "</user>"
+            sendContent += "</xml>"
     else:
         sendContent = "error"
     return HttpResponse(sendContent)
-
-
-
-
-

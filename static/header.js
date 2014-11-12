@@ -22,9 +22,13 @@ $(document).ready(function()
     var allUsersContentDiv = $('div#allUsersContentDiv');
     var newUsersContentDiv = $('div#newUsersContentDiv');
     managerDiv.hide();
+    newUsersContentDiv.hide();
+    var allUsersHead = $('div#allUsersHead');
+    var newUsersHead = $('div#newUsersHead');
+    allUsersHead.removeClass().addClass('usersTableHeadClick');
 
     // 当manager窗体的all users标签被点击时，该标签北京变为白色，另一个标签则成为绿色,并且从服务器获取所有用户的信息（不包括没有登陆权限的用户）
-    $('div#allUsersHead').click(function()
+    allUsersHead.click(function()
     {
         $('div.usersTableHeadClick').removeClass().addClass('usersTableHead');
         $(this).removeClass().addClass('usersTableHeadClick');
@@ -32,7 +36,7 @@ $(document).ready(function()
     });
 
     // 当manager窗体的new users标签被点击时，该标签变为白色，另一个变成绿色，并且从服务器获取没有登陆权限但是已经注册的用户（is_active = false）
-    $('div#newUsersHead').click(function()
+    newUsersHead.click(function()
     {
         $('div.usersTableHeadClick').removeClass().addClass('usersTableHead');
         $(this).removeClass().addClass('usersTableHeadClick');
@@ -114,14 +118,54 @@ $(document).ready(function()
         {
             managerDiv.fadeOut('fast');
         });
-        post('/allusers/', 'users=allusers', )
+        post('/allusers/', 'users=allusers', renderUsers);
     });
 
     // 处理users，如果该用户的is_active = false（不可登陆），则将该用户添加到newUsersContentDiv当中去
     // 如果该用户可登陆，则将该用户添加到allUsersContentDiv中
     function renderUsers(receive) {
+        // 获取一个用户的全部信息
         function one(element) {
-            // body...
+            return {
+                username: element.find('username').text(),
+                password: element.find('password').text(),
+                email: element.find('email').text(),
+                datejoined: element.find('datejoined').text(),
+                lastlogin: element.find('lastlogin').text(),
+                isactive: element.find('isactive').text(),
+                isstaff: element.find('isstaff').text(),
+                weixin: element.find('weixin').text(),
+                phone: element.find('phone').text(),
+                question: element.find('question').text(),
+                answer: element.find('answer').text()
+            }
         }
+
+        // 生成一个用户的html文本
+        function oneHtml(aUser) {
+            var html = "<div class = 'userItem username'>" + aUser.username + "</div>" +
+                        "<div class = 'userItem password'>" + aUser.password + "</div>" +
+                        "<div class = 'userItem datejoined'>" + aUser.datejoined + "</div>" +
+                        "<div class = 'userItem lastlogin'>" + aUser.lastlogin + "</div>" +
+                        "<div class = 'userItem isactive'>" + aUser.isactive + "</div>" +
+                        "<div class = 'userItem isstaff'>" + aUser.isstaff + "</div>" +
+                        "<div class = 'userItem email'>" + aUser.email + "</div>" +
+                        "<div class = 'userItem weixin'>" + aUser.weixin + "</div>" +
+                        "<div class = 'userItem phone'>" + aUser.phone + "</div>" +
+                        "<div class = 'userItem question'>" + aUser.question + "</div>" +
+                        "<div class = 'userItem answer'>" + aUser.answer + "</div>";
+            return html 
+        }
+
+        $(receive).find('user').each(function () {
+            if($(this).find('isactive') == 'True')
+            {
+                allUsersContentDiv.append(oneHtml(one($(this))));
+            }
+            else
+            {
+                newUsersContentDiv.append(oneHtml(one($(this))));
+            }
+        })
     }
 });
