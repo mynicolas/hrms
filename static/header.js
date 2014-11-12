@@ -70,6 +70,41 @@ $(document).ready(function()
         });
     }
 
+    // url: post的地址
+    // content: post的内容
+    // return: xml文档
+    function post(url, content, func)
+    {
+        var xmlhttp;
+        if (window.XMLHttpRequest)
+        {// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        }
+        else
+        {// code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function()
+        {
+            if(xmlhttp.readyState == 1 || xmlhttp.readyState == 2
+                || xmlhttp.readyState == 3)
+            {
+                return false;
+            }
+            else if(xmlhttp.readyState == 4 && xmlhttp.status == 200)
+            {
+                var receive = xmlhttp.responseText;
+                if(func != undefined)
+                {
+                    func(receive);
+                }
+            }
+        };
+        xmlhttp.open("POST", url, true);
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xmlhttp.send(content);
+    }
+
     // 当点击管理按钮时，弹出管理窗体
     $('div#manager').click(function()
     {
@@ -79,5 +114,14 @@ $(document).ready(function()
         {
             managerDiv.fadeOut('fast');
         });
+        post('/allusers/', 'users=allusers', )
     });
+
+    // 处理users，如果该用户的is_active = false（不可登陆），则将该用户添加到newUsersContentDiv当中去
+    // 如果该用户可登陆，则将该用户添加到allUsersContentDiv中
+    function renderUsers(receive) {
+        function one(element) {
+            // body...
+        }
+    }
 });
