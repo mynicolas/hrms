@@ -1,20 +1,22 @@
 $(document).ready(function()
 {
     var managerDivHtml = "<div id = 'managerDiv'>" +
-                         "<div id = 'managerHeader'><div id = 'managerClose'>x</div></div>" +
-                         "<div id = 'managerContentDiv'>" +
-                             "<div class = 'usersTable' id = 'allUsers'>" +
-                                 "<div class = 'usersTableHead' id = 'allUsersHead'>all users</div>" +
+                             "<div id = 'managerHeader'><div id = 'managerClose'>x</div></div>" +
+                             "<div id = 'userTablesDiv'>" +
+                                 "<div class = 'usersTable' id = 'allUsers'>" +
+                                     "<div class = 'usersTableHead' id = 'allUsersHead'>all users</div>" +
+                                 "</div>" +
+                                 "<div class = 'usersTable' id = 'newUsers'>" +
+                                     "<div class = 'usersTableHead' id = 'newUsersHead'>new users</div>" +
+                                 "</div>" +
                              "</div>" +
-                             "<div class = 'usersTable' id = 'newUsers'>" +
-                                 "<div class = 'usersTableHead' id = 'newUsersHead'>new users</div>" +
+                             "<div id = 'managerContentDiv'>" +
+                                 "<div id = 'usersContentContainer'>" +
+                                     "<div class = 'usersContentDiv' id = 'allUsersContentDiv'></div>" +
+                                     "<div class = 'usersContentDiv' id = 'newUsersContentDiv'></div>" +
+                                 "</div>" +
                              "</div>" +
-                             "<div id = 'usersContentContainer'>" +
-                                 "<div class = 'usersContentDiv' id = 'allUsersContentDiv'></div>" +
-                                 "<div class = 'usersContentDiv' id = 'newUsersContentDiv'></div>" +
-                             "</div>" +
-                         "</div>" +
-                     "</div>";
+                         "</div>";
     $('div#toolbarDiv').append(managerDivHtml);
     var managerDiv = $('div#managerDiv');
     var managerHeader = $('div#managerHeader');
@@ -120,6 +122,7 @@ $(document).ready(function()
         {
             managerDiv.fadeOut('fast');
         });
+        // $('div#managerContentDiv').empty();
         post('/allusers/', 'users=allusers', renderUsers);
     });
 
@@ -150,8 +153,8 @@ $(document).ready(function()
                             "<div class = 'userItem password'>" + "<div class = 'passwordReset'>reset</div>" + "</div>" +
                             "<div class = 'userItem datejoined'>" + aUser.datejoined + "</div>" +
                             "<div class = 'userItem lastlogin'>" + aUser.lastlogin + "</div>" +
-                            "<div class = 'userItem isactive'>" + "<div class = 'isactiveCheckedDiv'" + "</div>" +
-                            "<div class = 'userItem isstaff'>" + aUser.isstaff + "</div>" +
+                            "<div class = 'userItem isactive'>" + "<div class = 'isactiveCheckedDiv'><input type = 'checkbox'/></div>" + "</div>" +
+                            "<div class = 'userItem isstaff'>" + "<div class = 'isstaffCheckedDiv'><input type = 'checkbox'/></div>" + "</div>" +
                             "<div class = 'userItem email'>" + aUser.email + "</div>" +
                             "<div class = 'userItem weixin'>" + aUser.weixin + "</div>" +
                             "<div class = 'userItem phone'>" + aUser.phone + "</div>" +
@@ -161,8 +164,33 @@ $(document).ready(function()
             return html 
         }
 
-        $(receive).find('user').each(function () {
-            if($(this).find('isactive') != 'True')
+        var usersHeadHtml = "<div id = 'usersHead'>" +
+                                "<div class = 'usersHeadItem' id = 'usernameHead'>username</div>" +
+                                "<div class = 'usersHeadItem' id = 'passwordHead'>password</div>" +
+                                "<div class = 'usersHeadItem' id = 'datejoinedHead'>datejoined</div>" +
+                                "<div class = 'usersHeadItem' id = 'lastloginHead'>lastlogin</div>" +
+                                "<div class = 'usersHeadItem' id = 'isactiveHead'>locked</div>" +
+                                "<div class = 'usersHeadItem' id = 'isstaffHead'>deleted</div>" +
+                                "<div class = 'usersHeadItem' id = 'emailHead'>email</div>" +
+                                "<div class = 'usersHeadItem' id = 'weixinHead'>wechat</div>" +
+                                "<div class = 'usersHeadItem' id = 'phoneHead'>phone</div>" +
+                                "<div class = 'usersHeadItem' id = 'questionHead'>question</div>" +
+                                "<div class = 'usersHeadItem' id = 'answerHead'>answer</div>" +
+                            "</div>";
+        $('div#managerContentDiv').prepend(usersHeadHtml);
+
+        $(receive).find('user').each(function() {
+            var isactive = $(this).find('isactive').text();
+            var isstaff = $(this).find('isstaff').text();
+            if(isactive == 'True'){
+                isactive = true;
+            }
+            else
+            {
+                isactive = false;
+            }
+
+            if(isactive)
             {
                 allUsersContentDiv.append(oneHtml(one($(this))));
             }

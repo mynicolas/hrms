@@ -42,12 +42,12 @@ div#managerClose:hover {
 div#managerContentDiv {
     background-color: #ffffff;
     overflow-y: auto;
-    overflow-x: hidden;
+    overflow-x: auto;
     padding: 5px;
     height: 90%;
 }
 
-div#managerContentDiv:after {
+div#userTablesDiv:after {
     content: '';
     display: block;
     height: 0;
@@ -81,5 +81,79 @@ div#usersContentContainer:after {
 
 div.usersContentDiv {
     float: left;
+}
+
+div.aUser:after {
+    content: '';
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+div.userItem {
+    float: left;
+    padding: 3px;
+}
+
+div#usersHead:after {
+    content: '';
+    display: block; 
+    height: 0;
+    clear: both;
+}
+
+div.usersHeadItem {
+    float: left;
+    padding: 3px;
+}
+
+div#usersHead {
+    background-color: #5cdfff;
+    margin: 3px 0;
+    color: #ffffff;
+}
+
+div.usernaem, div#usernaemHead {
+    width: 100px;
+}
+
+div.password, div#passwordHead {
+    width: 100px;
+}
+
+div.datejoined, div#datejoinedHead {
+    width: 200px;
+}
+
+div.lastlogin, div#lastloginHead {
+    width: 200px;
+}
+
+div.isactive, div#isactiveHead {
+    width: 50px;
+}
+
+div.isstaff, div#isstaffHead {
+    width: 50px;
+}
+
+div.email, div#emailHead {
+    width: 100px;
+}
+
+div.weixin, div#weixinHead {
+    width: 100px;
+}
+
+div.phone, div#phoneHead {
+    width: 100px;
+}
+
+div.question, div#questionHead {
+    width: 200px;
+}
+
+div.answer, div#answerHead {
+    width: 200px;
 }
 

@@ -64,7 +64,7 @@ def register(request):
         except:
             newUser = User.objects.create_user(username = username, email = email, password = password)
             newUser.is_staff = True
-            newUser.is_active = True
+            newUser.is_active = False
             newUser.profile_set.create(phone = phone, weixin = weixin, question = question, answer = answer)
             newUser.save()
             return HttpResponse('register successful')
