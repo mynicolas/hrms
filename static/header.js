@@ -32,7 +32,8 @@ $(document).ready(function()
     {
         $('div.usersTableHeadClick').removeClass().addClass('usersTableHead');
         $(this).removeClass().addClass('usersTableHeadClick');
-
+        allUsersContentDiv.show();
+        newUsersContentDiv.hide();
     });
 
     // 当manager窗体的new users标签被点击时，该标签变为白色，另一个变成绿色，并且从服务器获取没有登陆权限但是已经注册的用户（is_active = false）
@@ -40,7 +41,8 @@ $(document).ready(function()
     {
         $('div.usersTableHeadClick').removeClass().addClass('usersTableHead');
         $(this).removeClass().addClass('usersTableHeadClick');
-
+        allUsersContentDiv.hide();
+        newUsersContentDiv.show();
     });
     // 创建可拖动元素
     // element：需要拖动的元素
@@ -143,22 +145,24 @@ $(document).ready(function()
 
         // 生成一个用户的html文本
         function oneHtml(aUser) {
-            var html = "<div class = 'userItem username'>" + aUser.username + "</div>" +
-                        "<div class = 'userItem password'>" + aUser.password + "</div>" +
-                        "<div class = 'userItem datejoined'>" + aUser.datejoined + "</div>" +
-                        "<div class = 'userItem lastlogin'>" + aUser.lastlogin + "</div>" +
-                        "<div class = 'userItem isactive'>" + aUser.isactive + "</div>" +
-                        "<div class = 'userItem isstaff'>" + aUser.isstaff + "</div>" +
-                        "<div class = 'userItem email'>" + aUser.email + "</div>" +
-                        "<div class = 'userItem weixin'>" + aUser.weixin + "</div>" +
-                        "<div class = 'userItem phone'>" + aUser.phone + "</div>" +
-                        "<div class = 'userItem question'>" + aUser.question + "</div>" +
-                        "<div class = 'userItem answer'>" + aUser.answer + "</div>";
+            var html = "<div class = 'aUser' id = '" + aUser.username + "'>" +
+                            "<div class = 'userItem username'>" + aUser.username + "</div>" +
+                            "<div class = 'userItem password'>" + "<div class = 'passwordReset'>reset</div>" + "</div>" +
+                            "<div class = 'userItem datejoined'>" + aUser.datejoined + "</div>" +
+                            "<div class = 'userItem lastlogin'>" + aUser.lastlogin + "</div>" +
+                            "<div class = 'userItem isactive'>" + "<div class = 'isactiveCheckedDiv'" + "</div>" +
+                            "<div class = 'userItem isstaff'>" + aUser.isstaff + "</div>" +
+                            "<div class = 'userItem email'>" + aUser.email + "</div>" +
+                            "<div class = 'userItem weixin'>" + aUser.weixin + "</div>" +
+                            "<div class = 'userItem phone'>" + aUser.phone + "</div>" +
+                            "<div class = 'userItem question'>" + aUser.question + "</div>" +
+                            "<div class = 'userItem answer'>" + aUser.answer + "</div>" +
+                        "</div>";
             return html 
         }
 
         $(receive).find('user').each(function () {
-            if($(this).find('isactive') == 'True')
+            if($(this).find('isactive') != 'True')
             {
                 allUsersContentDiv.append(oneHtml(one($(this))));
             }
@@ -166,6 +170,6 @@ $(document).ready(function()
             {
                 newUsersContentDiv.append(oneHtml(one($(this))));
             }
-        })
+        });
     }
 });
