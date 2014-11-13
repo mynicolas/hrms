@@ -113,7 +113,7 @@ div#usersHead {
     color: #ffffff;
 }
 
-div.usernaem, div#usernaemHead {
+div.username, div#usernameHead {
     width: 100px;
 }
 
@@ -138,7 +138,7 @@ div.isstaff, div#isstaffHead {
 }
 
 div.email, div#emailHead {
-    width: 100px;
+    width: 200px;
 }
 
 div.weixin, div#weixinHead {
@@ -157,3 +157,14 @@ div.answer, div#answerHead {
     width: 200px;
 }
 
+div#usersHead {
+    width: 1600px;
+}
+
+div.aUser {
+    width: 1600px;
+}
+
+div.userItem, div.usersHeadItem {
+    text-align: center;
+}

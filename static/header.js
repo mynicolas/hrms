@@ -116,13 +116,15 @@ $(document).ready(function()
     // 当点击管理按钮时，弹出管理窗体
     $('div#manager').click(function()
     {
+        $('div#usersHead').remove();
+        $('div#allUsersContentDiv').empty();
+        $('div#newUsersContentDiv').empty();
         managerDiv.fadeIn('fast');
         dialogDrag(managerDiv, managerHeader);
         managerClose.click(function()
         {
             managerDiv.fadeOut('fast');
         });
-        // $('div#managerContentDiv').empty();
         post('/allusers/', 'users=allusers', renderUsers);
     });
 
@@ -153,8 +155,8 @@ $(document).ready(function()
                             "<div class = 'userItem password'>" + "<div class = 'passwordReset'>reset</div>" + "</div>" +
                             "<div class = 'userItem datejoined'>" + aUser.datejoined + "</div>" +
                             "<div class = 'userItem lastlogin'>" + aUser.lastlogin + "</div>" +
-                            "<div class = 'userItem isactive'>" + "<div class = 'isactiveCheckedDiv'><input type = 'checkbox'/></div>" + "</div>" +
-                            "<div class = 'userItem isstaff'>" + "<div class = 'isstaffCheckedDiv'><input type = 'checkbox'/></div>" + "</div>" +
+                            "<div class = 'userItem isactive'>" + "<div class = 'isactiveCheckedDiv'><input type = 'checkbox' checked = '" + aUser.isactive + "'/></div>" + "</div>" +
+                            "<div class = 'userItem isstaff'>" + "<div class = 'isstaffCheckedDiv'><input type = 'checkbox' checked = '" + aUser.isstaff + "'/></div>" + "</div>" +
                             "<div class = 'userItem email'>" + aUser.email + "</div>" +
                             "<div class = 'userItem weixin'>" + aUser.weixin + "</div>" +
                             "<div class = 'userItem phone'>" + aUser.phone + "</div>" +
