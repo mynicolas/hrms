@@ -114,7 +114,8 @@ $(document).ready(function()
     }
 
     // 当点击管理按钮时，弹出管理窗体
-    $('div#manager').click(function()
+    $('div#manager').click(managerDialogUpdate);
+    function managerDialogUpdate()
     {
         $('div#usersHead').remove();
         $('div#allUsersContentDiv').empty();
@@ -126,7 +127,7 @@ $(document).ready(function()
             managerDiv.fadeOut('fast');
         });
         post('/allusers/', 'users=allusers', renderUsers);
-    });
+    }
 
     // 处理users，如果该用户的is_active = false（不可登陆），则将该用户添加到newUsersContentDiv当中去
     // 如果该用户可登陆，则将该用户添加到allUsersContentDiv中
@@ -168,7 +169,6 @@ $(document).ready(function()
             {
                 locked = false;
             }
-            console.log(aUser.username);
 
             var html = "<div class = 'aUser' id = '" + aUser.username + "'>" +
                             "<div class = 'userItem username'>" + aUser.username + "</div>" +
@@ -255,26 +255,26 @@ $(document).ready(function()
           
             if(deleted)
             {
-                thisUser.eq(4).after("<div class = 'userItem isstaff'><div class = 'isstaffCheckedDiv'><input class = 'isstaffCheckedInput' type = 'checkbox' checked/></div></div>")
+                thisUser.eq(4).after("<div class = 'userItem isstaff'><div class = 'isstaffCheckedDiv'><input class = 'userInputItem isstaffCheckedInput' type = 'checkbox' checked/></div></div>")
             }
             else
             {
-                thisUser.eq(3).after("<div class = 'userItem isstaff'><div class = 'isstaffCheckedDiv'><input class = 'isstaffCheckedInput' type = 'checkbox'/></div></div>")                
+                thisUser.eq(3).after("<div class = 'userItem isstaff'><div class = 'isstaffCheckedDiv'><input class = 'userInputItem isstaffCheckedInput' type = 'checkbox'/></div></div>")                
             }     
             if(locked)
             {
-                thisUser.eq(3).after("<div class = 'userItem isactive'><div class = 'isactiveCheckedDiv'><input class = 'isactiveCheckedInput' type = 'checkbox' checked/></div></div>");
+                thisUser.eq(3).after("<div class = 'userItem isactive'><div class = 'isactiveCheckedDiv'><input class = 'userInputItem isactiveCheckedInput' type = 'checkbox' checked/></div></div>");
             }
             else
             {
-                thisUser.eq(3).after("<div class = 'userItem isactive'><div class = 'isactiveCheckedDiv'><input class = 'isactiveCheckedInput' type = 'checkbox'/></div></div>");
+                thisUser.eq(3).after("<div class = 'userItem isactive'><div class = 'isactiveCheckedDiv'><input class = 'userInputItem isactiveCheckedInput' type = 'checkbox'/></div></div>");
             }  
         });
-        // 当点击用户密码的reset按钮时，post到'/passwordreset'
+        // 当点击用户密码的reset按钮时，post到'/modifyuseritem'
         $('div.passwordReset').click(function(){
             var thisElement = $(this);
             var thisUser = $(this).parent().parent().attr('id');
-            post('/passwordreset/', 'username=' + thisUser, isReset);
+            post('/modifyuseritem/', 'username=' + thisUser + '&useritem=password', isReset);
 
             // 从服务端获取的数据中分析，密码是否已经被重置，如果重置，就将该重置按钮设置成为红色            
             function isReset (receive) {
@@ -285,6 +285,26 @@ $(document).ready(function()
             }
         });
 
+        // 当用户点击deleted和locked复选框时，将该复选框的状态发送到服务端处理
+        $('input.userInputItem').click(function () {
+            var thisElement = $(this);
+            var thisUser = thisElement.parent().parent().parent().attr('id');
+            var thisItem = thisElement.parent().attr('class');
+            var userItem;
+            if(thisItem == 'isstaffCheckedDiv')
+            {
+                userItem = 'isstaff';
+            }
+            else if(thisItem == 'isactiveCheckedDiv')
+            {
+                userItem = 'isactive';
+            }
+
+            var thisStatus;
+            var thisStatus = thisElement.prop('checked');
+
+            post('/modifyuseritem/', 'username=' + thisUser + '&useritem=' + userItem + '&value=' + thisStatus);
+        });
 
     }
 

@@ -23,5 +23,5 @@ urlpatterns = patterns('',
     url(r'^index/$', view.renderIndex),
     url(r'^query/', include(urls)),
     url(r'^allusers/$', view.renderAllUsers),
-    url(r'^passwordreset/$', view.passwordReset),
+    url(r'^modifyuseritem/$', view.modifyUserItem),
 )

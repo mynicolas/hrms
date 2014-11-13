@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 def getAllUsers():
     """
     获取全部users
-    :return: [{username: '', password: '', email: '', date_joined: '', last_login: '', is_active: '', is_stuff: '', is_superuser: '',
+    :return: [{username: '', password: '', email: '', date_joined: '', last_login: '', is_active: '', is_staff: '', is_superuser: '',
                weixin: '', phone: '', question:'', answer: ''}, ... ...]
     """
     try:
@@ -35,10 +35,10 @@ def getAllUsers():
         return allUsers
     except:
         return [{'username': 'name', 'password': 'passwd', 'email': 'email', 'date_joined': 'date_joined',
-                'last_login': 'last_login', 'is_active': 'is_active', 'is_stuff': 'is_stuff', 'weixin': 'weixin',
+                'last_login': 'last_login', 'is_active': 'is_active', 'is_staff': 'is_staff', 'weixin': 'weixin',
                 'phone': 'phone', 'question': 'question', 'answer': 'answer'},
                 {'username': 'name', 'password': 'passwd', 'email': 'email', 'date_joined': 'date_joined',
-                'last_login': 'last_login', 'is_active': 'is_active', 'is_stuff': 'is_stuff', 'weixin': 'weixin',
+                'last_login': 'last_login', 'is_active': 'is_active', 'is_staff': 'is_staff', 'weixin': 'weixin',
                 'phone': 'phone', 'question': 'question', 'answer': 'answer'}]
 
 def setPassword(username, *password):
@@ -46,6 +46,7 @@ def setPassword(username, *password):
     设置用户的密码
     username: 需要被设置密码的用户名
     password: 需要设置的密码，可以为空，如果为空，则将密码设置成默认
+    :return: boolean
     """
     from django.contrib.auth.hashers import make_password
     from hashlib import md5
@@ -58,6 +59,29 @@ def setPassword(username, *password):
     try:
         thisUser = User.objects.get(username = username)
         thisUser.password = newPassword
+        thisUser.save()
+        return True
+    except:
+        return False
+
+def modifyUserStatus(*arg):
+    """
+    修改用户的状态，包括is_active, is_staff
+    *arg: username, useritem(is_active || is_staff), value(True || False>) 
+    :return: boolean
+    """
+    username = arg[0]
+    if arg[2] == 'true':
+        value = True
+    elif arg[2] == 'false':
+        value = False
+
+    try:
+        thisUser = User.objects.get(username = username)
+        if arg[1] == 'isstaff':
+            thisUser.is_staff = not value
+        elif arg[1] == 'isactive':
+            thisUser.is_active = not value
         thisUser.save()
         return True
     except:

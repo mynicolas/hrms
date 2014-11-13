@@ -124,11 +124,17 @@ def renderAllUsers(request):
 
 @csrf_exempt
 @login_required
-def passwordReset(request):
+def modifyUserItem(request):
     if request.method == "POST":
-        thisUser = smart_str(request.POST['username'])
-        isReset = setPassword(thisUser)
-        if isReset:
+        username = smart_str(request.POST['username'])
+        userItem = smart_str(request.POST['useritem'])
+        if userItem == 'password':
+            isModify = setPassword(thisUser)
+        elif userItem == 'isactive' or userItem == 'isstaff':
+            value = smart_str(request.POST['value'])
+            isModify = modifyUserStatus(username, userItem, value)
+
+        if isModify:
             sendContent = "successful"
         else:
             sendContent = "failed"
