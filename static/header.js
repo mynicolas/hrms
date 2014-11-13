@@ -150,19 +150,54 @@ $(document).ready(function()
 
         // 生成一个用户的html文本
         function oneHtml(aUser) {
+            var deleted;
+            if(aUser.isstaff == 'True')
+            {
+                deleted = false;
+            }
+            else
+            {
+                deleted = true;
+            }
+            var locked;
+            if(aUser.isactive == 'True')
+            {
+                locked = true;
+            }
+            else
+            {
+                locked = false;
+            }
+            console.log(aUser.username);
+
             var html = "<div class = 'aUser' id = '" + aUser.username + "'>" +
                             "<div class = 'userItem username'>" + aUser.username + "</div>" +
                             "<div class = 'userItem password'>" + "<div class = 'passwordReset'>reset</div>" + "</div>" +
                             "<div class = 'userItem datejoined'>" + aUser.datejoined + "</div>" +
                             "<div class = 'userItem lastlogin'>" + aUser.lastlogin + "</div>" +
-                            "<div class = 'userItem isactive'>" + "<div class = 'isactiveCheckedDiv'><input type = 'checkbox' checked = '" + aUser.isactive + "'/></div>" + "</div>" +
-                            "<div class = 'userItem isstaff'>" + "<div class = 'isstaffCheckedDiv'><input type = 'checkbox' checked = '" + aUser.isstaff + "'/></div>" + "</div>" +
                             "<div class = 'userItem email'>" + aUser.email + "</div>" +
                             "<div class = 'userItem weixin'>" + aUser.weixin + "</div>" +
                             "<div class = 'userItem phone'>" + aUser.phone + "</div>" +
                             "<div class = 'userItem question'>" + aUser.question + "</div>" +
                             "<div class = 'userItem answer'>" + aUser.answer + "</div>" +
                         "</div>";
+            var thisUser = $('div#' + aUser.username).children();
+            if(locked)
+            {
+                thisUser.eq(3).after("<div class = 'userItem isactive'><div class = 'isactiveCheckedDiv'><input class = 'isactiveCheckedInput' type = 'checkbox' checked/></div></div>");
+            }
+            else
+            {
+                thisUser.eq(3).after("<div class = 'userItem isactive'><div class = 'isactiveCheckedDiv'><input class = 'isactiveCheckedInput' type = 'checkbox'/></div></div>");
+            }            
+            if(deleted)
+            {
+                thisUser.eq(4).after("<div class = 'userItem isstaff'><div class = 'isstaffCheckedDiv'><input class = 'isstaffCheckedInput' type = 'checkbox' checked/></div></div>")
+            }
+            else
+            {
+                thisUser.eq(4).after("<div class = 'userItem isstaff'><div class = 'isstaffCheckedDiv'><input class = 'isstaffCheckedInput' type = 'checkbox'/></div></div>")                
+            }
             return html 
         }
 
@@ -184,22 +219,56 @@ $(document).ready(function()
         $(receive).find('user').each(function() {
             var isactive = $(this).find('isactive').text();
             var isstaff = $(this).find('isstaff').text();
-            if(isactive == 'True'){
+            var thisUserItem = one($(this));
+            var thisUserHtml = oneHtml(thisUserItem);
+            var locked;
+            var deleted;
+            if(isactive == 'True')
+            {// 如果is_active = True,将其设置为locked
                 isactive = true;
+                locked = false;
             }
             else
-            {
+            {// 如果is_active = False,将其设置为not locked
                 isactive = false;
+                locked = true;
+            }
+            if(isstaff == 'True')
+            {// 如果is_staff = True, 将其设置为not deleted
+                deleted = false;
+            }
+            else
+            {// 如果is_staff = False, 将其设置为deleted
+                deleted = true;
             }
 
             if(isactive)
             {
-                allUsersContentDiv.append(oneHtml(one($(this))));
+                allUsersContentDiv.append(thisUserHtml);
             }
             else
             {
-                newUsersContentDiv.append(oneHtml(one($(this))));
+                newUsersContentDiv.append(thisUserHtml);
             }
+
+            var thisUser = $('div#' + thisUserItem.username).children();
+          
+            if(deleted)
+            {
+                thisUser.eq(4).after("<div class = 'userItem isstaff'><div class = 'isstaffCheckedDiv'><input class = 'isstaffCheckedInput' type = 'checkbox' checked/></div></div>")
+            }
+            else
+            {
+                thisUser.eq(3).after("<div class = 'userItem isstaff'><div class = 'isstaffCheckedDiv'><input class = 'isstaffCheckedInput' type = 'checkbox'/></div></div>")                
+            }     
+            if(locked)
+            {
+                thisUser.eq(3).after("<div class = 'userItem isactive'><div class = 'isactiveCheckedDiv'><input class = 'isactiveCheckedInput' type = 'checkbox' checked/></div></div>");
+            }
+            else
+            {
+                thisUser.eq(3).after("<div class = 'userItem isactive'><div class = 'isactiveCheckedDiv'><input class = 'isactiveCheckedInput' type = 'checkbox'/></div></div>");
+            }  
         });
     }
 });
