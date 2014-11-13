@@ -244,7 +244,14 @@ $(document).ready(function()
 
             if(isactive)
             {
-                allUsersContentDiv.append(thisUserHtml);
+                if(deleted)
+                {
+                    allUsersContentDiv.append(thisUserHtml);
+                }
+                else
+                {
+                    allUsersContentDiv.prepend(thisUserHtml);
+                }
             }
             else
             {
@@ -269,6 +276,8 @@ $(document).ready(function()
             {
                 thisUser.eq(3).after("<div class = 'userItem isactive'><div class = 'isactiveCheckedDiv'><input class = 'userInputItem isactiveCheckedInput' type = 'checkbox'/></div></div>");
             }  
+
+            $()
         });
         // 当点击用户密码的reset按钮时，post到'/modifyuseritem'
         $('div.passwordReset').click(function(){
@@ -304,6 +313,7 @@ $(document).ready(function()
             var thisStatus = thisElement.prop('checked');
 
             post('/modifyuseritem/', 'username=' + thisUser + '&useritem=' + userItem + '&value=' + thisStatus);
+            thisElement.parent().css('background-color', '#cd0a0a');
         });
 
     }
