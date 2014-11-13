@@ -277,7 +277,9 @@ $(document).ready(function()
                 thisUser.eq(3).after("<div class = 'userItem isactive'><div class = 'isactiveCheckedDiv'><input class = 'userInputItem isactiveCheckedInput' type = 'checkbox'/></div></div>");
             }  
 
-            $()
+            $('div#allUsersContentDiv').find('input.isactiveCheckedInput').each(function(){
+                $(this).attr('disabled', true);
+            });
         });
         // 当点击用户密码的reset按钮时，post到'/modifyuseritem'
         $('div.passwordReset').click(function(){
