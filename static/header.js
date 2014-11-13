@@ -255,7 +255,7 @@ $(document).ready(function()
           
             if(deleted)
             {
-                thisUser.eq(4).after("<div class = 'userItem isstaff'><div class = 'isstaffCheckedDiv'><input class = 'userInputItem isstaffCheckedInput' type = 'checkbox' checked/></div></div>")
+                thisUser.eq(3).after("<div class = 'userItem isstaff'><div class = 'isstaffCheckedDiv'><input class = 'userInputItem isstaffCheckedInput' type = 'checkbox' checked/></div></div>")
             }
             else
             {
