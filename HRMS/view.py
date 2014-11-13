@@ -120,3 +120,18 @@ def renderAllUsers(request):
     else:
         sendContent = "error"
     return HttpResponse(sendContent)
+
+
+@csrf_exempt
+@login_required
+def passwordReset(request):
+    if request.method == "POST":
+        thisUser = smart_str(request.POST['username'])
+        isReset = setPassword(thisUser)
+        if isReset:
+            sendContent = "successful"
+        else:
+            sendContent = "failed"
+    else:
+        sendContent = "404 not found"
+    return HttpResponse(sendContent)

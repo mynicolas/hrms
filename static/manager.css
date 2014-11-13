@@ -168,3 +168,20 @@ div.aUser {
 div.userItem, div.usersHeadItem {
     text-align: center;
 }
+
+div.passwordReset {
+    border: 1px solid #5cdfff;
+    background-color: #5cdfff;
+}
+
+div.passwordReset:hover {
+    border: 1px solid #5cdfff;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+div.passwordResetClick {
+    color: #ffffff;
+    border: 1px solid #5cdfff;
+    background-color: #cd0a0a;
+}

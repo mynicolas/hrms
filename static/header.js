@@ -270,5 +270,23 @@ $(document).ready(function()
                 thisUser.eq(3).after("<div class = 'userItem isactive'><div class = 'isactiveCheckedDiv'><input class = 'isactiveCheckedInput' type = 'checkbox'/></div></div>");
             }  
         });
+        // 当点击用户密码的reset按钮时，post到'/passwordreset'
+        $('div.passwordReset').click(function(){
+            var thisElement = $(this);
+            var thisUser = $(this).parent().parent().attr('id');
+            post('/passwordreset/', 'username=' + thisUser, isReset);
+
+            // 从服务端获取的数据中分析，密码是否已经被重置，如果重置，就将该重置按钮设置成为红色            
+            function isReset (receive) {
+                if(receive == 'successful')
+                {
+                    thisElement.removeClass().addClass('passwordResetClick');
+                }
+            }
+        });
+
+
     }
+
+
 });

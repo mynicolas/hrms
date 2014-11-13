@@ -40,3 +40,26 @@ def getAllUsers():
                 {'username': 'name', 'password': 'passwd', 'email': 'email', 'date_joined': 'date_joined',
                 'last_login': 'last_login', 'is_active': 'is_active', 'is_stuff': 'is_stuff', 'weixin': 'weixin',
                 'phone': 'phone', 'question': 'question', 'answer': 'answer'}]
+
+def setPassword(username, *password):
+    """
+    设置用户的密码
+    username: 需要被设置密码的用户名
+    password: 需要设置的密码，可以为空，如果为空，则将密码设置成默认
+    """
+    from django.contrib.auth.hashers import make_password
+    from hashlib import md5
+    if password:
+        md5Password = md5(password).hexdigest()
+        newPassword = make_password(md5Password, None, 'pbkdf2_sha256')
+    else:
+        md5Password = md5('user123').hexdigest()
+        newPassword = make_password(md5Password, None, 'pbkdf2_sha256')
+    try:
+        thisUser = User.objects.get(username = username)
+        thisUser.password = newPassword
+        thisUser.save()
+        return True
+    except:
+        return False
+
