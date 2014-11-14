@@ -15,7 +15,7 @@ class Instance(models.Model):
     remotePort = models.CharField(max_length = 8)
     ip = models.CharField(max_length = 15)
     dogSn = models.CharField(max_length = 20)
-    dogPort = models.CharField(max_length = 6)
+    dogPort = models.CharField(max_length = 7)
     company = models.ForeignKey(Company)
 
 class Node(models.Model):

@@ -339,10 +339,13 @@ $(document).ready(function()
                     {
                         modifyType = 'zhtext';
                     }
-                    else if(modifyPrevious == 'hostName' || modifyPrevious == 'hostDogP'
-                        || modifyPrevious == 'hostNode')
+                    else if(modifyPrevious == 'hostName' || modifyPrevious == 'hostNode')
                     {
                         modifyType = 'notChange';
+                    }
+                    else if(modifyPrevious == 'hostDogP')
+                    {
+                        modifyType = 'dogport';
                     }
                     var isMatchType = checkInputType(modifyType, modifyValue);
                     /* test input type end */
@@ -439,6 +442,10 @@ $(document).ready(function()
         {
             reg = /^\d+$/;
             return reg.test(value);
+        }
+        else if(type == 'dogport')
+        {
+            reg = /^\d{1,3}[$]?\d{0,3}$/;
         }
         else if(type == 'ip')
         {
@@ -551,7 +558,7 @@ $(document).ready(function()
                             "</div>" +
                             "<div class = 'addItemDiv'>" +
                                 "<div class = 'addItemLabel'>Dog Port</div>" +
-                                "<div class = 'addItemInputDiv'><input id = 'hostDogP' maxlength = '6'></input></div>" +
+                                "<div class = 'addItemInputDiv'><input id = 'hostDogP' maxlength = '7'></input></div>" +
                             "</div>" +
                             "<div class = 'addItemDiv'>" +
                                 "<div class = 'addItemLabel'>Bandwidth</div>" +
