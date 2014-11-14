@@ -207,18 +207,18 @@ div.loginRegisterLeftButton:hover, div.loginRegisterRightButton:hover {
 
 div#loginDialogMini {
     position: absolute;
-    left: 50%;
+    left: 45%;
     bottom: 10%;
-    width: 50px;
+    width: 150px;
     border: 1px solid #000000;
     background-color: #ffffff;
 }
 
 div#loginDialogMini:hover {
     position: absolute;
-    left: 50%;
+    left: 45%;
     bottom: 10%;
-    width: 50px;
+    width: 150px;
     border: 1px solid #000000;
     background-color: #3bedfe;
     cursor: pointer;

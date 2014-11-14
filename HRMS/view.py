@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.encoding import smart_str
 from getdata import *
-from userprofile.models import Profile
+# from userprofile.models import Profile
 
 @login_required
 def redirectLogin(request):
@@ -27,10 +27,8 @@ def renderLogin(request):
 def renderIndex(request):
     """
     如果没有登陆，重定向到登陆页面，如果已经登陆则渲染主页视图
-    :param request:
-    :return:
     """
-    return render_to_response('index.html')
+    return render_to_response('index.html', {'username': request.user.username})
 
 @csrf_exempt
 def login(request):
@@ -38,7 +36,6 @@ def login(request):
     获取post到服务器的用户名密码，如果用户名和密码正确则登陆并进入主页，如果不正确则返回'error'
     """
     if request.method == 'POST':
-        # return HttpResponse(smart_str(request.POST['password']) + smart_str(request.POST['username']))
         username = smart_str(request.POST['username'])
         password = smart_str(request.POST['password'])
         user = auth.authenticate(username = username, password = password)
@@ -141,3 +138,8 @@ def modifyUserItem(request):
     else:
         sendContent = "404 not found"
     return HttpResponse(sendContent)
+
+@csrf_exempt
+@login_required
+def test(request):
+    return HttpResponse(type(request.user.username))

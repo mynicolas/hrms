@@ -280,6 +280,9 @@ $(document).ready(function()
             $('div#allUsersContentDiv').find('input.isactiveCheckedInput').each(function(){
                 $(this).attr('disabled', true);
             });
+            $('div#newUsersContentDiv').find('input.isstaffCheckedInput').each(function () {
+                $(this).attr('disabled', true);
+            })
         });
         // 当点击用户密码的reset按钮时，post到'/modifyuseritem'
         $('div.passwordReset').click(function(){
