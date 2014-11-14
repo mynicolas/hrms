@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
 from models import *
+from django.contrib.auth.models import User
 import datetime
 
 
-def getAll():
+def getAll(user):
     """
+    user: 需要的用户对象，如果是管理员则获取数据库中所有的主机信息，如果是普通用户，则返回该用户所在公司的所有主机信息
     获取所有的公司以及每一个公司的所有实例，以及每一个实例的所有计算节点
     :return: [{'companyName': companyName,
                'instances': [{'instanceName': instanceName,
@@ -18,8 +20,14 @@ def getAll():
               ...
              ]
     """
+    companyName = user.get_profile().company.companyName
+    if user.is_superuser:
+        companies = Company.objects.all()
+    else:
+        companies = Company.objects.filter(companyName = companyName)
+
+    # companies = Company.objects.all()                   # 获取所有的公司对象
     allCompany = []
-    companies = Company.objects.all()                   # 获取所有的公司对象
     if not companies:
         return 'empty'
     for company in companies:                           # 对每一个公司对象进行处理

@@ -30,9 +30,10 @@ from HRMSApp.models import *
 
 @csrf_exempt
 def renderAll(request):
+    thisUser = request.user
     if request.method == 'POST':
         sendContent = "<xml>"
-        companies = getAll()
+        companies = getAll(thisUser)
         if companies == 'empty':
             return HttpResponse('empty')
         for aCompany in companies:

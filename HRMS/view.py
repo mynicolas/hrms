@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.encoding import smart_str
 from getdata import *
-# from userprofile.models import Profile
+from HRMSApp.models import *
 
 @login_required
 def redirectLogin(request):
@@ -50,6 +50,7 @@ def register(request):
     if request.method == 'POST':
         username = smart_str(request.POST['username'])
         password = smart_str(request.POST['password'])
+        company = smart_str(request.POST['company'])
         email = smart_str(request.POST['email'])
         weixin = smart_str(request.POST['weixin'])
         phone = smart_str(request.POST['phone'])
@@ -59,11 +60,20 @@ def register(request):
             User.objects.get(username = username)
             return HttpResponse('username existed')
         except:
-            newUser = User.objects.create_user(username = username, email = email, password = password)
-            newUser.is_staff = True
-            newUser.is_active = False
-            newUser.profile_set.create(phone = phone, weixin = weixin, question = question, answer = answer)
-            newUser.save()
+            try:
+                thisCompany = Company.objects.get(companyName = company)
+            except:
+                thisCompany = Company.objects.create(companyName = company)
+
+            thisUser = thisCompany.profile_set
+            thisUser.create(weixin = weixin, phone = phone, question = question, answer = answer, 
+                user = User.objects.create_user(username = username, password = password, email = email))
+            thisCompany.save()
+            thisUser = User.objects.get(username = username)
+            thisUser.is_stuff = False
+            thisUser.is_active = False
+            thisUser.is_superuser = False
+            thisUser.save()
             return HttpResponse('register successful')
     else:
         return HttpResponse('404 not found')
@@ -104,6 +114,7 @@ def renderAllUsers(request):
                 sendContent += "<username>%s</username>" % aUser['username'].encode('utf-8')
                 sendContent += "<password>%s</password>" % aUser['password'].encode('utf-8')
                 sendContent += "<email>%s</email>" % aUser['email'].encode('utf-8')
+                sendContent += "<company>%s</company>" % aUser['companyname'].encode('utf-8')
                 sendContent += "<datejoined>%s</datejoined>" % aUser['date_joined'].encode('utf-8')
                 sendContent += "<lastlogin>%s</lastlogin>" % aUser['last_login'].encode('utf-8')
                 sendContent += "<isactive>%s</isactive>" % aUser['is_active'].encode('utf-8')

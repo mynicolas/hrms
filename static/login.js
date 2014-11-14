@@ -130,6 +130,10 @@ $(document).ready(function()
         {
             tip = 'input a true email'
         }
+        else if(thisId == 'loginRegisterCompanyInput')
+        {
+            tip = 'input true company name';
+        }
 
         inputTip.text(tip);
         $(this).mouseout(function()
@@ -240,6 +244,7 @@ $(document).ready(function()
         var username = $('input#loginRegisterUsernameInput').val();
         var password = $('input#loginRegisterPasswordInput').val();
         var pswdConfirm = $('input#loginRegisterPasswordConfirmInput').val();
+        var company = $('input#loginRegisterCompanyInput');
         var email = $('input#loginRegisterEmailInput').val();
         var weixin = $('input#loginRegisterWeixinInput').val();
         var phone = $('input#loginRegisterPhoneInput').val();
@@ -267,7 +272,7 @@ $(document).ready(function()
             if(password == pswdConfirm)
             {
                 post('/register/', 'username=' + username + '&password=' + $.md5(password) + '&email=' + email +
-                '&weixin=' + weixin + '&phone=' + phone + '&question=' + question + '&answer=' + answer, registered);
+                '&weixin=' + weixin + '&phone=' + phone + '&question=' + question + '&answer=' + answer + '&company=' + company, registered);
                 newUsername = username;
                 newPassword = password;
             }

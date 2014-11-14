@@ -1,5 +1,5 @@
 #-*- coding: utf-8 -*-
-from django.contrib import auth
+# from django.contrib import auth
 from django.contrib.auth.models import User
 
 def getAllUsers():
@@ -27,6 +27,7 @@ def getAllUsers():
             aUser['is_active'] = str(user.is_active)
             aUser['is_staff'] = str(user.is_staff)
             aUserProfile = user.get_profile()
+            aUser['companyname'] = aUserProfile.company.companyName
             aUser['weixin'] = aUserProfile.weixin
             aUser['phone'] = aUserProfile.phone
             aUser['question'] = aUserProfile.question
@@ -34,12 +35,7 @@ def getAllUsers():
             allUsers.append(aUser)
         return allUsers
     except:
-        return [{'username': 'name', 'password': 'passwd', 'email': 'email', 'date_joined': 'date_joined',
-                'last_login': 'last_login', 'is_active': 'is_active', 'is_staff': 'is_staff', 'weixin': 'weixin',
-                'phone': 'phone', 'question': 'question', 'answer': 'answer'},
-                {'username': 'name', 'password': 'passwd', 'email': 'email', 'date_joined': 'date_joined',
-                'last_login': 'last_login', 'is_active': 'is_active', 'is_staff': 'is_staff', 'weixin': 'weixin',
-                'phone': 'phone', 'question': 'question', 'answer': 'answer'}]
+        return "no user"
 
 def setPassword(username, *password):
     """

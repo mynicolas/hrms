@@ -138,6 +138,7 @@ $(document).ready(function()
                 username: element.find('username').text(),
                 password: element.find('password').text(),
                 email: element.find('email').text(),
+                company: element.find('company').text(),
                 datejoined: element.find('datejoined').text(),
                 lastlogin: element.find('lastlogin').text(),
                 isactive: element.find('isactive').text(),
@@ -175,6 +176,7 @@ $(document).ready(function()
                             "<div class = 'userItem password'>" + "<div class = 'passwordReset'>reset</div>" + "</div>" +
                             "<div class = 'userItem datejoined'>" + aUser.datejoined + "</div>" +
                             "<div class = 'userItem lastlogin'>" + aUser.lastlogin + "</div>" +
+                            "<div class = 'userItem company'>" + aUser.company + "</div>" +
                             "<div class = 'userItem email'>" + aUser.email + "</div>" +
                             "<div class = 'userItem weixin'>" + aUser.weixin + "</div>" +
                             "<div class = 'userItem phone'>" + aUser.phone + "</div>" +
@@ -208,6 +210,7 @@ $(document).ready(function()
                                 "<div class = 'usersHeadItem' id = 'lastloginHead'>lastlogin</div>" +
                                 "<div class = 'usersHeadItem' id = 'isactiveHead'>locked</div>" +
                                 "<div class = 'usersHeadItem' id = 'isstaffHead'>deleted</div>" +
+                                "<div class = 'usersHeadItem' id = 'userCompanyHead'>company</div>" +
                                 "<div class = 'usersHeadItem' id = 'emailHead'>email</div>" +
                                 "<div class = 'usersHeadItem' id = 'weixinHead'>wechat</div>" +
                                 "<div class = 'usersHeadItem' id = 'phoneHead'>phone</div>" +

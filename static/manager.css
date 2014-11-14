@@ -137,6 +137,10 @@ div.isstaff, div#isstaffHead {
     width: 50px;
 }
 
+div.company, div#userCompanyHead {
+    width: 200px;
+}
+
 div.email, div#emailHead {
     width: 200px;
 }
@@ -157,12 +161,8 @@ div.answer, div#answerHead {
     width: 200px;
 }
 
-div#usersHead {
-    width: 1600px;
-}
-
-div.aUser {
-    width: 1600px;
+div.aUser, div#usersHead {
+    width: 1800px;
 }
 
 div.userItem, div.usersHeadItem {
