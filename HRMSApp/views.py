@@ -137,6 +137,7 @@ def addHost(request):
     添加虚拟主机
     """
     if request.method == "POST":
+        thisUser = request.user
         name = smart_str(request.POST['hostName'])
         core = smart_str(request.POST['hostCore'])
         mem = smart_str(request.POST['hostMem'])
@@ -152,7 +153,7 @@ def addHost(request):
         node = smart_str(request.POST['hostNode'])
         ip = smart_str(request.POST['hostIp'])
 
-        sendContent = addNewHost(name,
+        sendContent = addNewHost(thisUser, name,
                                     hostCore = core,
                                     hostMem = mem,
                                     hostDisk = disk,

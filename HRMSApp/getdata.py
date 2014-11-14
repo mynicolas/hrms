@@ -170,15 +170,6 @@ def hostElementMap(hostName, hostElement, data):
         except:
             return "error"
     else:
-        # company = host.company.companyName
-        # try:
-        #     thisCompany = Company.objects.get(companyName = company)
-        #     thisCompany.companyName = data
-        #     thisCompany.save()
-        #     return "successful"
-        # except:
-        #     return "error"
-
         companyName = host.company.companyName
         companyId = host.company.id
         try:
@@ -217,9 +208,10 @@ def testIp(ip):
         thisIp.save()
         return ip
 
-def addNewHost(hostName, **hostItems):
+def addNewHost(user, hostName, **hostItems):
     """
     将传入的hostName与数据库对比，如果已经存在相同的hostName，直接返回""existed，如果没有相同的hostName则将其存入数据库
+    :param user: 已经登陆的用户的user对象
     :param hostName: 对应数据库中Instance表中的instanceName
     :param hostItems: 对应数据库中除了instanceName外的其他字段
     :return: 如果存在相同的hostName则返回False，如果保存数据成功则返回True
