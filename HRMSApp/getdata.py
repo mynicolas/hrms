@@ -26,7 +26,6 @@ def getAll(user):
     else:
         companies = Company.objects.filter(companyName = companyName)
 
-    # companies = Company.objects.all()                   # 获取所有的公司对象
     allCompany = []
     if not companies:
         return 'empty'
