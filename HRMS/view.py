@@ -56,27 +56,29 @@ def register(request):
         phone = smart_str(request.POST['phone'])
         question = smart_str(request.POST['question'])
         answer = smart_str(request.POST['answer'])
-        try:
-            User.objects.get(username = username)
-            return HttpResponse('username existed')
-        except:
-            try:
-                thisCompany = Company.objects.get(companyName = company)
-            except:
-                thisCompany = Company.objects.create(companyName = company)
+        return HttpResponse(company)
+    #     try:
+    #         User.objects.get(username = username)
+    #         return HttpResponse('username existed')
+    #     except:
+    #         try:
+    #             thisCompany = Company.objects.get(companyName = company)
+    #         except:
+    #             thisCompany = Company.objects.create(companyName = company)
+    #             thisCompany.save()
 
-            thisUser = thisCompany.profile_set
-            thisUser.create(weixin = weixin, phone = phone, question = question, answer = answer, 
-                user = User.objects.create_user(username = username, password = password, email = email))
-            thisCompany.save()
-            thisUser = User.objects.get(username = username)
-            thisUser.is_stuff = False
-            thisUser.is_active = False
-            thisUser.is_superuser = False
-            thisUser.save()
-            return HttpResponse('register successful')
-    else:
-        return HttpResponse('404 not found')
+    #         newUser = User.objects.create_user(username = username, password = password, email = email)
+    #         newUser.is_staff = False
+    #         newUser.is_active = False
+    #         newUser.is_superuser = False
+    #         newUser.save()
+    #         thisUser = User.objects.get(username = username)
+    #         thisUser.profile_set.create(weixin = weixin, phone = phone, question = question, answer = answer, company = thisCompany)
+    #         thisUser.save()
+
+    #         return HttpResponse('register successful')
+    # else:
+    #     return HttpResponse('404 not found')
 
 @login_required
 def logout(request):
