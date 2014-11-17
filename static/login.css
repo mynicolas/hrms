@@ -169,9 +169,11 @@ div.registerInputDivElement {
     width: 65%;
 }
 
-div.registerInputElement {
+input.registerInputElement {
     width: 90%;
 }
+
+
 
 div#registerButtonDiv {
     padding-left: 5%;

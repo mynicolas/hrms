@@ -28,7 +28,7 @@ def renderIndex(request):
     """
     如果没有登陆，重定向到登陆页面，如果已经登陆则渲染主页视图
     """
-    return render_to_response('index.html', {'username': request.user.username})
+    return render_to_response('index.html', {'username': request.user.username, 'isSuperuser': request.user.is_superuser})
 
 @csrf_exempt
 def login(request):
@@ -56,29 +56,28 @@ def register(request):
         phone = smart_str(request.POST['phone'])
         question = smart_str(request.POST['question'])
         answer = smart_str(request.POST['answer'])
-        return HttpResponse(company)
-    #     try:
-    #         User.objects.get(username = username)
-    #         return HttpResponse('username existed')
-    #     except:
-    #         try:
-    #             thisCompany = Company.objects.get(companyName = company)
-    #         except:
-    #             thisCompany = Company.objects.create(companyName = company)
-    #             thisCompany.save()
+        try:
+            User.objects.get(username = username)
+            return HttpResponse('username existed')
+        except:
+            try:
+                thisCompany = Company.objects.get(companyName = company)
+            except:
+                thisCompany = Company.objects.create(companyName = company)
+                thisCompany.save()
 
-    #         newUser = User.objects.create_user(username = username, password = password, email = email)
-    #         newUser.is_staff = False
-    #         newUser.is_active = False
-    #         newUser.is_superuser = False
-    #         newUser.save()
-    #         thisUser = User.objects.get(username = username)
-    #         thisUser.profile_set.create(weixin = weixin, phone = phone, question = question, answer = answer, company = thisCompany)
-    #         thisUser.save()
+            newUser = User.objects.create_user(username = username, password = password, email = email)
+            newUser.is_staff = False
+            newUser.is_active = False
+            newUser.is_superuser = False
+            newUser.save()
+            thisUser = User.objects.get(username = username)
+            thisUser.profile_set.create(weixin = weixin, phone = phone, question = question, answer = answer, company = thisCompany)
+            thisUser.save()
 
-    #         return HttpResponse('register successful')
-    # else:
-    #     return HttpResponse('404 not found')
+            return HttpResponse('register successful')
+    else:
+        return HttpResponse('404 not found')
 
 @login_required
 def logout(request):

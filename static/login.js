@@ -183,16 +183,9 @@ $(document).ready(function()
         xmlhttp.send(content);
     }
 
-    // 登陆
-    loginSubmit.click(function()
-    {
-        var username = $('input#usernameInput').val();
-        var password = $('input#passwordInput').val();
-        if(username != '' && password != '')
-        {
-            post('/checklogin/', 'username=' + username + '&password=' + $.md5(password), checkLogin);
-        }
-    });
+    // 定义两个全局变量存储新注册的用户名和密码
+    var newUsername;
+    var newPassword;
 
     (function()
     {
@@ -200,12 +193,14 @@ $(document).ready(function()
         {
             var username = $('input#usernameInput').val();
             var password = $('input#passwordInput').val();
+            newUsername = username;
+            newPassword = password;
             if(username != '' && password != '')
             {
                 post('/checklogin/', 'username=' + username + '&password=' + $.md5(password), checkLogin);
             }
         }
-        if(!$('div#loginDiv').is(':hidden'))
+        if($('div#loginDiv').is(':visible'))
         {
             loginSubmit.click(function()
             {
@@ -235,61 +230,71 @@ $(document).ready(function()
         }
     }
 
-    // 定义两个全局变量存储新注册的用户名和密码
-    var newUsername;
-    var newPassword;
-    // 当点击registerDialog中的submit按钮时，提交注册新用户信息
-    registerSubmit.click(function()
-    {
-        var username = $('input#loginRegisterUsernameInput').val();
-        var password = $('input#loginRegisterPasswordInput').val();
-        var pswdConfirm = $('input#loginRegisterPasswordConfirmInput').val();
-        var company = $('input#loginRegisterCompanyInput');
-        var email = $('input#loginRegisterEmailInput').val();
-        var weixin = $('input#loginRegisterWeixinInput').val();
-        var phone = $('input#loginRegisterPhoneInput').val();
-        var question = $('input#loginRegisterQuestionInput').val();
-        var answer = $('input#loginRegisterAnswerInput').val();
-        if(!matchType('username', username))
+        // 当点击registerDialog中的submit按钮时，提交注册新用户信息
+        registerSubmit.click(function()
         {
-            alert('username\'s type is wrong');
-        }
-        else if(!matchType('password', password))
-        {
-            alert('password\'s type is wrong');
-        }
-        else if(!matchType('password', pswdConfirm))
-        {
-            alert('confirm password\'s type is wrong');
-        }
-        else if(!matchType('email', email))
-        {
-            alert('email\'s type is wrong');
-        }
-        if(matchType('username', username) && matchType('password', password)
-            && matchType('password', pswdConfirm) && matchType('email', email))
-        {
-            if(password == pswdConfirm)
+            if($('div#registerDiv').is(':hidden') && $('div#loginDiv').is(':visible'))
             {
-                post('/register/', 'username=' + username + '&password=' + $.md5(password) + '&email=' + email +
-                '&weixin=' + weixin + '&phone=' + phone + '&question=' + question + '&answer=' + answer + '&company=' + company, registered);
-                newUsername = username;
-                newPassword = password;
+                $(document).keydown(function(e)
+                {
+                    if(e.keyCode == 13)
+                    {
+                        registerPost();
+                    }
+                });
             }
-            else
+            function registerPost()
             {
-                registerFailed();
+                var username = $('input#loginRegisterUsernameInput').val();
+                var password = $('input#loginRegisterPasswordInput').val();
+                var pswdConfirm = $('input#loginRegisterPasswordConfirmInput').val();
+                var company = $('input#loginRegisterCompanyInput').val();
+                var email = $('input#loginRegisterEmailInput').val();
+                var weixin = $('input#loginRegisterWeixinInput').val();
+                var phone = $('input#loginRegisterPhoneInput').val();
+                var question = $('input#loginRegisterQuestionInput').val();
+                var answer = $('input#loginRegisterAnswerInput').val();
+                if(!matchType('username', username))
+                {
+                    alert('username\'s type is wrong');
+                }
+                else if(!matchType('password', password))
+                {
+                    alert('password\'s type is wrong');
+                }
+                else if(!matchType('password', pswdConfirm))
+                {
+                    alert('confirm password\'s type is wrong');
+                }
+                else if(!matchType('email', email))
+                {
+                    alert('email\'s type is wrong');
+                }
+                if(matchType('username', username) && matchType('password', password)
+                    && matchType('password', pswdConfirm) && matchType('email', email))
+                {
+                    if(password == pswdConfirm)
+                    {
+                        post('/register/', 'username=' + username + '&password=' + $.md5(password) + '&email=' + email +
+                        '&weixin=' + weixin + '&phone=' + phone + '&question=' + question + '&answer=' + answer + '&company=' + company, registered);
+                        newUsername = username;
+                        newPassword = password;
+                    }
+                    else
+                    {
+                        registerFailed();
+                    }
+                    function registerFailed()
+                    {
+                        alert('two password aren\'t same');
+                    }
+                }
+                else
+                {
+                    alert('Check the type you inputed')
+                }
             }
-            function registerFailed()
-            {
-                alert('two password aren\'t same');
-            }
-        }
-        else
-        {
-            alert('Check the type you inputed')
-        }
-    });
+        });
 
     /* tipDialog start */
     (function()
@@ -315,25 +320,38 @@ $(document).ready(function()
         setTipContent(content);
         $('div#tipDialogDiv').fadeIn('fast');
     }
-    // 关闭Dialog
-    function tipDialogClose()
-    {
-        $('div#tipDialogDiv').fadeOut('fast');
-        $('div#loginDiv').fadeIn('fast');
-    }
-    $('div#tipDialogButton').click(function()
-    {
-        tipDialogClose();
-        $('input#usernameInput').val(newUsername);
-        $('input#passwordInput').val(newPassword);
-    });
-    $('div#tipDialogClose').click(function()
-    {
-        tipDialogClose();
-        $('input#usernameInput').val(newUsername);
-        $('input#passwordInput').val(newPassword);
-    });
 
+    // 如果tipDialog没有隐藏，当敲击enter键盘时，tipDialog隐藏
+    (function()
+    {
+        function tipDialogClose()
+        {
+            $('div#tipDialogDiv').fadeOut('fast');
+            $('div#loginDiv').fadeIn('fast');
+            $('input#usernameInput').val(newUsername);
+            $('input#passwordInput').val(newPassword);
+        }
+        if($('div#tipDialogDiv').is(':hidden') && $('div#loginDiv').is(':visible'))
+        {
+            $('div#tipDialogButton').click(function()
+            {
+                tipDialogClose();
+            });
+
+            $('div#tipDialogClose').click(function()
+            {
+                tipDialogClose();
+            });
+
+            $(document).keydown(function(e)
+            {
+                if(e.keyCode == 13)
+                {
+                    tipDialogClose();
+                }
+            });
+        }
+    })();
     /* tipDialog end */
 
     // 如果注册成功
