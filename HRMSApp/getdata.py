@@ -208,7 +208,7 @@ def testIp(ip):
         thisIp.save()
         return ip
 
-def addNewHost(user, hostName, **hostItems):
+def addNewHost(hostName, **hostItems):
     """
     将传入的hostName与数据库对比，如果已经存在相同的hostName，直接返回""existed，如果没有相同的hostName则将其存入数据库
     :param user: 已经登陆的用户的user对象
@@ -225,110 +225,57 @@ def addNewHost(user, hostName, **hostItems):
     except:
         # 如果公司已存在，则给该公司添加虚拟主机
         try:
-            if user.is_superuser: # 如果该用户是管理员
-                existedCompany = Company.objects.get(companyName = hostItems['hostCompany'])
-                avariableIp = testIp(hostItems['hostIp'])
-                if not avariableIp:
-                    return "ipError"
-                hostStart = stringToDate(hostItems['hostStart'])
-                existedCompany.instance_set.create(instanceName = hostName,
-                                                   vcpus = hostItems['hostCore'],
-                                                   mem = hostItems['hostMem'],
-                                                   dataDisk = hostItems['hostDisk'],
-                                                   macAddress = hostItems['hostMac'],
-                                                   startDate = hostStart,
-                                                   useInterval = dateToDays(hostItems['hostStart'], hostItems['hostEnd']),
-                                                   bandwidth = hostItems['hostBandwidth'],
-                                                   remotePort = hostItems['hostRemotePort'],
-                                                   ip = avariableIp,
-                                                   dogSn = hostItems['hostDogN'],
-                                                   dogPort = hostItems['hostDogP'])
-                existedCompany.save()
+            existedCompany = Company.objects.get(companyName = hostItems['hostCompany'])
+            avariableIp = testIp(hostItems['hostIp'])
+            if not avariableIp:
+                return "ipError"
+            hostStart = stringToDate(hostItems['hostStart'])
+            existedCompany.instance_set.create(instanceName = hostName,
+                                               vcpus = hostItems['hostCore'],
+                                               mem = hostItems['hostMem'],
+                                               dataDisk = hostItems['hostDisk'],
+                                               macAddress = hostItems['hostMac'],
+                                               startDate = hostStart,
+                                               useInterval = dateToDays(hostItems['hostStart'], hostItems['hostEnd']),
+                                               bandwidth = hostItems['hostBandwidth'],
+                                               remotePort = hostItems['hostRemotePort'],
+                                               ip = avariableIp,
+                                               dogSn = hostItems['hostDogN'],
+                                               dogPort = hostItems['hostDogP'])
+            existedCompany.save()
 
-                thisHost = Instance.objects.get(instanceName = hostName)
-                thisHost.node_set.create(nodeName = hostItems['hostNode'])
-                thisHost.save()
+            thisHost = Instance.objects.get(instanceName = hostName)
+            thisHost.node_set.create(nodeName = hostItems['hostNode'])
+            thisHost.save()
 
-                return "successful"
-            else: # 如果该用户不是管理员
-                existedCompany = Company.objects.get(companyName = hostItems['hostCompany'])
-                avariableIp = testIp(hostItems['hostIp'])
-                if not avariableIp:
-                    return "ipError"
-                hostStart = stringToDate(hostItems['hostStart'])
-                existedCompany.instance_set.create(instanceName = hostName,
-                                                   vcpus = hostItems['hostCore'],
-                                                   mem = hostItems['hostMem'],
-                                                   dataDisk = hostItems['hostDisk'],
-                                                   macAddress = hostItems['hostMac'],
-                                                   startDate = hostStart,
-                                                   useInterval = dateToDays(hostItems['hostStart'], hostItems['hostEnd']),
-                                                   bandwidth = hostItems['hostBandwidth'],
-                                                   remotePort = hostItems['hostRemotePort'],
-                                                   ip = avariableIp,
-                                                   dogSn = hostItems['hostDogN'],
-                                                   dogPort = hostItems['hostDogP'])
-                existedCompany.save()
-
-                thisHost = Instance.objects.get(instanceName = hostName)
-                thisHost.node_set.create(nodeName = hostItems['hostNode'])
-                thisHost.save()
-
-                return "successful"                
+            return "successful"               
         # 如果公司不存在，则创建公司
         except:
-            if user.is_superuser: # 如果该用户是管理员
-                avariableIp = testIp(hostItems['hostIp'])
-                if not avariableIp:
-                    return "ipError"
-                newCompany = Company.objects.create(companyName=hostItems['hostCompany'])
-                newCompany.save()
-                hostStart = stringToDate(hostItems['hostStart'])
-                newInstance = Company.objects.get(companyName = hostItems['hostCompany'])
-                newHost = newInstance.instance_set.create(instanceName = hostName,
-                                                   vcpus = hostItems['hostCore'],
-                                                   mem = hostItems['hostMem'],
-                                                   dataDisk = hostItems['hostDisk'],
-                                                   macAddress = hostItems['hostMac'],
-                                                   startDate = hostStart,
-                                                   useInterval = dateToDays(hostItems['hostStart'], hostItems['hostEnd']),
-                                                   bandwidth = hostItems['hostBandwidth'],
-                                                   remotePort = hostItems['hostRemotePort'],
-                                                   ip = avariableIp,
-                                                   dogSn = hostItems['hostDogN'],
-                                                   dogPort = hostItems['hostDogP'])
-                newHost.save()
+            avariableIp = testIp(hostItems['hostIp'])
+            if not avariableIp:
+                return "ipError"
+            newCompany = Company.objects.create(companyName=hostItems['hostCompany'])
+            newCompany.save()
+            hostStart = stringToDate(hostItems['hostStart'])
+            newInstance = Company.objects.get(companyName = hostItems['hostCompany'])
+            newHost = newInstance.instance_set.create(instanceName = hostName,
+                                               vcpus = hostItems['hostCore'],
+                                               mem = hostItems['hostMem'],
+                                               dataDisk = hostItems['hostDisk'],
+                                               macAddress = hostItems['hostMac'],
+                                               startDate = hostStart,
+                                               useInterval = dateToDays(hostItems['hostStart'], hostItems['hostEnd']),
+                                               bandwidth = hostItems['hostBandwidth'],
+                                               remotePort = hostItems['hostRemotePort'],
+                                               ip = avariableIp,
+                                               dogSn = hostItems['hostDogN'],
+                                               dogPort = hostItems['hostDogP'])
+            newHost.save()
 
-                thisHost = Instance.objects.get(instanceName = hostName)
-                thisHost.node_set.create(nodeName = hostItems['hostNode'])
-                thisHost.save()
-                return "successful"
-            else: # 如果该用户不是管理员
-                avariableIp = testIp(hostItems['hostIp'])
-                if not avariableIp:
-                    return "ipError"
-                newCompany = Company.objects.create(companyName=hostItems['hostCompany'])
-                newCompany.save()
-                hostStart = stringToDate(hostItems['hostStart'])
-                newInstance = Company.objects.get(companyName = hostItems['hostCompany'])
-                newHost = newInstance.instance_set.create(instanceName = hostName,
-                                                   vcpus = hostItems['hostCore'],
-                                                   mem = hostItems['hostMem'],
-                                                   dataDisk = hostItems['hostDisk'],
-                                                   macAddress = hostItems['hostMac'],
-                                                   startDate = hostStart,
-                                                   useInterval = dateToDays(hostItems['hostStart'], hostItems['hostEnd']),
-                                                   bandwidth = hostItems['hostBandwidth'],
-                                                   remotePort = hostItems['hostRemotePort'],
-                                                   ip = avariableIp,
-                                                   dogSn = hostItems['hostDogN'],
-                                                   dogPort = hostItems['hostDogP'])
-                newHost.save()
-
-                thisHost = Instance.objects.get(instanceName = hostName)
-                thisHost.node_set.create(nodeName = hostItems['hostNode'])
-                thisHost.save()
-                return "successful"                
+            thisHost = Instance.objects.get(instanceName = hostName)
+            thisHost.node_set.create(nodeName = hostItems['hostNode'])
+            thisHost.save()
+            return "successful"              
 
 def saveIps(*ips):
     """
