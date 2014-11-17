@@ -172,7 +172,6 @@ def hostElementMap(hostName, hostElement, data):
         companyName = host.company.companyName
         companyId = host.company.id
         try:
-            # global companyId
             thisCompany = Company.objects.get(id = companyName)
             thisCompanyId = thisCompany.id
             companyId = thisCompanyId
@@ -180,7 +179,6 @@ def hostElementMap(hostName, hostElement, data):
 
         except:
             try:
-                # global companyName
                 thisCompany = Company.objects.get(companyName = companyName)
                 thisCompany.companyName = data
                 thisCompany.save()
@@ -276,7 +274,7 @@ def addNewHost(hostName, **hostItems):
             thisHost.save()
             return "successful"              
 
-def saveIps(*ips):
+def saveIps(user, *ips):
     """
     将传入的ips列表的每一项逐个存入数据库的IP表中,如果ip已存在，则不做任何操作
     :param ips: 传入的ip列表
@@ -290,7 +288,7 @@ def saveIps(*ips):
             except:
                 thisIp = Ip.objects.create(ipAddress = ip, isUsed = False)
                 thisIp.save()
-                saveLog("Add a new ip '%s'" % ip)
+                saveLog("%s Add a new ip '%s'" % (user.username, ip))
         return 'successful'
     except:
         return 'error'
@@ -313,12 +311,16 @@ def saveLog(*logContent):
     newLog = Log.objects.create(content=log, logTime = logTime)
     newLog.save()
 
-def getLog():
+def getLog(user):
     """
     获取所有的日志
+    user: 当前登陆的用户
     :return: 所有的日志列表
     """
-    logRecords = Log.objects.all()
+    if user.is_superuser == True:
+        logRecords = Log.objects.all()
+    else:
+        logRecords = Log.objects.filter(content__icontains = user.username)
     logCount = len(logRecords)
     if logCount <= 20:
         logRecords = logRecords
@@ -342,9 +344,10 @@ def intervalToDate(interval):
     start, end = [datetime.datetime(int(i.split('/')[2]), int(i.split('/')[0]), int(i.split('/')[1])) for i in interval.split('-')]
     return (start, end + datetime.timedelta(1))
 
-def conditionLog(condition, **kwargs):
+def conditionLog(user, condition, **kwargs):
     """
     处理按条件查询的日志，得到相应条件的日志
+    user: 当前登陆的用户
     :param kwargs: condition = time or host, interval = '2014/12/30-2014/12/31', hostname = instanceName
     :return: list logRecords
     """

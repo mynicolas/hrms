@@ -94,7 +94,7 @@ def renderIp(request):
         if isSaved:
             sendContent = "successful"
 
-            saveLog("%s change IP '%s' to '%s'" %(hostName, originalIp, newIp))
+            saveLog("%s %s change IP '%s' to '%s'" %(request.user.username, hostName, originalIp, newIp))
         else:
             sendContent = "error"
     else:
@@ -125,7 +125,7 @@ def renderHost(request):
         data = smart_str(request.POST['data'])
         isSaved = hostElementMap(hostName, hostElement, data)
 
-        saveLog("The '%s' of virtual machine '%s' was changed to '%s'" % (hostElement, hostName, data))
+        saveLog("%s The '%s' of virtual machine '%s' was changed to '%s'" % (request.user.username, hostElement, hostName, data))
         return HttpResponse(isSaved)
     else:
         saveLog()
@@ -168,7 +168,7 @@ def addHost(request):
                                     hostIp = ip)
 
         if sendContent == 'successful':
-            saveLog("The new virtual machine '%s' was created" % name)
+            saveLog("%s The new virtual machine '%s' was created" % (request.user.username, name))
     else:
         sendContent = "error"
     return HttpResponse(sendContent)
@@ -180,7 +180,7 @@ def addIp(request):
     """
     if request.method == "POST":
         ips = smart_str(request.POST['ips']).split(',')
-        isSave = saveIps(*ips)
+        isSave = saveIps(request.user, *ips)
         return HttpResponse(isSave)
     else:
         return HttpResponse('error')
@@ -192,7 +192,8 @@ def renderLog(request):
     渲染log视图
     """
     if request.method == "POST":
-        logList = getLog()
+        thisUser = request.user
+        logList = getLog(thisUser)
         sendContent = "<xml>"
         for log in logList:
             sendContent += "<log>" + log + "</log>"
@@ -208,14 +209,12 @@ def renderLogCondition(request):
         logs = []
         condition = smart_str(request.POST['condition'])
         if condition == 'time':
-            # global logs
             interval = smart_str(request.POST['interval'])
             hostName = smart_str(request.POST['hostname'])
-            logs = conditionLog(condition, hostName = hostName, interval = interval)
+            logs = conditionLog(request.user, condition, hostName = hostName, interval = interval)
 
         elif condition == 'hostname':
-            # global logs
-            logs = conditionLog(condition)
+            logs = conditionLog(request.user, condition)
 
         sendContent = "<xml>"
         for log in logs:
