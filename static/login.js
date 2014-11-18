@@ -230,71 +230,72 @@ $(document).ready(function()
         }
     }
 
-        // 当点击registerDialog中的submit按钮时，提交注册新用户信息
-        registerSubmit.click(function()
+    // 当点击registerDialog中的submit按钮时，提交注册新用户信息
+    registerSubmit.click(function()
+    {
+        registerPost();
+        if($('div#registerDiv').is(':hidden') && $('div#loginDiv').is(':visible'))
         {
-            if($('div#registerDiv').is(':hidden') && $('div#loginDiv').is(':visible'))
+            $(document).keydown(function(e)
             {
-                $(document).keydown(function(e)
+                if(e.keyCode == 13)
                 {
-                    if(e.keyCode == 13)
-                    {
-                        registerPost();
-                    }
-                });
+                    registerPost();
+                }
+            });
+        }
+        function registerPost()
+        {
+            var username = $('input#loginRegisterUsernameInput').val();
+            var password = $('input#loginRegisterPasswordInput').val();
+            var pswdConfirm = $('input#loginRegisterPasswordConfirmInput').val();
+            var company = $('input#loginRegisterCompanyInput').val();
+            var email = $('input#loginRegisterEmailInput').val();
+            var weixin = $('input#loginRegisterWeixinInput').val();
+            var phone = $('input#loginRegisterPhoneInput').val();
+            var question = $('input#loginRegisterQuestionInput').val();
+            var answer = $('input#loginRegisterAnswerInput').val();
+            if(!matchType('username', username))
+            {
+                alert('username\'s type is wrong');
             }
-            function registerPost()
+            else if(!matchType('password', password))
             {
-                var username = $('input#loginRegisterUsernameInput').val();
-                var password = $('input#loginRegisterPasswordInput').val();
-                var pswdConfirm = $('input#loginRegisterPasswordConfirmInput').val();
-                var company = $('input#loginRegisterCompanyInput').val();
-                var email = $('input#loginRegisterEmailInput').val();
-                var weixin = $('input#loginRegisterWeixinInput').val();
-                var phone = $('input#loginRegisterPhoneInput').val();
-                var question = $('input#loginRegisterQuestionInput').val();
-                var answer = $('input#loginRegisterAnswerInput').val();
-                if(!matchType('username', username))
+                alert('password\'s type is wrong');
+            }
+            else if(!matchType('password', pswdConfirm))
+            {
+                alert('confirm password\'s type is wrong');
+            }
+            else if(!matchType('email', email))
+            {
+                alert('email\'s type is wrong');
+            }
+            if(matchType('username', username) && matchType('password', password)
+                && matchType('password', pswdConfirm) && matchType('email', email))
+            {
+                if(password == pswdConfirm)
                 {
-                    alert('username\'s type is wrong');
-                }
-                else if(!matchType('password', password))
-                {
-                    alert('password\'s type is wrong');
-                }
-                else if(!matchType('password', pswdConfirm))
-                {
-                    alert('confirm password\'s type is wrong');
-                }
-                else if(!matchType('email', email))
-                {
-                    alert('email\'s type is wrong');
-                }
-                if(matchType('username', username) && matchType('password', password)
-                    && matchType('password', pswdConfirm) && matchType('email', email))
-                {
-                    if(password == pswdConfirm)
-                    {
-                        post('/register/', 'username=' + username + '&password=' + $.md5(password) + '&email=' + email +
-                        '&weixin=' + weixin + '&phone=' + phone + '&question=' + question + '&answer=' + answer + '&company=' + company, registered);
-                        newUsername = username;
-                        newPassword = password;
-                    }
-                    else
-                    {
-                        registerFailed();
-                    }
-                    function registerFailed()
-                    {
-                        alert('two password aren\'t same');
-                    }
+                    post('/register/', 'username=' + username + '&password=' + $.md5(password) + '&email=' + email +
+                    '&weixin=' + weixin + '&phone=' + phone + '&question=' + question + '&answer=' + answer + '&company=' + company, registered);
+                    newUsername = username;
+                    newPassword = password;
                 }
                 else
                 {
-                    alert('Check the type you inputed')
+                    registerFailed();
+                }
+                function registerFailed()
+                {
+                    alert('two password aren\'t same');
                 }
             }
-        });
+            else
+            {
+                alert('Check the type you inputed')
+            }
+        }
+    });
 
     /* tipDialog start */
     (function()
