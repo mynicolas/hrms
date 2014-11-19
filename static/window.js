@@ -228,7 +228,7 @@ $(document).ready(function()
                 }
                 else if($(this).attr('class') == 'hostDogN')
                 {
-                    maxlength = 20;
+                    maxlength = 40;
                 }
                 else if($(this).attr('class') == 'hostBandwidth')
                 {
@@ -325,7 +325,7 @@ $(document).ready(function()
                     }
                     else if(modifyPrevious == 'hostDogN')
                     {
-                        modifyType = 'text';
+                        modifyType = 'dogsn';
                     }
                     else if(modifyPrevious == 'hostStart' || modifyPrevious == 'hostEnd')
                     {
@@ -436,51 +436,48 @@ $(document).ready(function()
         if(type == 'mac')
         {
             reg = /^[A-Fa-f\d]{2}:[A-Fa-f\d]{2}:[A-Fa-f\d]{2}:[A-Fa-f\d]{2}:[A-Fa-f\d]{2}:[A-Fa-f\d]{2}$/;
-            return reg.test(value);
         }
         else if(type == 'digital')
         {
             reg = /^\d+$/;
-            return reg.test(value);
         }
         else if(type == 'dogport')
         {
-            reg = /^\d{1,3}[$]?\d{0,3}$/;
+            reg = /^\d{0,3}[^&]?\d{0,3}$/;
+        }
+        else if(type == 'dogsn')
+        {
+            reg = /^[0-9a-zA-Z]{0,20}[^&]?[0-9a-zA-Z]{0,20}$/;
         }
         else if(type == 'ip')
         {
             reg = /^((25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])$/;
-            return reg.test(value);
         }
         else if(type == 'headIp')
         {
             reg = /^((25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])\.){2}(25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])$/;
-            return reg.test(value);
         }
         else if(type == 'tailIp')
         {
             reg = /^(25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])$/;
-            return reg.test(value);
         }
         else if(type == 'date')
         {
             reg = /^[0-1]?[0-9]\/[0-3]?[0-9]\/2[0-1][0-9][0-9]$/;
-            return reg.test(value);
         }
         else if(type == 'text')
         {
             reg = /^[0-9a-zA-Z]+$/;
-            return reg.test(value);
         }
         else if(type == 'zhtext')
         {
             reg =  /^([0-9a-zA-Z]|[\u4e00-\u9fa5]|[\(\)（）~!@#\u0024%\u005E&*\u0028\u0029\u007C_\u002B'"=\u007B\u005B\u005C\u003F])+[0-9a-zA-Z]*[\(\)（）~!@#\u0024%\u005E&*\u0028\u0029\u007C_\u002B'"=\u007B\u005B\u005C\u003F]*[\u4e00-\u9fa5]*[0-9a-zA-Z]*[\(\)（）~!@#\u0024%\u005E&*\u0028\u0029\u007C_\u002B'"=\u007B\u005B\u005C\u003F]*[\u4e00-\u9fa5]*[\(\)（）~!@#\u0024%\u005E&*\u0028\u0029\u007C_\u002B'"=\u007B\u005B\u005C\u003F]*$/;
-            return reg.test(value);
         }
         else if(type == 'notChange')
         {
             return true;
         }
+        return reg.test(value);
     }
 
     // 检测输入的数据和原来的div中的数据是否相同
@@ -554,7 +551,7 @@ $(document).ready(function()
                             "</div>" +
                             "<div class = 'addItemDiv'>" +
                                 "<div class = 'addItemLabel'>Dog Sn</div>" +
-                                "<div class = 'addItemInputDiv'><input id = 'hostDogN' maxlength = '20'></input></div>" +
+                                "<div class = 'addItemInputDiv'><input id = 'hostDogN' maxlength = '40'></input></div>" +
                             "</div>" +
                             "<div class = 'addItemDiv'>" +
                                 "<div class = 'addItemLabel'>Dog Port</div>" +
@@ -603,24 +600,24 @@ $(document).ready(function()
         // 当点击add对话框中的commit按钮时，将主机添加到服务器数据库
         $('div#addCommit').click(function()
         {
-            var name = document.getElementById('hostName').value;
-            var core = document.getElementById('hostCore').value;
-            var mem = document.getElementById('hostMem').value;
-            var disk = document.getElementById('hostDisk').value;
-            var mac = document.getElementById('hostMac').value;
-            var start = document.getElementById('hostStart').value;
-            var end = document.getElementById('hostEnd').value;
-            var company = document.getElementById('hostCompany').value;
-            var remotePort = document.getElementById('hostRemotePort').value;
-            var dogN = document.getElementById('hostDogN').value;
-            var dogP = document.getElementById('hostDogP').value;
-            var bandwidth = document.getElementById('hostBandwidth').value;
-            var node = document.getElementById('hostNode').value;
-            var ip = document.getElementById('hostIp').value;
+            var name = $('input#hostName').val();
+            var core = $('input#hostCore').val();
+            var mem = $('input#hostMem').val();
+            var disk = $('input#hostDisk').val();
+            var mac = $('input#hostMac').val();
+            var start = $('input#hostStart').val();
+            var end = $('input#hostEnd').val();
+            var company = $('input#hostCompany').val();
+            var remotePort = $('input#hostRemotePort').val();
+            var dogN = $('input#hostDogN').val();
+            var dogP = $('input#hostDogP').val();
+            var bandwidth = $('input#hostBandwidth').val();
+            var node = $('input#hostNode').val();
+            var ip = $('input#hostIp').val();
 
-            if(checkInputType('text', name) && checkInputType('zhtext', company) && checkInputType('text', dogN)
+            if(checkInputType('text', name) && checkInputType('zhtext', company) && checkInputType('dogsn', dogN)
                 && checkInputType('digital', core) && checkInputType('digital', mem) && checkInputType('digital', disk)
-                && checkInputType('digital', remotePort) && checkInputType('digital', dogP)
+                && checkInputType('digital', remotePort) && checkInputType('dogport', dogP)
                 && checkInputType('digital', bandwidth) && checkInputType('mac', mac)
                 && checkInputType('date', start) && checkInputType('date', end)
                 && checkInputType('ip', node) && checkInputType('ip', ip))
