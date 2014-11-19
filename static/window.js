@@ -639,6 +639,7 @@ $(document).ready(function()
                                '&hostBandwidth=' + bandwidth +
                                '&hostNode=' + node +
                                '&hostIp=' + ip, hostIsExist);
+                
             }
             else
             {

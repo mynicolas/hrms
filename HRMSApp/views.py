@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.encoding import smart_str
 from getdata import *
 from HRMSApp.models import *
+from django.contrib.auth.decorators import login_required
 
 """
 <xml>
@@ -28,6 +29,7 @@ from HRMSApp.models import *
 </xml>
 """
 
+@login_required
 @csrf_exempt
 def renderAll(request):
     thisUser = request.user
@@ -61,6 +63,7 @@ def renderAll(request):
     else:
         return HttpResponse("not found")
 
+@login_required
 @csrf_exempt
 def renderIp(request):
     """
@@ -94,7 +97,7 @@ def renderIp(request):
         if isSaved:
             sendContent = "successful"
 
-            saveLog("%s %s change IP '%s' to '%s'" %(request.user.username, hostName, originalIp, newIp))
+            saveLog(request.user, "%s %s change IP '%s' to '%s'" %(request.user.username, hostName, originalIp, newIp))
         else:
             sendContent = "error"
     else:
@@ -103,6 +106,21 @@ def renderIp(request):
     return HttpResponse(sendContent)
 
 @csrf_exempt
+def renderCompanies(request):
+    """
+    获取所有公司的公司名
+    request: content(key)=companies
+    """
+    companies = getAllCompanies()
+    sendContent = "<xml>"
+    for company in companies:
+        sendContent += "<company>%s</company>" % company
+    sendContent += "</xml>"
+    return HttpResponse(sendContent)
+
+
+@login_required
+@csrf_exempt
 def renderNode(request):
     """
     当前端点击node的下拉框时，request包含一个键（host = hostName），本函数用来选来渲染下拉列表，从数据库中传出所有状态为未使用的ip
@@ -110,6 +128,7 @@ def renderNode(request):
     """
     pass
 
+@login_required
 @csrf_exempt
 def renderHost(request):
     """
@@ -125,12 +144,13 @@ def renderHost(request):
         data = smart_str(request.POST['data'])
         isSaved = hostElementMap(hostName, hostElement, data)
 
-        saveLog("%s The '%s' of virtual machine '%s' was changed to '%s'" % (request.user.username, hostElement, hostName, data))
+        saveLog(request.user, "%s The '%s' of virtual machine '%s' was changed to '%s'" % (request.user.username, hostElement, hostName, data))
         return HttpResponse(isSaved)
     else:
-        saveLog()
+        saveLog(request.user)
         return HttpResponse("not found")
 
+@login_required
 @csrf_exempt
 def addHost(request):
     """
@@ -168,11 +188,12 @@ def addHost(request):
                                     hostIp = ip)
 
         if sendContent == 'successful':
-            saveLog("%s The new virtual machine '%s' was created" % (request.user.username, name))
+            saveLog(request.user, "%s The new virtual machine '%s' was created" % (request.user.username, name))
     else:
         sendContent = "error"
     return HttpResponse(sendContent)
 
+@login_required
 @csrf_exempt
 def addIp(request):
     """
@@ -185,7 +206,7 @@ def addIp(request):
     else:
         return HttpResponse('error')
 
-
+@login_required
 @csrf_exempt
 def renderLog(request):
     """
@@ -203,6 +224,7 @@ def renderLog(request):
 
     return HttpResponse(sendContent)
 
+@login_required
 @csrf_exempt
 def renderLogCondition(request):
     if request.method == "POST":

@@ -60,7 +60,16 @@ $(document).ready(function()
     {
         loginDialog.fadeOut('fast');
         registerDialog.fadeIn('fast');
+
+        post('/query/companies/', 'content=companies', renderCompanies);
     });
+
+    function renderCompanies (receive) {
+        var companySelect = $('select#loginRegisterCompanyInput');
+        $(receive).find('company').each(function() {
+            companySelect.append("<option>" + $(this).text() + "</option>");
+        })
+    }
 
     dialogDrag(registerDialog, registerDialogHeader);
     dialogDrag(loginDialog, loginDialogHeader);
@@ -249,7 +258,7 @@ $(document).ready(function()
             var username = $('input#loginRegisterUsernameInput').val();
             var password = $('input#loginRegisterPasswordInput').val();
             var pswdConfirm = $('input#loginRegisterPasswordConfirmInput').val();
-            var company = $('input#loginRegisterCompanyInput').val();
+            var company = $('select#loginRegisterCompanyInput').val();
             var email = $('input#loginRegisterEmailInput').val();
             var weixin = $('input#loginRegisterWeixinInput').val();
             var phone = $('input#loginRegisterPhoneInput').val();

@@ -107,6 +107,18 @@ def getAllNotUsedIp():
     ips = Ip.objects.filter(isUsed = False)
     return [ip.ipAddress.encode('utf-8') for ip in ips]
 
+def getAllCompanies():
+    """
+    获取所有公司的公司名
+    return: [companyName, ...]
+    """
+    company = Company.objects.all()
+    companies = []
+    for i in company:
+        companies.append(i.companyName)
+    return companies
+
+
 def setIp(originalIp, newIp):
     """
     将前端传回来的两个ip进行处理
@@ -288,14 +300,15 @@ def saveIps(user, *ips):
             except:
                 thisIp = Ip.objects.create(ipAddress = ip, isUsed = False)
                 thisIp.save()
-                saveLog("%s Add a new ip '%s'" % (user.username, ip))
+                saveLog(user, "%s Add a new ip '%s'" % (user.username, ip))
         return 'successful'
     except:
         return 'error'
 
-def saveLog(*logContent):
+def saveLog(user, *logContent):
     """
     如果elements不是nothing的话，将其按照顺序存入数据库中的log表中
+    :param user: 触发日志的用户对象
     :param logContent: 传入的需要记录的内容string
     :return: none
     """
@@ -304,12 +317,14 @@ def saveLog(*logContent):
     if len(logContent):
         for i in logContent:
             log += "\t%s" % logContent
-
     else:
         log += "Someone requested, but did nothing."
 
-    newLog = Log.objects.create(content=log, logTime = logTime)
-    newLog.save()
+    thisUser = User.objects.get(username = user.username)
+    thisUser.log_set.create(content = log, logTime = logTime)
+    thisUser.save()
+    # newLog = Log.objects.create(content = log, logTime = logTime)
+    # newLog.save()
 
 def getLog(user):
     """
@@ -320,7 +335,8 @@ def getLog(user):
     if user.is_superuser == True:
         logRecords = Log.objects.all()
     else:
-        logRecords = Log.objects.filter(content__icontains = user.username)
+        thisUser = User.objects.get(username = user.username)
+        logRecords = thisUser.log_set.all()
     logCount = len(logRecords)
     if logCount <= 20:
         logRecords = logRecords
@@ -347,7 +363,7 @@ def intervalToDate(interval):
 def conditionLog(user, condition, **kwargs):
     """
     处理按条件查询的日志，得到相应条件的日志
-    user: 当前登陆的用户
+    :param user: 当前登陆的用户
     :param kwargs: condition = time or host, interval = '2014/12/30-2014/12/31', hostname = instanceName
     :return: list logRecords
     """
@@ -357,10 +373,13 @@ def conditionLog(user, condition, **kwargs):
         dateTimeInterval = intervalToDate(kwargs['interval'])
         start = dateTimeInterval[0]
         end = dateTimeInterval[1]
+        
+        thisUser = User.objects.get(username = user.username)
+        thisLogs = thisUser.log_set
         if hostName == 'empty':
-            logsFilter = Log.objects.filter(logTime__range = (start, end))
+            logsFilter = thisLogs.filter(logTime__range = (start, end))
         else:
-            logsFilter = Log.objects.filter(logTime__range = (start, end), content__icontains = hostName)
+            logsFilter = thisLogs.filter(logTime__range = (start, end), content__icontains = hostName)
         if not logsFilter:
             return ['no log']
         for log in logsFilter:
