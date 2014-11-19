@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Company(models.Model):
     companyName = models.CharField(max_length = 16, null = False, default = 'company name')
@@ -29,5 +30,6 @@ class Ip(models.Model):
 class Log(models.Model):
     content = models.TextField()
     logTime = models.DateTimeField()
+    user = models.ForeignKey(User)
 
 
