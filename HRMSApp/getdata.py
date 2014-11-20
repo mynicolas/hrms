@@ -5,6 +5,14 @@ from django.contrib.auth.models import User
 import datetime
 
 
+def getUserInstanceSort(user):
+    """
+    获取当前用户的实例排序状态，返回该用户的所有实例名列表
+    user: 当前登陆的用户
+    return: [instanceName, instanceName, ...]
+    """
+    pass
+
 def getAll(user):
     """
     user: 需要的用户对象，如果是管理员则获取数据库中所有的主机信息，如果是普通用户，则返回该用户所在公司的所有主机信息

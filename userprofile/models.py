@@ -8,6 +8,7 @@ class Profile(models.Model):
     answer = models.CharField(max_length = 128, null = True, default = '')
     weixin = models.CharField(max_length = 32)
     phone = models.CharField(max_length = 16)
+    instanceSort = models.TextField()
     user = models.ForeignKey(User, unique = True)
     company = models.ForeignKey(Company)
 

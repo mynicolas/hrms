@@ -6,6 +6,7 @@ admin.autodiscover()
 
 import view
 from HRMSApp import urls
+from userprofile import userUrls
 
 urlpatterns = patterns('',
     # Examples:
@@ -24,5 +25,6 @@ urlpatterns = patterns('',
     url(r'^query/', include(urls)),
     url(r'^allusers/$', view.renderAllUsers),
     url(r'^modifyuseritem/$', view.modifyUserItem),
+    url(r'^user/', include(userUrls)),
     url(r'^test/$', view.test),
 )

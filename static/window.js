@@ -180,14 +180,35 @@ $(document).ready(function()
         });
 
         // 每一个host都可以拖动
-        (function () {
-            $( "#hostsDiv" ).sortable({
+        (function () 
+        {
+            hostsDiv.sortable({
                 distance: 15,
-                placeholder: "ui-state-highlight"
+                placeholder: "ui-state-highlight",
+                stop: saveHostSort
             });         
         })();
 
-        
+        // 生成所有虚拟机的最终排序结果 “vm1,vm2,vm3,...”
+        function saveHostSort() 
+        {
+            var hostNames = new Array();
+            var hosts = hostsDiv.children();
+            hosts.each(function()
+            {
+                var thisHostName = $(this).first().attr('id');
+                hostNames.push(thisHostName);
+            });
+            var thisHostSort = hostNames.toString();
+            post('/user/instances/', 'sort=' + thisHostSort, isSorted);
+        }
+
+        function isSorted (receive)
+        {
+            console.log(receive);
+        }
+
+
 
         // 获取鼠标点击的元素一些关键属性
         function getAttr(element)
