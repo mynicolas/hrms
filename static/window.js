@@ -118,28 +118,31 @@ $(document).ready(function()
         });
     }
 
+    var tableHeader = "<div id = 'tableHeader'>" +
+                            "<div class = 'tableHeaderItem' id = 'hostNameH'>Name</div>" +
+                            "<div class = 'tableHeaderItem' id = 'hostCoreH'>Core</div>" +
+                            "<div class = 'tableHeaderItem' id = 'hostMemH'>Memory (M)</div>" +
+                            "<div class = 'tableHeaderItem' id = 'hostDiskH'>Disk (G)</div>" +
+                            "<div class = 'tableHeaderItem' id = 'hostMacH'>Mac</div>" +
+                            "<div class = 'tableHeaderItem' id = 'hostStartH'>Start Time</div>" +
+                            "<div class = 'tableHeaderItem' id = 'hostEndH'>End Time</div>" +
+                            "<div class = 'tableHeaderItem' id = 'hostCompanyH'>Company</div>" +
+                            "<div class = 'tableHeaderItem' id = 'hostRemotePortH'>Remote Port</div>" +
+                            "<div class = 'tableHeaderItem' id = 'hostDogNH'>Dog Sn</div>" +
+                            "<div class = 'tableHeaderItem' id = 'hostDogPH'>Dog Port</div>" +
+                            "<div class = 'tableHeaderItem' id = 'hostBandwidthH'>BandWidth (Mbps)</div>" +
+                            "<div class = 'tableHeaderItem' id = 'hostNodeH'>Node</div>" +
+                            "<div class = 'tableHeaderItem' id = 'hostIpH'>IP</div>" +
+                        "</div>";
+    rightWindow.prepend(tableHeader);
+
     // 处理all的post数据
     // recevie： 获取的服务器数据(xml)
     function renderAll(receive)
     {
-        rightWindow.empty();
-        var tableHeader = "<div id = 'tableHeader'>" +
-                                "<div class = 'tableHeaderItem' id = 'hostNameH'>Name</div>" +
-                                "<div class = 'tableHeaderItem' id = 'hostCoreH'>Core</div>" +
-                                "<div class = 'tableHeaderItem' id = 'hostMemH'>Memory (M)</div>" +
-                                "<div class = 'tableHeaderItem' id = 'hostDiskH'>Disk (G)</div>" +
-                                "<div class = 'tableHeaderItem' id = 'hostMacH'>Mac</div>" +
-                                "<div class = 'tableHeaderItem' id = 'hostStartH'>Start Time</div>" +
-                                "<div class = 'tableHeaderItem' id = 'hostEndH'>End Time</div>" +
-                                "<div class = 'tableHeaderItem' id = 'hostCompanyH'>Company</div>" +
-                                "<div class = 'tableHeaderItem' id = 'hostRemotePortH'>Remote Port</div>" +
-                                "<div class = 'tableHeaderItem' id = 'hostDogNH'>Dog Sn</div>" +
-                                "<div class = 'tableHeaderItem' id = 'hostDogPH'>Dog Port</div>" +
-                                "<div class = 'tableHeaderItem' id = 'hostBandwidthH'>BandWidth (Mbps)</div>" +
-                                "<div class = 'tableHeaderItem' id = 'hostNodeH'>Node</div>" +
-                                "<div class = 'tableHeaderItem' id = 'hostIpH'>IP</div>" +
-                            "</div>";
-        rightWindow.append(tableHeader);
+        var hostsDiv = $('div#hostsDiv');
+        hostsDiv.empty();
+
         $(receive).find("aHost").each(function()
         {
             var name = $(this).find("name").text();
@@ -157,7 +160,7 @@ $(document).ready(function()
             var node = $(this).find("node").text();
             var ip = $(this).find("ip").text();
 
-            rightWindow.append("<div class = 'aHostDiv' id = '" + name + "'>" + "</div>");
+            hostsDiv.append("<div class = 'aHostDiv' id = '" + name + "'>" + "</div>");
             var aHostDiv = $("div#" + name);
             var aHost = "<div class = 'hostName' name = 'hostItem'>" + name + "</div>" +
                         "<div class = 'hostCore' name = 'hostItem'>" + core + "</div>" +
@@ -175,6 +178,16 @@ $(document).ready(function()
                         "<div class = 'hostIp' name = 'hostItem'>" + ip + "</div>";
             aHostDiv.append(aHost);
         });
+
+        // 每一个host都可以拖动
+        (function () {
+            $( "#hostsDiv" ).sortable({
+                distance: 15,
+                placeholder: "ui-state-highlight"
+            });         
+        })();
+
+        
 
         // 获取鼠标点击的元素一些关键属性
         function getAttr(element)

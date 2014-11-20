@@ -152,4 +152,8 @@ div#hostNodeH, div.hostNode {
 div#hostIpH, div.hostIp {
     width: 140px;
 }
+
+div.hostName:hover {
+    cursor: pointer;
+}
 /*rightWindow end*/
