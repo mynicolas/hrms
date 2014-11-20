@@ -11,7 +11,10 @@ def getUserInstanceSort(user):
     user: 当前登陆的用户
     return: [instanceName, instanceName, ...]
     """
-    pass
+    thisUser = user.get_profile()
+    thisUserSort = thisUser.instanceSort.split(',')
+    return thisUserSort
+
 
 def getAll(user):
     """
