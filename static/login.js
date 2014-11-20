@@ -211,10 +211,7 @@ $(document).ready(function()
         }
         if($('div#loginDiv').is(':visible'))
         {
-            loginSubmit.click(function()
-            {
-                login();
-            });
+            loginSubmit.bind('click', login);
             $(document).keydown(function(e)
             {
                 if(e.keyCode == 13)
@@ -341,8 +338,6 @@ $(document).ready(function()
             $('input#usernameInput').val(newUsername);
             $('input#passwordInput').val(newPassword);
         }
-        if($('div#tipDialogDiv').is(':hidden') && $('div#loginDiv').is(':visible'))
-        {
             $('div#tipDialogButton').click(function()
             {
                 tipDialogClose();
@@ -360,7 +355,6 @@ $(document).ready(function()
                     tipDialogClose();
                 }
             });
-        }
     })();
     /* tipDialog end */
 
