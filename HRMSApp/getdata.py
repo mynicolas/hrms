@@ -210,6 +210,8 @@ def hostElementMap(hostName, hostElement, data):
                 host.remotePort = data
             if hostElement == 'hostDogN':
                 host.dogSn = data
+                if data == '':
+                    host.dogPort = ''
             if hostElement == 'hostBandwidth':
                 host.bandwidth = data
             if hostElement == 'hostStart':

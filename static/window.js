@@ -121,16 +121,16 @@ $(document).ready(function()
     var tableHeader = "<div id = 'tableHeader'>" +
                             "<div class = 'tableHeaderItem' id = 'hostNameH'>Name</div>" +
                             "<div class = 'tableHeaderItem' id = 'hostCoreH'>Core</div>" +
-                            "<div class = 'tableHeaderItem' id = 'hostMemH'>Memory (M)</div>" +
-                            "<div class = 'tableHeaderItem' id = 'hostDiskH'>Disk (G)</div>" +
+                            "<div class = 'tableHeaderItem' id = 'hostMemH'>Memory<br/>(M)</div>" +
+                            "<div class = 'tableHeaderItem' id = 'hostDiskH'>Disk<br/>(G)</div>" +
                             "<div class = 'tableHeaderItem' id = 'hostMacH'>Mac</div>" +
-                            "<div class = 'tableHeaderItem' id = 'hostStartH'>Start Time</div>" +
-                            "<div class = 'tableHeaderItem' id = 'hostEndH'>End Time</div>" +
+                            "<div class = 'tableHeaderItem' id = 'hostStartH'>Start Time<br/>(M/D/Y)</div>" +
+                            "<div class = 'tableHeaderItem' id = 'hostEndH'>End Time<br/>(M/D/Y)</div>" +
                             "<div class = 'tableHeaderItem' id = 'hostCompanyH'>Company</div>" +
                             "<div class = 'tableHeaderItem' id = 'hostRemotePortH'>Remote Port</div>" +
                             "<div class = 'tableHeaderItem' id = 'hostDogNH'>Dog Sn</div>" +
                             "<div class = 'tableHeaderItem' id = 'hostDogPH'>Dog Port</div>" +
-                            "<div class = 'tableHeaderItem' id = 'hostBandwidthH'>BandWidth (Mbps)</div>" +
+                            "<div class = 'tableHeaderItem' id = 'hostBandwidthH'>BandWidth<br/>(Mbps)</div>" +
                             "<div class = 'tableHeaderItem' id = 'hostNodeH'>Node</div>" +
                             "<div class = 'tableHeaderItem' id = 'hostIpH'>IP</div>" +
                         "</div>";
