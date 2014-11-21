@@ -143,6 +143,7 @@ $(document).ready(function()
         var hostsDiv = $('div#hostsDiv');
         hostsDiv.empty();
 
+        var thisColor = false;
         $(receive).find("aHost").each(function()
         {
             var name = $(this).find("name").text();
@@ -159,6 +160,16 @@ $(document).ready(function()
             var bandwidth = $(this).find("bandwidth").text();
             var node = $(this).find("node").text();
             var ip = $(this).find("ip").text();
+
+            var thisHostColor;
+            if(thisColor)
+            {
+                thisHostColor = "#5CDFFF";
+            }
+            else
+            {
+                thisHostColor = "rgba(0, 0, 0, 0)";
+            }
 
             hostsDiv.append("<div class = 'aHostDiv' id = '" + name + "'>" + "</div>");
             var aHostDiv = $("div#" + name);
@@ -177,9 +188,11 @@ $(document).ready(function()
                         "<div class = 'hostNode' name = 'hostItem'>" + node + "</div>" +
                         "<div class = 'hostIp' name = 'hostItem'>" + ip + "</div>";
             aHostDiv.append(aHost);
+            aHostDiv.css('background-color', thisHostColor);
+            thisColor = !thisColor;
         });
 
-        // 每一个host都可以拖动
+        // 每一个host都可以拖动,当拖动结束，保存当前排序
         (function () 
         {
             hostsDiv.sortable({
@@ -205,7 +218,10 @@ $(document).ready(function()
 
         function isSorted (receive)
         {
-            console.log(receive);
+            if(receive == "successful")
+            {
+                queryAll();
+            }
         }
 
 
