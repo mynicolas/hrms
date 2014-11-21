@@ -35,33 +35,31 @@ def renderAll(request):
     thisUser = request.user
     if request.method == 'POST':
         sendContent = "<xml>"
-        companies = getAll(thisUser)
-        if companies == 'empty':
+        instances = getUserInstances(thisUser)
+        if instances == "empty":
             return HttpResponse('empty')
-        for aCompany in companies:
-            companyName = aCompany['companyName']
-            _instances = aCompany['instances']
-            for instance in _instances:
-                sendContent += "<aHost>" +\
-                "<name>" + instance['instanceName'] + "</name>" +\
-                "<core>" + instance['core'] + "</core>" +\
-                "<mem>" + instance['mem'] + "</mem>" +\
-                "<disk>" + instance['dataDisk'] + "</disk>" +\
-                "<mac>" + instance['macAddress'] + "</mac>" +\
-                "<start>" + instance['startDate'] + "</start>" +\
-                "<end>" + instance['useInterval'] + "</end>" +\
-                "<bandwidth>" + instance['bandwidth'] + "</bandwidth>" +\
-                "<company>" + companyName + "</company>" +\
-                "<remotePort>" + instance['remotePort'] + "</remotePort>" +\
-                "<ip>" + instance['ip'] + "</ip>" +\
-                "<dogN>" + instance['dogSn'] + "</dogN>" +\
-                "<dogP>" + instance['dogPort'] + "</dogP>" +\
-                "<node>" + instance['nodeName'][0] + "</node></aHost>"
+        for aInstance in instances:
+            sendContent += "<aHost>" +\
+            "<name>" + aInstance['instanceName'] + "</name>" +\
+            "<core>" + aInstance['core'] + "</core>" +\
+            "<mem>" + aInstance['mem'] + "</mem>" +\
+            "<disk>" + aInstance['dataDisk'] + "</disk>" +\
+            "<mac>" + aInstance['macAddress'] + "</mac>" +\
+            "<start>" + aInstance['startDate'] + "</start>" +\
+            "<end>" + aInstance['useInterval'] + "</end>" +\
+            "<bandwidth>" + aInstance['bandwidth'] + "</bandwidth>" +\
+            "<company>" + aInstance['companyName'] + "</company>" +\
+            "<remotePort>" + aInstance['remotePort'] + "</remotePort>" +\
+            "<ip>" + aInstance['ip'] + "</ip>" +\
+            "<dogN>" + aInstance['dogSn'] + "</dogN>" +\
+            "<dogP>" + aInstance['dogPort'] + "</dogP>" +\
+            "<node>" + aInstance['nodeName'] + "</node>"
+            sendContent += "</aHost>"
 
         sendContent += "</xml>"
         return HttpResponse(sendContent)
     else:
-        return HttpResponse("not found")
+        return HttpResponse("404 not found")
 
 @login_required
 @csrf_exempt

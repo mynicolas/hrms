@@ -15,67 +15,102 @@ def getUserInstanceSort(user):
     thisUserSort = thisUser.instanceSort.split(',')
     return thisUserSort
 
-
-def getAll(user):
+def setUserInstanceSort(user):
     """
-    user: 需要的用户对象，如果是管理员则获取数据库中所有的主机信息，如果是普通用户，则返回该用户所在公司的所有主机信息
-    获取所有的公司以及每一个公司的所有实例，以及每一个实例的所有计算节点
-    :return: [{'companyName': companyName,
-               'instances': [{'instanceName': instanceName,
+    如果该用户的instanceSort为空，则将该用户所有的实例名不排序保存到instanceSort中
+    user: 当前登陆的用户
+    return: boolean
+    """
+    instanceNameSort = user.get_profile()
+    isEmpty = instanceNameSort.instanceSort
+    if isEmpty:
+        return True
+    else:
+        if user.is_superuser:
+            companies = Company.objects.all()
+            instanceNames = []
+            for company in companies:
+                instances = company.instance_set.all()
+                for instance in instances:
+                    instanceNames.append(instance.instanceName)
+        else:
+            thisUser = User.objects.get(username = user.username)
+            instances = thisUser.get_profile().company.instance_set.all()
+            for instance in instances:
+                instanceNames.append(instance.instanceName)
+
+        instanceNameSort.instanceSort = ','.join(instanceNames)
+        instanceNameSort.save()
+        return False
+
+def getUserInstances(user):
+    """
+    获取当前用户的所有实例
+    user: 当前登陆的用户
+    return: [{instances': [{'instanceName': instanceName,
                                 ...
                               'nodes': [node1, node2, ...]
                              },
                              ...
                             ]
-              }
+              },
               ...
              ]
     """
+    setUserInstanceSort(user)
+
+    instanceNames = getUserInstanceSort(user)                           # 获取当前用户已经排序好的实例名列表
     companyName = user.get_profile().company.companyName
-    if user.is_superuser:
+    if user.is_superuser:                                               # 如果该用户是管理员则获取所有的公司对象
         companies = Company.objects.all()
-    else:
+    else:                                                               # 如果该用户不是管理员则获取该用户所在的公司对象
         companies = Company.objects.filter(companyName = companyName)
 
-    allCompany = []
-    if not companies:
-        return 'empty'
-    for company in companies:                           # 对每一个公司对象进行处理
-        dataCompany = {}
-        companyName = company.companyName
-        dataCompany.update({'companyName': companyName})
+    if not companies:                                                   # 如果公司列表为空，则返回"empty"
+        return "empty"
 
-        instances = company.instance_set.all()          # 获取每一个公司的所有实例
-        dataInstances = []
-        for instance in instances:                      # 对每一个实例进行处理
-            date = instance.startDate
-            aInstance = {
-                'instanceName': instance.instanceName.encode('utf-8'),
-                'core': instance.vcpus.encode('utf-8'),
-                'mem': instance.mem.encode('utf-8'),
-                'dataDisk': instance.dataDisk.encode('utf-8'),
-                'macAddress': instance.macAddress.encode('utf-8'),
-                'startDate': "%s/%s/%s" % (str(date.month), str(date.day), str(date.year)),
-                'useInterval': daysToDate(date, instance.useInterval),
-                'bandwidth': instance.bandwidth.encode('utf-8'),
-                'remotePort' : instance.remotePort.encode('utf-8'),
-                'ip': instance.ip.encode('utf-8'),
-                'dogSn': instance.dogSn.encode('utf-8'),
-                'dogPort': instance.dogPort.encode('utf-8')
-            }
+    allInstances = []
+    for company in companies:
+        allInstances += company.instance_set.all()                      # 获取该用户的所有实例
+    deltaInstanceCount = len(allInstances) - len(instanceNames)         # 计算所有实例与已经排序的实例总数的差
 
-            nodes = instance.node_set.all()             # 获取每一个实例的所有计算节点
-            dataNodes = []
-            for node in nodes:
-                dataNodes.append(node.nodeName.encode('utf-8'))
-            aInstance.update({'nodeName': dataNodes})
 
-            dataInstances.append(aInstance)
-        dataCompany.update({'instances': dataInstances})
+    try:                                                                # 如果该用户没有实例返回"empty"
+        instanceObjects = [Instance.objects.get(instanceName = i) for i in instanceNames]
+    except:
+        return "empty"
 
-        allCompany.append(dataCompany)
+    if not deltaInstanceCount:                                          # 如果总数差为0，则只需按照已经排序好的实例名获取实例
+        instanceObjects = instanceObjects
+    else:                                                               # 如果总数差不为0，说明有新增实例，则除了要按照已经排序好的实例名获取实例外还需要获取新增实例                               
+        instanceObjects += allInstances[-deltaInstanceCount:]
 
-    return allCompany
+    instances = []
+    for instance in instanceObjects:
+        date = instance.startDate
+        aInstance = {
+            'instanceName': instance.instanceName.encode('utf-8'),
+            'core': instance.vcpus.encode('utf-8'),
+            'mem': instance.mem.encode('utf-8'),
+            'dataDisk': instance.dataDisk.encode('utf-8'),
+            'macAddress': instance.macAddress.encode('utf-8'),
+            'startDate': "%s/%s/%s" % (str(date.month), str(date.day), str(date.year)),
+            'useInterval': daysToDate(date, instance.useInterval),
+            'bandwidth': instance.bandwidth.encode('utf-8'),
+            'remotePort': instance.remotePort.encode('utf-8'),
+            'companyName': instance.company.companyName.encode('utf-8'),
+            'ip': instance.ip.encode('utf-8'),
+            'dogSn': instance.dogSn.encode('utf-8'),
+            'dogPort': instance.dogPort.encode('utf-8')
+        }
+
+        nodes = instance.node_set.all()                         # 获取每一个实例的所有计算节点
+        dataNodes = []
+        for node in nodes[0:1]:
+            dataNodes.append(node.nodeName.encode('utf-8'))
+        aInstance.update({'nodeName': dataNodes[0]})
+        instances.append(aInstance)
+    return instances
 
 def daysToDate(then, days):
     """
