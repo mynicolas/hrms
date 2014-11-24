@@ -29,6 +29,7 @@ from django.contrib.auth.decorators import login_required
 </xml>
 """
 
+
 @login_required
 @csrf_exempt
 def renderAll(request):
@@ -39,20 +40,20 @@ def renderAll(request):
         if instances == "empty":
             return HttpResponse('empty')
         for aInstance in instances:
-            sendContent += "<aHost>" +\
-            "<name>" + aInstance['instanceName'] + "</name>" +\
-            "<core>" + aInstance['core'] + "</core>" +\
-            "<mem>" + aInstance['mem'] + "</mem>" +\
-            "<disk>" + aInstance['dataDisk'] + "</disk>" +\
-            "<mac>" + aInstance['macAddress'] + "</mac>" +\
-            "<start>" + aInstance['startDate'] + "</start>" +\
-            "<end>" + aInstance['useInterval'] + "</end>" +\
-            "<bandwidth>" + aInstance['bandwidth'] + "</bandwidth>" +\
-            "<company>" + aInstance['companyName'] + "</company>" +\
-            "<remotePort>" + aInstance['remotePort'] + "</remotePort>" +\
-            "<ip>" + aInstance['ip'] + "</ip>" +\
-            "<dogN>" + aInstance['dogSn'] + "</dogN>" +\
-            "<dogP>" + aInstance['dogPort'] + "</dogP>" +\
+            sendContent += "<aHost>" +
+            "<name>" + aInstance['instanceName'] + "</name>" +
+            "<core>" + aInstance['core'] + "</core>" +
+            "<mem>" + aInstance['mem'] + "</mem>" +
+            "<disk>" + aInstance['dataDisk'] + "</disk>" +
+            "<mac>" + aInstance['macAddress'] + "</mac>" +
+            "<start>" + aInstance['startDate'] + "</start>" +
+            "<end>" + aInstance['useInterval'] + "</end>" +
+            "<bandwidth>" + aInstance['bandwidth'] + "</bandwidth>" +
+            "<company>" + aInstance['companyName'] + "</company>" +
+            "<remotePort>" + aInstance['remotePort'] + "</remotePort>" +
+            "<ip>" + aInstance['ip'] + "</ip>" +
+            "<dogN>" + aInstance['dogSn'] + "</dogN>" +
+            "<dogP>" + aInstance['dogPort'] + "</dogP>" +
             "<node>" + aInstance['nodeName'] + "</node>"
             sendContent += "</aHost>"
 
@@ -60,6 +61,7 @@ def renderAll(request):
         return HttpResponse(sendContent)
     else:
         return HttpResponse("404 not found")
+
 
 @login_required
 @csrf_exempt
@@ -103,6 +105,7 @@ def renderIp(request):
 
     return HttpResponse(sendContent)
 
+
 @csrf_exempt
 def renderCompanies(request):
     """
@@ -126,6 +129,7 @@ def renderNode(request):
     """
     pass
 
+
 @login_required
 @csrf_exempt
 def renderHost(request):
@@ -147,6 +151,7 @@ def renderHost(request):
     else:
         saveLog(request.user)
         return HttpResponse("not found")
+
 
 @login_required
 @csrf_exempt
@@ -191,6 +196,7 @@ def addHost(request):
         sendContent = "error"
     return HttpResponse(sendContent)
 
+
 @login_required
 @csrf_exempt
 def addIp(request):
@@ -203,6 +209,7 @@ def addIp(request):
         return HttpResponse(isSave)
     else:
         return HttpResponse('error')
+
 
 @login_required
 @csrf_exempt
@@ -221,6 +228,7 @@ def renderLog(request):
         sendContent = "error"
 
     return HttpResponse(sendContent)
+
 
 @login_required
 @csrf_exempt
