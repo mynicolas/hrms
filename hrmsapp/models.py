@@ -20,10 +20,10 @@ class Instance(models.Model):
     dataDisk = models.CharField(max_length=10, null=False)
     startTime = models.DateTimeField(default=datetime.datetime.now())
     useInterval = models.IntegerField(max_length=6, null=False, default=365)
-    bandwidth = models.CharField(max_length=4, null=False)
-    user = models.ForeignKey(User)
-    nodeHost = models.ForeignKey(NodeHost)
-    company = models.ForeignKey(Company)
+    bandwidth = models.CharField(max_length=4, null=True)
+    user = models.ForeignKey(User, null=False)
+    nodeHost = models.ForeignKey(NodeHost, null=False)
+    company = models.ForeignKey(Company, null=True)
 
 
 class Ip(models.Model):
@@ -64,7 +64,7 @@ def getVms(start=0, end=10):
 
 class Vm(objects):
     def __init__(self, vmName):
-        self.instanceName = None
+        self.instanceName = vmName
         self.vcpus = None
         self.mem = None
         self.dataDisk = None
@@ -75,16 +75,16 @@ class Vm(objects):
         self.company = None
         self.dogSn = {}
         self.dogPort = []
+        self.ip = []
+        self.mac = []
         self.owner = None
         self.existed = False
 
         try:
-            thisInstance = Instance.objects.get(instanceName=vmName)
+            thisInstance = Instance.objects.get(instanceName=self.instanceName)
         except Instance.DoesNotExist:
-            self.instanceName = vmName
             self.existed = False
         else:
-            self.instanceName = vmName
             self.vcpus = thisInstance.vcpus
             self.mem = thisInstance.mem
             self.dataDisk = thisInstance.dataDisk
@@ -117,7 +117,9 @@ class Vm(objects):
         company=None,
         dogSn=None,
         dogPort=None,
-        owner=None,
+        ip=None,
+        mac=None,
+        owner=None
     ):
         # 如果该实例不存在，则创建新实例
         if not self.existed:
@@ -133,7 +135,7 @@ class Vm(objects):
                 company=self.company,
                 dogSn=self.dogSn,
                 dogPort=self.dogPort,
-                dogPort=self.owner
+                owner=self.owner
             )
 
         # 如果该实例已存在，则修改该实例的相关信息
@@ -147,9 +149,6 @@ class Vm(objects):
 
         if not mem:
             thisInstance.mem = mem
-
-        if not mem:
-            thisInstance.dataDisk = dataDisk
 
         if not dataDisk:
             thisInstance.dataDisk = dataDisk
@@ -168,6 +167,13 @@ class Vm(objects):
 
         if not company:
             thisInstance.company = Company.objects.get(companName=company)
+
+        if not dogPort:
+            for i in dogPort:
+                thisPort = UsbPort.objects.get(port=i)
+                thisPort.instance = thisInstance
+                thisPort.save()
+
         thisInstance.save()
 
     def __create(
@@ -176,14 +182,16 @@ class Vm(objects):
         vcpus=None,
         mem=None,
         dataDisk=None,
-        startTime=None,
-        useInterval=None,
-        bandwidth=None,
+        startTime=None,     #
+        useInterval=None,   #
+        bandwidth=None,     #
         nodeHost=None,
-        company=None,
-        dogSn=None,
-        dogPort=None,
-        owner=None,
+        company=None,   #
+        dogSn=None,     #
+        dogPort=None,   #
+        ip=None,    #
+        mac=None,   #
+        owner=None
     ):
         """
         创建一个新的instance, 判断ip, mac, dogPort是否已经被使用
@@ -197,10 +205,16 @@ class Vm(objects):
                 nodeHost: 节点
                 company: 公司名
                 dogSn: 狗号
-                dogPort: 狗
+                dogPort: 狗端口
                 owner: 拥有者
         return: boolean
         """
-        try:
-            
+        thisInstance = owner.instance_set.create(
+            vmName=vmName,
+            vcpus=vcpus,
+            mem=mem,
+            dataDisk=dataDisk,
+            nodeHost=NodeHost.objects.get(node=nodeHost),
+        )
+        thisInstance.save()
         return True
