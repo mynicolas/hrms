@@ -23,7 +23,7 @@ DATABASES = {
         'NAME': 'ynnicVM',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': '123456',
         'HOST': '127.0.0.1',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
         'PORT': '3306',                      # Set to empty string for default.
     }
@@ -77,7 +77,8 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    'D:/HRMS/static',
+    #'D:/HRMS/static',
+    '/root/HRMS/static',
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -117,6 +118,7 @@ ROOT_URLCONF = 'HRMS.urls'
 WSGI_APPLICATION = 'HRMS.wsgi.application'
 
 TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), '..', 'templates').replace('\\','/'),)
+
 
 INSTALLED_APPS = (
     'django.contrib.auth',

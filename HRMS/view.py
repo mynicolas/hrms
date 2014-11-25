@@ -3,14 +3,14 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.contrib import auth
-from django.contrib.auth.decorators import login_required
+#from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.encoding import smart_str
 from getdata import *
 from HRMSApp.models import *
 
-@login_required
+#@login_required
 def redirectLogin(request):
     """
     如果没有登陆，重定向到登陆页面，如果已登陆，则进入主页
@@ -23,7 +23,7 @@ def renderLogin(request):
     """
     return render_to_response('login.html')
 
-@login_required
+#@login_required
 def renderIndex(request):
     """
     如果没有登陆，重定向到登陆页面，如果已经登陆则渲染主页视图
@@ -79,13 +79,13 @@ def register(request):
     else:
         return HttpResponse('404 not found')
 
-@login_required
+#@login_required
 def logout(request):
     auth.logout(request)
     return HttpResponseRedirect('/login/')
 
 @csrf_exempt
-@login_required
+#@login_required
 def renderAllUsers(request):
     """
     获取所有用户及相关信息
@@ -132,7 +132,7 @@ def renderAllUsers(request):
 
 
 @csrf_exempt
-@login_required
+#@login_required
 def modifyUserItem(request):
     if request.method == "POST":
         username = smart_str(request.POST['username'])
@@ -152,6 +152,6 @@ def modifyUserItem(request):
     return HttpResponse(sendContent)
 
 @csrf_exempt
-@login_required
+#@login_required
 def test(request):
     return HttpResponse(type(request.user.username))

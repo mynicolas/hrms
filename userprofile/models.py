@@ -10,7 +10,7 @@ class Profile(models.Model):
     phone = models.CharField(max_length = 16)
     instanceSort = models.TextField()
     user = models.ForeignKey(User, unique = True)
-    company = models.ForeignKey(Company)
+    #company = models.ForeignKey(Company)
 
 
 
