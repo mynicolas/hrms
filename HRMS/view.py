@@ -10,6 +10,7 @@ from django.utils.encoding import smart_str
 from getdata import *
 from HRMSApp.models import *
 
+
 @login_required
 def redirectLogin(request):
     """
@@ -17,18 +18,25 @@ def redirectLogin(request):
     """
     return HttpResponseRedirect('/index/')
 
+
 def renderLogin(request):
     """
     渲染登陆视图
     """
     return render_to_response('login.html')
 
+
 @login_required
 def renderIndex(request):
     """
     如果没有登陆，重定向到登陆页面，如果已经登陆则渲染主页视图
     """
-    return render_to_response('index.html', {'username': request.user.username, 'isSuperuser': request.user.is_superuser})
+    return render_to_response(
+        'index.html', {
+            'username': request.user.username,
+            'isSuperuser': request.user.is_superuser
+            })
+
 
 @csrf_exempt
 def login(request):
@@ -38,12 +46,13 @@ def login(request):
     if request.method == 'POST':
         username = smart_str(request.POST['username'])
         password = smart_str(request.POST['password'])
-        user = auth.authenticate(username = username, password = password)
+        user = auth.authenticate(username=username, password=password)
         if user is not None and user.is_active:
             auth.login(request, user)
             return HttpResponseRedirect('/index/')
         else:
             return HttpResponse('error')
+
 
 @csrf_exempt
 def register(request):
@@ -57,32 +66,42 @@ def register(request):
         question = smart_str(request.POST['question'])
         answer = smart_str(request.POST['answer'])
         try:
-            User.objects.get(username = username)
+            User.objects.get(username=username)
             return HttpResponse('username existed')
         except:
             try:
-                thisCompany = Company.objects.get(companyName = company)
+                thisCompany = Company.objects.get(companyName=company)
             except:
-                thisCompany = Company.objects.create(companyName = company)
+                thisCompany = Company.objects.create(companyName=company)
                 thisCompany.save()
 
-            newUser = User.objects.create_user(username = username, password = password, email = email)
+            newUser = User.objects.create_user(
+                username=username, password=password, email=email
+                )
             newUser.is_staff = False
             newUser.is_active = False
             newUser.is_superuser = False
             newUser.save()
-            thisUser = User.objects.get(username = username)
-            thisUser.profile_set.create(weixin = weixin, phone = phone, question = question, answer = answer, company = thisCompany)
+            thisUser = User.objects.get(username=username)
+            thisUser.profile_set.create(
+                weixin=weixin,
+                phone=phone,
+                question=question,
+                answer=answer,
+                company=thisCompany
+                )
             thisUser.save()
 
             return HttpResponse('register successful')
     else:
         return HttpResponse('404 not found')
 
+
 @login_required
 def logout(request):
     auth.logout(request)
     return HttpResponseRedirect('/login/')
+
 
 @csrf_exempt
 @login_required
@@ -112,18 +131,30 @@ def renderAllUsers(request):
             sendContent = "<xml>"
             for aUser in users:
                 sendContent += "<user>"
-                sendContent += "<username>%s</username>" % aUser['username'].encode('utf-8')
-                sendContent += "<password>%s</password>" % aUser['password'].encode('utf-8')
-                sendContent += "<email>%s</email>" % aUser['email'].encode('utf-8')
-                sendContent += "<company>%s</company>" % aUser['companyname'].encode('utf-8')
-                sendContent += "<datejoined>%s</datejoined>" % aUser['date_joined'].encode('utf-8')
-                sendContent += "<lastlogin>%s</lastlogin>" % aUser['last_login'].encode('utf-8')
-                sendContent += "<isactive>%s</isactive>" % aUser['is_active'].encode('utf-8')
-                sendContent += "<isstaff>%s</isstaff>" % aUser['is_staff'].encode('utf-8')
-                sendContent += "<weixin>%s</weixin>" % aUser['weixin'].encode('utf-8')
-                sendContent += "<phone>%s</phone>" % aUser['phone'].encode('utf-8')
-                sendContent += "<question>%s</question>" % aUser['question'].encode('utf-8')
-                sendContent += "<answer>%s</answer>" % aUser['answer'].encode('utf-8')
+                sendContent += "<username>%s\</username>" %\
+                    aUser['username'].encode('utf-8')
+                sendContent += "<password>%s</password>" %\
+                    aUser['password'].encode('utf-8')
+                sendContent += "<email>%s</email>" %\
+                    aUser['email'].encode('utf-8')
+                sendContent += "<company>%s</company>" %\
+                    aUser['companyname'].encode('utf-8')
+                sendContent += "<datejoined>%s</datejoined>" %\
+                    aUser['date_joined'].encode('utf-8')
+                sendContent += "<lastlogin>%s</lastlogin>" %\
+                    aUser['last_login'].encode('utf-8')
+                sendContent += "<isactive>%s</isactive>" %\
+                    aUser['is_active'].encode('utf-8')
+                sendContent += "<isstaff>%s</isstaff>" %\
+                    aUser['is_staff'].encode('utf-8')
+                sendContent += "<weixin>%s</weixin>" %\
+                    aUser['weixin'].encode('utf-8')
+                sendContent += "<phone>%s</phone>" %\
+                    aUser['phone'].encode('utf-8')
+                sendContent += "<question>%s</question>" %\
+                    aUser['question'].encode('utf-8')
+                sendContent += "<answer>%s</answer>" %\
+                    aUser['answer'].encode('utf-8')
                 sendContent += "</user>"
             sendContent += "</xml>"
     else:
@@ -150,6 +181,7 @@ def modifyUserItem(request):
     else:
         sendContent = "404 not found"
     return HttpResponse(sendContent)
+
 
 @csrf_exempt
 @login_required

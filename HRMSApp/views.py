@@ -40,21 +40,21 @@ def renderAll(request):
         if instances == "empty":
             return HttpResponse('empty')
         for aInstance in instances:
-            sendContent += "<aHost>" +
-            "<name>" + aInstance['instanceName'] + "</name>" +
-            "<core>" + aInstance['core'] + "</core>" +
-            "<mem>" + aInstance['mem'] + "</mem>" +
-            "<disk>" + aInstance['dataDisk'] + "</disk>" +
-            "<mac>" + aInstance['macAddress'] + "</mac>" +
-            "<start>" + aInstance['startDate'] + "</start>" +
-            "<end>" + aInstance['useInterval'] + "</end>" +
-            "<bandwidth>" + aInstance['bandwidth'] + "</bandwidth>" +
-            "<company>" + aInstance['companyName'] + "</company>" +
-            "<remotePort>" + aInstance['remotePort'] + "</remotePort>" +
-            "<ip>" + aInstance['ip'] + "</ip>" +
-            "<dogN>" + aInstance['dogSn'] + "</dogN>" +
-            "<dogP>" + aInstance['dogPort'] + "</dogP>" +
-            "<node>" + aInstance['nodeName'] + "</node>"
+            sendContent += "<aHost>" +\
+                "<name>" + aInstance['instanceName'] + "</name>" +\
+                "<core>" + aInstance['core'] + "</core>" +\
+                "<mem>" + aInstance['mem'] + "</mem>" +\
+                "<disk>" + aInstance['dataDisk'] + "</disk>" +\
+                "<mac>" + aInstance['macAddress'] + "</mac>" +\
+                "<start>" + aInstance['startDate'] + "</start>" +\
+                "<end>" + aInstance['useInterval'] + "</end>" +\
+                "<bandwidth>" + aInstance['bandwidth'] + "</bandwidth>" +\
+                "<company>" + aInstance['companyName'] + "</company>" +\
+                "<remotePort>" + aInstance['remotePort'] + "</remotePort>" +\
+                "<ip>" + aInstance['ip'] + "</ip>" +\
+                "<dogN>" + aInstance['dogSn'] + "</dogN>" +\
+                "<dogP>" + aInstance['dogPort'] + "</dogP>" +\
+                "<node>" + aInstance['nodeName'] + "</node>"
             sendContent += "</aHost>"
 
         sendContent += "</xml>"
@@ -68,7 +68,8 @@ def renderAll(request):
 def renderIp(request):
     """
     当前端点击ip的下拉框时，request包含一个键（host = hostName），本函数用来选来渲染下拉列表，从数据库中传出所有状态为未使用的ip
-    当前端选择某个ip时，request包含三个键（host = hostName, originalIp = oldIp, newIp = ip）本函数用来将原ip的状态设置为未使用，将新ip设置为已使用
+    当前端选择某个ip时，request包含三个键（host = hostName, originalIp = oldIp, newIp = ip）
+    本函数用来将原ip的状态设置为未使用，将新ip设置为已使用
     """
     try:
         hostName = smart_str(request.POST['hostName'])
@@ -90,14 +91,15 @@ def renderIp(request):
         sendContent += "</xml>"
 
     elif hostName and originalIp and newIp:
-        host = Instance.objects.get(instanceName = hostName)
+        host = Instance.objects.get(instanceName=hostName)
         host.ip = newIp
         host.save()
         isSaved = setIp(originalIp, newIp)
         if isSaved:
             sendContent = "successful"
 
-            saveLog(request.user, "%s %s change IP '%s' to '%s'" %(request.user.username, hostName, originalIp, newIp))
+            saveLog(request.user, "%s %s change IP '%s' to '%s'" % (
+                request.user.username, hostName, originalIp, newIp))
         else:
             sendContent = "error"
     else:
@@ -124,8 +126,10 @@ def renderCompanies(request):
 @csrf_exempt
 def renderNode(request):
     """
-    当前端点击node的下拉框时，request包含一个键（host = hostName），本函数用来选来渲染下拉列表，从数据库中传出所有状态为未使用的ip
-    当前端选择某个node时，request包含三个键（host = hostName, originalIp = oldIp, newIp = ip）本函数用来将原ip的状态设置为未使用，将新ip设置为已使用
+    当前端点击node的下拉框时，request包含一个键（host = hostName），
+    本函数用来选来渲染下拉列表，从数据库中传出所有状态为未使用的ip
+    当前端选择某个node时，request包含三个键（host = hostName, originalIp = oldIp, newIp = ip）
+    本函数用来将原ip的状态设置为未使用，将新ip设置为已使用
     """
     pass
 
@@ -137,7 +141,8 @@ def renderHost(request):
     修改主机的可修改元素
     request.POST中包含三个键
     hostName: 主机名，对应数据库中的Instance表中的instanceName
-    hostElement: 对应数据库中的Instance表中的除了instanceName, dogSn, dogPort, node, ip, company的其他字段
+    hostElement: 对应数据库中的Instance表中的除了
+    instanceName, dogSn, dogPort, node, ip, company的其他字段
     data: 修改后的数据，将元数据修改为data
     """
     if request.method == 'POST':
@@ -146,7 +151,9 @@ def renderHost(request):
         data = smart_str(request.POST['data'])
         isSaved = hostElementMap(hostName, hostElement, data)
 
-        saveLog(request.user, "%s The '%s' of virtual machine '%s' was changed to '%s'" % (request.user.username, hostElement, hostName, data))
+        saveLog(request.user, "%s The '%s' of virtual \
+            machine '%s' was changed to '%s'" % (
+                request.user.username, hostElement, hostName, data))
         return HttpResponse(isSaved)
     else:
         saveLog(request.user)
@@ -175,23 +182,25 @@ def addHost(request):
         node = smart_str(request.POST['hostNode'])
         ip = smart_str(request.POST['hostIp'])
 
-        sendContent = addNewHost(name,
-                                    hostCore = core,
-                                    hostMem = mem,
-                                    hostDisk = disk,
-                                    hostMac = mac,
-                                    hostStart = start,
-                                    hostEnd = end,
-                                    hostCompany = company,
-                                    hostRemotePort = remotePort,
-                                    hostDogN = dogN,
-                                    hostDogP = dogP,
-                                    hostBandwidth = bandwidth,
-                                    hostNode = node,
-                                    hostIp = ip)
+        sendContent = addNewHost(
+            name,
+            hostCore=core,
+            hostMem=mem,
+            hostDisk=disk,
+            hostMac=mac,
+            hostStart=start,
+            hostEnd=end,
+            hostCompany=company,
+            hostRemotePort=remotePort,
+            hostDogN=dogN,
+            hostDogP=dogP,
+            hostBandwidth=bandwidth,
+            hostNode=node,
+            hostIp=ip)
 
         if sendContent == 'successful':
-            saveLog(request.user, "%s The new virtual machine '%s' was created" % (request.user.username, name))
+            saveLog(request.user, "%s The new virtual \
+                machine '%s' was created" % (request.user.username, name))
     else:
         sendContent = "error"
     return HttpResponse(sendContent)
@@ -239,7 +248,8 @@ def renderLogCondition(request):
         if condition == 'time':
             interval = smart_str(request.POST['interval'])
             hostName = smart_str(request.POST['hostname'])
-            logs = conditionLog(request.user, condition, hostName = hostName, interval = interval)
+            logs = conditionLog(
+                request.user, condition, hostName=hostName, interval=interval)
 
         elif condition == 'hostname':
             logs = conditionLog(request.user, condition)
@@ -357,6 +367,3 @@ def renderLogCondition(request):
 #             sendContent += "<node>" + node + "</node>"
 #         sendContent += "</xml>"
 #         return HttpResponse(sendContent)
-
-
-

@@ -15,6 +15,7 @@ def getUserInstanceSort(user):
     thisUserSort = thisUser.instanceSort.split(',')
     return thisUserSort
 
+
 def setUserInstanceSort(user):
     """
     如果该用户的instanceSort为空，则将该用户所有的实例名不排序保存到instanceSort中
@@ -34,7 +35,7 @@ def setUserInstanceSort(user):
                 for instance in instances:
                     instanceNames.append(instance.instanceName)
         else:
-            thisUser = User.objects.get(username = user.username)
+            thisUser = User.objects.get(username=user.username)
             instances = thisUser.get_profile().company.instance_set.all()
             for instance in instances:
                 instanceNames.append(instance.instanceName)
@@ -42,6 +43,7 @@ def setUserInstanceSort(user):
         instanceNameSort.instanceSort = ','.join(instanceNames)
         instanceNameSort.save()
         return False
+
 
 def getUserInstances(user):
     """
@@ -59,30 +61,32 @@ def getUserInstances(user):
     """
     setUserInstanceSort(user)
 
-    instanceNames = getUserInstanceSort(user)                           # 获取当前用户已经排序好的实例名列表
+    instanceNames = getUserInstanceSort(user)    # 获取当前用户已经排序好的实例名列表
     companyName = user.get_profile().company.companyName
-    if user.is_superuser:                                               # 如果该用户是管理员则获取所有的公司对象
+    if user.is_superuser:    # 如果该用户是管理员则获取所有的公司对象
         companies = Company.objects.all()
-    else:                                                               # 如果该用户不是管理员则获取该用户所在的公司对象
-        companies = Company.objects.filter(companyName = companyName)
+    else:    # 如果该用户不是管理员则获取该用户所在的公司对象
+        companies = Company.objects.filter(companyName=companyName)
 
-    if not companies:                                                   # 如果公司列表为空，则返回"empty"
+    if not companies:     # 如果公司列表为空，则返回"empty"
         return "empty"
 
     allInstances = []
     for company in companies:
-        allInstances += company.instance_set.all()                      # 获取该用户的所有实例
-    deltaInstanceCount = len(allInstances) - len(instanceNames)         # 计算所有实例与已经排序的实例总数的差
+        allInstances += company.instance_set.all()     # 获取该用户的所有实例
+    deltaInstanceCount =\
+        len(allInstances) - len(instanceNames)     # 计算所有实例与已经排序的实例总数的差
 
-
-    try:                                                                # 如果该用户没有实例返回"empty"
-        instanceObjects = [Instance.objects.get(instanceName = i) for i in instanceNames]
+    try:     # 如果该用户没有实例返回"empty"
+        instanceObjects = [
+            Instance.objects.get(instanceName=i) for i in instanceNames
+            ]
     except:
         return "empty"
 
-    if not deltaInstanceCount:                                          # 如果总数差为0，则只需按照已经排序好的实例名获取实例
+    if not deltaInstanceCount:     # 如果总数差为0，则只需按照已经排序好的实例名获取实例
         instanceObjects = instanceObjects
-    else:                                                               # 如果总数差不为0，说明有新增实例，则除了要按照已经排序好的实例名获取实例外还需要获取新增实例                               
+    else:     # 如果总数差不为0，说明有新增实例，则除了要按照已经排序好的实例名获取实例外还需要获取新增实例
         instanceObjects += allInstances[-deltaInstanceCount:]
 
     instances = []
@@ -94,7 +98,8 @@ def getUserInstances(user):
             'mem': instance.mem.encode('utf-8'),
             'dataDisk': instance.dataDisk.encode('utf-8'),
             'macAddress': instance.macAddress.encode('utf-8'),
-            'startDate': "%s/%s/%s" % (str(date.month), str(date.day), str(date.year)),
+            'startDate': "%s/%s/%s" %
+            (str(date.month), str(date.day), str(date.year)),
             'useInterval': daysToDate(date, instance.useInterval),
             'bandwidth': instance.bandwidth.encode('utf-8'),
             'remotePort': instance.remotePort.encode('utf-8'),
@@ -104,13 +109,14 @@ def getUserInstances(user):
             'dogPort': instance.dogPort.encode('utf-8')
         }
 
-        nodes = instance.node_set.all()                         # 获取每一个实例的所有计算节点
+        nodes = instance.node_set.all()     # 获取每一个实例的所有计算节点
         dataNodes = []
         for node in nodes[0:1]:
             dataNodes.append(node.nodeName.encode('utf-8'))
         aInstance.update({'nodeName': dataNodes[0]})
         instances.append(aInstance)
     return instances
+
 
 def daysToDate(then, days):
     """
@@ -122,6 +128,7 @@ def daysToDate(then, days):
     overtime = then + datetime.timedelta(days)
     return "%s/%s/%s" % (overtime.month, overtime.day, overtime.year)
 
+
 def dateToDays(start, end):
     """
     将日期间隔转换为天数
@@ -131,10 +138,15 @@ def dateToDays(start, end):
     """
     startString = start.split('/')
     endString = end.split('/')
-    startDate = datetime.date(int(startString[2]), int(startString[0]), int(startString[1]))
-    endDate = datetime.date(int(endString[2]), int(endString[0]), int(endString[1]))
+    startDate = datetime.date(
+        int(startString[2]), int(startString[0]), int(startString[1])
+        )
+    endDate = datetime.date(
+        int(endString[2]), int(endString[0]), int(endString[1])
+        )
     dayDelta = (endDate - startDate).days
     return dayDelta
+
 
 def stringToDate(dateString):
     """
@@ -145,13 +157,15 @@ def stringToDate(dateString):
     dateList = dateString.split('/')
     return datetime.date(int(dateList[2]), int(dateList[0]), int(dateList[1]))
 
+
 def getAllNotUsedIp():
     """
     获取所有状态为未使用的ip
     :return:ip列表
     """
-    ips = Ip.objects.filter(isUsed = False)
+    ips = Ip.objects.filter(isUsed=False)
     return [ip.ipAddress.encode('utf-8') for ip in ips]
+
 
 def getAllCompanies():
     """
@@ -173,25 +187,27 @@ def setIp(originalIp, newIp):
     :return:boolean
     """
     try:
-        ipO = Ip.objects.get(ipAddress = originalIp)
+        ipO = Ip.objects.get(ipAddress=originalIp)
         ipO.isUsed = False
         ipO.save()
-        ipN = Ip.objects.get(ipAddress = newIp)
+        ipN = Ip.objects.get(ipAddress=newIp)
         ipN.isUsed = True
         ipN.save()
         return True
     except:
         return False
 
+
 def hostElementMap(hostName, hostElement, data):
     """
     将前端传入的数据修改到对应的数据库中
     :param hostName: 对应数据库中Instance表中的instanceName
-    :param hostElement: 对应数据库中的Instance表中除了instanceName, dogSn, dogPort, node, ip, company的其他字段
+    :param hostElement: 对应数据库中的Instance表中除了
+        instanceName, dogSn, dogPort, node, ip, company的其他字段
     :param data: 将数据库中原数据修改为data
     :return: string
     """
-    host = Instance.objects.get(instanceName = hostName)
+    host = Instance.objects.get(instanceName=hostName)
     if hostElement != "hostCompany":
         try:
             if hostElement == 'hostCore':
@@ -216,11 +232,15 @@ def hostElementMap(hostName, hostElement, data):
                 host.bandwidth = data
             if hostElement == 'hostStart':
                 dateString = data.split('/')
-                newDate = datetime.date(int(dateString[2]), int(dateString[0]), int(dateString[1]))
+                newDate = datetime.date(
+                    int(dateString[2]), int(dateString[0]), int(dateString[1])
+                    )
                 host.startDate = newDate
             if hostElement == 'hostEnd':
                 dateString = data.split('/')
-                newDate = datetime.date(int(dateString[2]), int(dateString[0]), int(dateString[1]))
+                newDate = datetime.date(
+                    int(dateString[2]), int(dateString[0]), int(dateString[1])
+                    )
                 oldDate = host.startDate
                 days = (newDate - oldDate).days
                 host.useInterval = days
@@ -230,21 +250,20 @@ def hostElementMap(hostName, hostElement, data):
             return "error"
     else:
         companyName = host.company.companyName
-        companyId = host.company.id
         try:
-            thisCompany = Company.objects.get(id = companyName)
-            thisCompanyId = thisCompany.id
-            companyId = thisCompanyId
+            thisCompany = Company.objects.get(id=companyName)
+            host.company.id = thisCompany.id
             host.save()
 
         except:
             try:
-                thisCompany = Company.objects.get(companyName = companyName)
+                thisCompany = Company.objects.get(companyName=companyName)
                 thisCompany.companyName = data
                 thisCompany.save()
                 return "successful"
             except:
                 return "error"
+
 
 def testIp(ip):
     """
@@ -253,17 +272,18 @@ def testIp(ip):
     :return: 新的ip或False
     """
     try:
-        thisIp = Ip.objects.get(ipAddress = ip)
-        if thisIp.isUsed == True:
+        thisIp = Ip.objects.get(ipAddress=ip)
+        if thisIp.isUsed:
             return
         else:
             thisIp.isUsed = True
             thisIp.save()
             return ip
     except:
-        thisIp = Ip.objects.create(ipAddress = ip, isUsed = True)
+        thisIp = Ip.objects.create(ipAddress=ip, isUsed=True)
         thisIp.save()
         return ip
+
 
 def addNewHost(hostName, **hostItems):
     """
@@ -276,63 +296,78 @@ def addNewHost(hostName, **hostItems):
 
     # 如果虚拟主机存在，直接返回
     try:
-        Instance.objects.get(instanceName = hostName)
+        Instance.objects.get(instanceName=hostName)
         return "hostExisted"
     # 如果如你主机不村在，创建新的虚拟主机
     except:
         # 如果公司已存在，则给该公司添加虚拟主机
         try:
-            existedCompany = Company.objects.get(companyName = hostItems['hostCompany'])
+            existedCompany = Company.objects.get(
+                companyName=hostItems['hostCompany']
+                )
             avariableIp = testIp(hostItems['hostIp'])
             if not avariableIp:
                 return "ipError"
             hostStart = stringToDate(hostItems['hostStart'])
-            existedCompany.instance_set.create(instanceName = hostName,
-                                               vcpus = hostItems['hostCore'],
-                                               mem = hostItems['hostMem'],
-                                               dataDisk = hostItems['hostDisk'],
-                                               macAddress = hostItems['hostMac'],
-                                               startDate = hostStart,
-                                               useInterval = dateToDays(hostItems['hostStart'], hostItems['hostEnd']),
-                                               bandwidth = hostItems['hostBandwidth'],
-                                               remotePort = hostItems['hostRemotePort'],
-                                               ip = avariableIp,
-                                               dogSn = hostItems['hostDogN'],
-                                               dogPort = hostItems['hostDogP'])
+            existedCompany.instance_set.create(
+                instanceName=hostName,
+                vcpus=hostItems['hostCore'],
+                mem=hostItems['hostMem'],
+                dataDisk=hostItems['hostDisk'],
+                macAddress=hostItems['hostMac'],
+                startDate=hostStart,
+                useInterval=dateToDays(
+                    hostItems['hostStart'], hostItems['hostEnd']
+                    ),
+                bandwidth=hostItems['hostBandwidth'],
+                remotePort=hostItems['hostRemotePort'],
+                ip=avariableIp,
+                dogSn=hostItems['hostDogN'],
+                dogPort=hostItems['hostDogP']
+                )
             existedCompany.save()
 
-            thisHost = Instance.objects.get(instanceName = hostName)
-            thisHost.node_set.create(nodeName = hostItems['hostNode'])
+            thisHost = Instance.objects.get(instanceName=hostName)
+            thisHost.node_set.create(nodeName=hostItems['hostNode'])
             thisHost.save()
 
-            return "successful"               
+            return "successful"
         # 如果公司不存在，则创建公司
         except:
             avariableIp = testIp(hostItems['hostIp'])
             if not avariableIp:
                 return "ipError"
-            newCompany = Company.objects.create(companyName=hostItems['hostCompany'])
+            newCompany = Company.objects.create(
+                companyName=hostItems['hostCompany']
+                )
             newCompany.save()
             hostStart = stringToDate(hostItems['hostStart'])
-            newInstance = Company.objects.get(companyName = hostItems['hostCompany'])
-            newHost = newInstance.instance_set.create(instanceName = hostName,
-                                               vcpus = hostItems['hostCore'],
-                                               mem = hostItems['hostMem'],
-                                               dataDisk = hostItems['hostDisk'],
-                                               macAddress = hostItems['hostMac'],
-                                               startDate = hostStart,
-                                               useInterval = dateToDays(hostItems['hostStart'], hostItems['hostEnd']),
-                                               bandwidth = hostItems['hostBandwidth'],
-                                               remotePort = hostItems['hostRemotePort'],
-                                               ip = avariableIp,
-                                               dogSn = hostItems['hostDogN'],
-                                               dogPort = hostItems['hostDogP'])
+            newInstance = Company.objects.get(
+                companyName=hostItems['hostCompany']
+                )
+            newHost = newInstance.instance_set.create(
+                instanceName=hostName,
+                vcpus=hostItems['hostCore'],
+                mem=hostItems['hostMem'],
+                dataDisk=hostItems['hostDisk'],
+                macAddress=hostItems['hostMac'],
+                startDate=hostStart,
+                useInterval=dateToDays(
+                    hostItems['hostStart'], hostItems['hostEnd']
+                    ),
+                bandwidth=hostItems['hostBandwidth'],
+                remotePort=hostItems['hostRemotePort'],
+                ip=avariableIp,
+                dogSn=hostItems['hostDogN'],
+                dogPort=hostItems['hostDogP']
+                )
             newHost.save()
 
-            thisHost = Instance.objects.get(instanceName = hostName)
-            thisHost.node_set.create(nodeName = hostItems['hostNode'])
+            thisHost = Instance.objects.get(instanceName=hostName)
+            thisHost.node_set.create(nodeName=hostItems['hostNode'])
             thisHost.save()
-            return "successful"              
+            return "successful"
+
 
 def saveIps(user, *ips):
     """
@@ -343,15 +378,16 @@ def saveIps(user, *ips):
     try:
         for ip in ips:
             try:
-                Ip.objects.get(ipAddress = ip)
+                Ip.objects.get(ipAddress=ip)
                 continue
             except:
-                thisIp = Ip.objects.create(ipAddress = ip, isUsed = False)
+                thisIp = Ip.objects.create(ipAddress=ip, isUsed=False)
                 thisIp.save()
                 saveLog(user, "%s Add a new ip '%s'" % (user.username, ip))
         return 'successful'
     except:
         return 'error'
+
 
 def saveLog(user, *logContent):
     """
@@ -368,11 +404,10 @@ def saveLog(user, *logContent):
     else:
         log += "Someone requested, but did nothing."
 
-    thisUser = User.objects.get(username = user.username)
-    thisUser.log_set.create(content = log, logTime = logTime)
+    thisUser = User.objects.get(username=user.username)
+    thisUser.log_set.create(content=log, logTime=logTime)
     thisUser.save()
-    # newLog = Log.objects.create(content = log, logTime = logTime)
-    # newLog.save()
+
 
 def getLog(user):
     """
@@ -380,10 +415,10 @@ def getLog(user):
     user: 当前登陆的用户
     :return: 所有的日志列表
     """
-    if user.is_superuser == True:
+    if user.is_superuser:
         logRecords = Log.objects.all()
     else:
-        thisUser = User.objects.get(username = user.username)
+        thisUser = User.objects.get(username=user.username)
         logRecords = thisUser.log_set.all()
     logCount = len(logRecords)
     if logCount <= 20:
@@ -394,10 +429,17 @@ def getLog(user):
     logList = []
     for log in logRecords:
         logList.append("%s/%s/%s %s:%s:%s\t%s".encode('utf-8') %
-                       (log.logTime.month, log.logTime.day, log.logTime.year,
-                        log.logTime.hour, log.logTime.minute, log.logTime.second,
-                        log.content))
+                       (log.logTime.month,
+                        log.logTime.day,
+                        log.logTime.year,
+                        log.logTime.hour,
+                        log.logTime.minute,
+                        log.logTime.second,
+                        log.content
+                        )
+                       )
     return logList
+
 
 def intervalToDate(interval):
     """
@@ -405,14 +447,23 @@ def intervalToDate(interval):
     :param interval: 类似'2014/12/30-2014/12/31'的日期区间string
     :return: (datetime.date, datetime.date)
     """
-    start, end = [datetime.datetime(int(i.split('/')[2]), int(i.split('/')[0]), int(i.split('/')[1])) for i in interval.split('-')]
+    start, end = [
+        datetime.datetime(
+            int(i.split('/')[2]),
+            int(i.split('/')[0]),
+            int(i.split('/')[1]))
+        for i in interval.split('-')
+        ]
     return (start, end + datetime.timedelta(1))
+
 
 def conditionLog(user, condition, **kwargs):
     """
     处理按条件查询的日志，得到相应条件的日志
     :param user: 当前登陆的用户
-    :param kwargs: condition = time or host, interval = '2014/12/30-2014/12/31', hostname = instanceName
+    :param kwargs: condition = time or host,
+        interval = '2014/12/30-2014/12/31',
+        hostname = instanceName
     :return: list logRecords
     """
     logs = []
@@ -421,13 +472,16 @@ def conditionLog(user, condition, **kwargs):
         dateTimeInterval = intervalToDate(kwargs['interval'])
         start = dateTimeInterval[0]
         end = dateTimeInterval[1]
-        
-        thisUser = User.objects.get(username = user.username)
+
+        thisUser = User.objects.get(username=user.username)
         thisLogs = thisUser.log_set
         if hostName == 'empty':
-            logsFilter = thisLogs.filter(logTime__range = (start, end))
+            logsFilter = thisLogs.filter(logTime__range=(start, end))
         else:
-            logsFilter = thisLogs.filter(logTime__range = (start, end), content__icontains = hostName)
+            logsFilter = thisLogs.filter(
+                logTime__range=(start, end),
+                content__icontains=hostName
+                )
         if not logsFilter:
             return ['no log']
         for log in logsFilter:
@@ -439,4 +493,3 @@ def conditionLog(user, condition, **kwargs):
             logs.append(i.instanceName.encode('utf-8'))
 
     return logs
-

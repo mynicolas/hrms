@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
-from django.conf.urls import url, patterns, include
+from django.conf.urls import url, patterns
 import views
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     url(r'^all$', views.renderAll),
     url(r'^ip$', views.renderIp),
     url(r'^node$', views.renderNode),
