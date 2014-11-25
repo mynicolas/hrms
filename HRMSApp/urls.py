@@ -5,7 +5,7 @@ import views
 
 urlpatterns = patterns(
     '',
-    url(r'^all$', views.renderAll),
+    url(r'^$', views.renderAll),
     url(r'^ip$', views.renderIp),
     url(r'^node$', views.renderNode),
     url(r'^host$', views.renderHost),

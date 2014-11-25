@@ -61,7 +61,7 @@ $(document).ready(function()
 
     function queryAll()
     {
-        post('/query/all', 'query=all', renderAll);
+        post('/query/', 'query=all', renderAll);
     }
 
     // url: post的地址
