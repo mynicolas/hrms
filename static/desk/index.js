@@ -51,11 +51,30 @@ $(document).ready(function()
         });        
     });
 
+    var desk = $('div#desk');
+    desk.sortable();
+    desk.disableSelection();
     // 在桌面添加一个icon
-    function addIcon(id, iconPath)
+    function addIcon(id, iconPath, name)
     {
-        var iconHtml = "<div id = '" + id + "'><img src = '" + iconPath + "'></div>";
-        container.append()
+        if(name == undefined)
+        {
+            name = "icon";
+        }
+        var iconHtml = "<div class = 'icon'>" +
+            "<img class = 'iconBody' id = '" + id + "' src = '" + iconPath + "'/>" +
+            "<input class = 'iconName' value = '" + name + "'/></div>";        
+        desk.append(iconHtml);
     }
+
+    addIcon('allVms', '/static/desk/icons/test.png', 'all instances');
+    addIcon('allVms', '/static/desk/icons/test.png');
+    addIcon('allVms', '/static/desk/icons/test.png');
+    addIcon('allVms', '/static/desk/icons/test.png');
+    addIcon('allVms', '/static/desk/icons/test.png');
+    addIcon('allVms', '/static/desk/icons/test.png');
+    addIcon('allVms', '/static/desk/icons/test.png');
+    addIcon('allVms', '/static/desk/icons/test.png');
+
 
 });

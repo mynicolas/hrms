@@ -33,8 +33,11 @@ div#header {
 }
 
 div#desk {
-	height: 100%;
-	width: 100%;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	width: 1450px; 
+	height: 700px;
 }
 
 div#footer {
@@ -47,4 +50,30 @@ div#footer {
 
 div#header, div#footer {
 	box-shadow: 0 0 5px #000000;
+}
+
+div.icon {
+	width: 150px;
+	height: 150px;
+	margin: 50px;
+	border-radius: 2px;
+	float: left;
+}
+
+input.iconName {
+	width: 100%;
+	background-color: rgba(255, 255, 255, 0);
+	border: none;
+	text-align: center;
+}
+
+img.iconBody {
+	border-radius: 2px;
+	box-shadow: 0 0 5px #000000;
+}
+
+img.iconBody:hover {
+	border-radius: 2px;
+	box-shadow: 0 0 10px #ffffff;
+	cursor: pointer;
 }

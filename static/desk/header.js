@@ -52,5 +52,6 @@ $(document).ready(function()
         startMenu.toggle();
     });
 
-
+    var deskAllVms = $('div#deskAllVms');
+    deskAllVms.dialog();
 });
