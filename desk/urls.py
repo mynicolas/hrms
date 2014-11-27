@@ -11,4 +11,5 @@ from views import *
 urlpatterns = patterns(
     '',
     url(r'^$', renderDesk),
+    url(r'^logout/$', logout),
 )

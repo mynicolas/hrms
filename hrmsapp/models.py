@@ -47,244 +47,7 @@ class UsbPort(models.Model):
 
 class DogSN(models.Model):
     sn = models.CharField(max_length=20, null=False, unique=True)
-    port = models.ForeignKey(UsbPort)
-
-
-def getVms(start=0, end=10):
-    """
-    获取指定范围的实例名列表
-    param: start: 范围开始索引值，end: 范围结束的索引值
-    return: list(instances)
-    """
-    vmS = []
-    for i in Instance.objects.all()[start:end]:
-        vmS.append(i.instanceName)
-    return vmS
-
-def getUserVms(user):
-    """
-    获取该当前用户的所有实例
-    param: user: 当前已登陆用户
-    return: list(dict(instances))
-    {
-    "vms": [
-            {
-                "vmName": string,
-                 "vcpus": string,
-                 "mem": string,
-                 "dataDisk": string,
-                 "startTime": string,
-                 "useInterval": string,
-                 "bandwidth": string,
-                 "company": string,
-                 "nodeHost": string,
-                 "ip": [
-                        string, 
-                        ...
-                       ],
-                 "mac": string,
-                 "usbSnPorts": [
-                                {
-                                    "sn": string,
-                                    "port": string 
-                                },
-                                ...
-                               ]
-             },
-             ...
-            ]
-     }
-    """
-    if not user.is_superuser:
-        return _getVms(user.instance_set.all())
-    else:
-        return _getVms(Instance.objects.all())
-
-
-def _getVms(instances):
-    """
-    获取实例
-    param: instances: Instance对象列表
-    return: list(dict(instances))
-    {
-    "vms": [
-            {
-                "vmName": string,
-                 "vcpus": string,
-                 "mem": string,
-                 "dataDisk": string,
-                 "startTime": string,
-                 "useInterval": string,
-                 "bandwidth": string,
-                 "company": string,
-                 "nodeHost": string,
-                 "ip": [
-                        string, 
-                        ...
-                       ],
-                 "mac": string,
-                 "usbSnPorts": [
-                                {
-                                    "sn": string,
-                                    "port": string 
-                                },
-                                ...
-                               ]
-             },
-             ...
-            ]
-     }
-    """
-    thisVms = instances
-    sendContent = {}
-    vms = []
-    for vm in thisVms:
-        aVm = {}
-        aVm["vmName"] = vm.instanceName
-        aVm["vcpus"] = vm.vcpus
-        aVm["mem"] = vm.mem
-        aVm["dataDisk"] = vm.dataDisk
-        aVm["startTime"] = _days2DateString(vm.startTime, 0)
-        aVm["useInterval"] = _days2DateString(vm.startTime, vm.useInterval)
-        aVm["bandwidth"] = vm.bandwidth
-        aVm["company"] = vm.company.companyName
-        aVm["nodeHost"] = vm.nodeHost.node
-        aVm["ip"] = _getIps(vm.ip_set.all())    # list
-        aVm["mac"] = vm.mac_set.macAddress
-        aVm["usbSnPorts"] = _getSnPorts(vm.usbport_set.all())   # list(dict)
-        vms.append(aVm)
-    sendContent["vms"] = vms
-    return sendContent
-
-
-def _getSnPorts(ports):
-    """
-    获取usbport 和 sn键值对列表
-    param: ports: usbPort对象列表
-    return: list(dict(sn, port))
-    """
-    sendContent = []
-    for aPort in ports:
-        kws = {}
-        thisPort = aPort.port
-        thisSn = aPort.dogsn_set.all()[0].sn
-        kws["sn"] = thisSn
-        kws["port"] = thisPort
-        sendContent.append(kws)
-    return sendContent
-
-
-def addNodes(nodes):
-    """
-    添加node
-    param: nodes: string(nodes)
-    return: boolean
-    """
-    nodel = nodes.split(',')
-    for aNode in nodel:
-        try:
-            NodeHost.objects.get(node=aNode)
-            continue
-        except:
-            NodeHost.objects.create(node=aNode).save()
-
-        return True
-
-
-def addIps(ips):
-    """
-    添加ip
-    param: ips: string(ips)
-    return: boolean
-    """
-    ipl = ips.split(',')
-    for ip in ipl:
-        try:
-            Ip.objects.get(ipAddress=ip)
-            continue
-        except:
-            Ip.objects.create(ipAddress=ip).save()
-
-    return True
-
-
-def getIps():
-    """
-    获取ip池中的所有未使用ip
-    return: dict(list(ip))
-    """
-    ips = []
-    ipos = Ip.objects.all()
-    for ip in ipos:
-        if ip.instance:
-            continue
-        else:
-            ips.append(ip.ipAddress)
-    sendContent = {"ips": ips}
-    return sendContent
-
-
-def getNodes():
-    """
-    获取node池中的所有node
-    return: dict(list(node))
-    """
-    nodes = []
-    nodeos = NodeHost.objects.all()
-    for aNode in nodeos:
-        nodes.append(aNode.node)
-    sendContent = {"nodes": nodes}
-    return sendContent
-
-
-def _getIps(ips):
-    """
-    获取ip
-    param: ips: Ip对象列表
-    return: list(ip)
-    """
-    sendContent = [ip.ipAddress for ip in ips]
-    return sendContent
-
-
-def _days2DateString(then, days):
-    """
-    将日期对象和具体的天数days相加得到最终的日期
-    :param then: datetime.date对象
-    :param days: 整型天数
-    :return:最终的日期string
-    """
-    overtime = then + datetime.timedelta(days)
-    return "%s/%s/%s" % (overtime.month, overtime.day, overtime.year)
-
-
-def _date2Days(start, end):
-    """
-    将日期间隔转换为天数
-    :param start: 开始日期string
-    :param end:  结束日期string
-    :return: int，天数
-    """
-    startString = start.split('/')
-    endString = end.split('/')
-    startDate = datetime.date(
-        int(startString[2]), int(startString[0]), int(startString[1])
-        )
-    endDate = datetime.date(
-        int(endString[2]), int(endString[0]), int(endString[1])
-        )
-    dayDelta = (endDate - startDate).days
-    return dayDelta
-
-
-def _string2Date(dateString):
-    """
-    将字符串转换为datetime.date对象
-    :param dateString: 需要转换的字符串
-    :return: datetime.date对象
-    """
-    dateList = dateString.split('/')
-    return datetime.date(int(dateList[2]), int(dateList[0]), int(dateList[1]))
+    port = models.OneToOneField(UsbPort, null=False)
 
 
 class Vm(object):
@@ -317,12 +80,17 @@ class Vm(object):
             self.mem = thisInstance.mem
             self.dataDisk = thisInstance.dataDisk
             self.startTime = thisInstance.startTime
-            self.useInterval = thisInstance.useInterval
+            self.useInterval = self.__days2DateString(
+                self.startTime,
+                thisInstance.useInterval
+                )
             self.bandwidth = thisInstance.bandwidth
             self.nodeHost = thisInstance.nodeHost.node
             self.company = thisInstance.company.companyName
             self.dogPort = []
             self.dogSn = {}
+            self.mac = thisInstance.mac_set.all()[0]
+            self.ip = thisInstance.ip_set.all()
             self.owner = None
             self.existed = True
 
@@ -362,10 +130,12 @@ class Vm(object):
                 nodeHost=nodeHost,
                 owner=owner
             )
-        # 如果该实例已存在，则修改该实例的相关信息   
-        else:   
+        # 如果该实例已存在，则修改该实例的相关信息
+        else:
             if not self.instanceName:
-                thisInstance = Instance.objects.get(instanceName=self.instanceName)
+                thisInstance = Instance.objects.get(
+                    instanceName=self.instanceName
+                )
                 thisInstance.instanceName = self.instanceName
                 thisInstance.save()
 
@@ -381,10 +151,13 @@ class Vm(object):
                 thisInstance.dataDisk = dataDisk
 
             if startTime:
-                thisInstance.startTime = _string2Date(startTime)
+                thisInstance.startTime = self.__string2Date(startTime)
 
             if useInterval:
-                thisInstance.useInterval = _date2Days(_string2Date(startTime), _string2Date(useInterval))
+                thisInstance.useInterval = self.__date2Days(
+                    self.__string2Date(startTime),
+                    self.__string2Date(useInterval)
+                )
 
             if bandwidth:
                 thisInstance.bandwidth = bandwidth
@@ -468,3 +241,290 @@ class Vm(object):
             return True
         except:
             return False
+
+        def __days2DateString(self, then, days):
+            """
+            将日期对象和具体的天数days相加得到最终的日期
+            :param then: datetime.date对象
+            :param days: 整型天数
+            :return:最终的日期string
+            """
+            overtime = then + datetime.timedelta(days)
+            return "%s/%s/%s" % (overtime.month, overtime.day, overtime.year)
+
+        def __date2Days(self, start, end):
+            """
+            将日期间隔转换为天数
+            :param start: 开始日期string
+            :param end:  结束日期string
+            :return: int，天数
+            """
+            startString = start.split('/')
+            endString = end.split('/')
+            startDate = datetime.date(
+                int(startString[2]), int(startString[0]), int(startString[1])
+                )
+            endDate = datetime.date(
+                int(endString[2]), int(endString[0]), int(endString[1])
+                )
+            dayDelta = (endDate - startDate).days
+            return dayDelta
+
+        def __string2Date(self, dateString):
+            """
+            将字符串转换为datetime.date对象
+            :param dateString: 需要转换的字符串
+            :return: datetime.date对象
+            """
+            dateList = dateString.split('/')
+            return datetime.date(
+                int(dateList[2]),
+                int(dateList[0]),
+                int(dateList[1])
+            )
+
+
+def getVms(start=0, end=None, user=None):
+    """
+    获取指定范围的实例名列表
+    param: start: 范围开始索引值，end: 范围结束的索引值
+    return: list(instances)
+    """
+    vmS = []
+    if user is None:
+        for i in Instance.objects.all()[start:end]:
+            vmS.append(i.instanceName)
+    return vmS
+
+
+
+# def getUserVms(user):
+#     """
+#     获取该当前用户的所有实例
+#     param: user: 当前已登陆用户
+#     return: list(dict(instances))
+#     {
+#     "vms": [
+#             {
+#                 "vmName": string,
+#                  "vcpus": string,
+#                  "mem": string,
+#                  "dataDisk": string,
+#                  "startTime": string,
+#                  "useInterval": string,
+#                  "bandwidth": string,
+#                  "company": string,
+#                  "nodeHost": string,
+#                  "ip": [
+#                         string,
+#                         ...
+#                        ],
+#                  "mac": string,
+#                  "usbSnPorts": [
+#                                 {
+#                                     "sn": string,
+#                                     "port": string
+#                                 },
+#                                 ...
+#                                ]
+#              },
+#              ...
+#             ]
+#      }
+#     """
+#     if not user.is_superuser:
+#         return _getVms(user.instance_set.all())
+#     else:
+#         return _getVms(Instance.objects.all())
+
+
+# def _getVms(instances):
+#     """
+#     获取实例
+#     param: instances: Instance对象列表
+#     return: list(dict(instances))
+#     {
+#     "vms": [
+#             {
+#                 "vmName": string,
+#                  "vcpus": string,
+#                  "mem": string,
+#                  "dataDisk": string,
+#                  "startTime": string,
+#                  "useInterval": string,
+#                  "bandwidth": string,
+#                  "company": string,
+#                  "nodeHost": string,
+#                  "ip": [
+#                         string,
+#                         ...
+#                        ],
+#                  "mac": string,
+#                  "usbSnPorts": [
+#                                 {
+#                                     "sn": string,
+#                                     "port": string
+#                                 },
+#                                 ...
+#                                ]
+#              },
+#              ...
+#             ]
+#      }
+#     """
+#     thisVms = instances
+#     sendContent = {}
+#     vms = []
+#     for vm in thisVms:
+#         aVm = {}
+#         aVm["vmName"] = vm.instanceName
+#         aVm["vcpus"] = vm.vcpus
+#         aVm["mem"] = vm.mem
+#         aVm["dataDisk"] = vm.dataDisk
+#         aVm["startTime"] = _days2DateString(vm.startTime, 0)
+#         aVm["useInterval"] = _days2DateString(vm.startTime, vm.useInterval)
+#         aVm["bandwidth"] = vm.bandwidth
+#         aVm["company"] = vm.company.companyName
+#         aVm["nodeHost"] = vm.nodeHost.node
+#         aVm["ip"] = _getIps(vm.ip_set.all())    # list
+#         aVm["mac"] = vm.mac_set.macAddress
+#         aVm["usbSnPorts"] = _getSnPorts(vm.usbport_set.all())   # list(dict)
+#         vms.append(aVm)
+#     sendContent["vms"] = vms
+#     return sendContent
+
+
+# def _getSnPorts(ports):
+#     """
+#     获取usbport 和 sn键值对列表
+#     param: ports: usbPort对象列表
+#     return: list(dict(sn, port))
+#     """
+#     sendContent = []
+#     for aPort in ports:
+#         kws = {}
+#         thisPort = aPort.port
+#         thisSn = aPort.dogsn_set.all()[0].sn
+#         kws["sn"] = thisSn
+#         kws["port"] = thisPort
+#         sendContent.append(kws)
+#     return sendContent
+
+
+    # def addNodes(nodes):
+    #     """
+    #     添加node
+    #     param: nodes: string(nodes)
+    #     return: boolean
+    #     """
+    #     nodel = nodes.split(',')
+    #     for aNode in nodel:
+    #         try:
+    #             NodeHost.objects.get(node=aNode)
+    #             continue
+    #         except:
+    #             NodeHost.objects.create(node=aNode).save()
+
+    #         return True
+
+
+# def addIps(ips):
+#     """
+#     添加ip
+#     param: ips: string(ips)
+#     return: boolean
+#     """
+#     ipl = ips.split(',')
+#     for ip in ipl:
+#         try:
+#             Ip.objects.get(ipAddress=ip)
+#             continue
+#         except:
+#             Ip.objects.create(ipAddress=ip).save()
+
+#     return True
+
+
+# def getIps():
+#     """
+#     获取ip池中的所有未使用ip
+#     return: dict(list(ip))
+#     """
+#     ips = []
+#     ipos = Ip.objects.all()
+#     for ip in ipos:
+#         if ip.instance:
+#             continue
+#         else:
+#             ips.append(ip.ipAddress)
+#     sendContent = {"ips": ips}
+#     return sendContent
+
+
+# def getNodes():
+#     """
+#     获取node池中的所有node
+#     return: dict(list(node))
+#     """
+#     nodes = []
+#     nodeos = NodeHost.objects.all()
+#     for aNode in nodeos:
+#         nodes.append(aNode.node)
+#     sendContent = {"nodes": nodes}
+#     return sendContent
+
+
+# def _getIps(ips):
+#     """
+#     获取ip
+#     param: ips: Ip对象列表
+#     return: list(ip)
+#     """
+#     sendContent = [ip.ipAddress for ip in ips]
+#     return sendContent
+
+# class IpMac(object):
+#     def __init__(self, ipMac):
+#         self.ipMac = ipMac
+
+#         __itemType = self.ipMac.find(':')
+#         if __itemType > 0:
+#             self.items = Mac.objects.all()
+#         else:
+#             self.items = Ip.objects.all()
+
+#     def getNotUsed(self):
+#         sendContent = [i for i in self.items if not i.instance]
+#         return sendContent
+
+#     def getUsed(self):
+#         sendContent = [i for i in self.items if i.instance]
+#         return sendContent
+
+
+# class Ip(object):
+#     def __init__(self, ip):
+#         self.ip = ip
+#         self.isUsed = False
+#         self.existed = False
+#         try:
+#             thisIp = Ip.objects.get(ipAddress=self.ip)
+#         except Instance.DoesNotExist:
+#             self.existed = False
+#         else:
+#             if thisIp.instance:
+#                 self.isUsed = thisIp.instance[0].instanceName
+
+
+# class Mac(object):
+#     def __init__(self, ip):
+#         self.ip = ip
+#         self.isUsed = False
+#         self.existed = False
+#         try:
+#             thisIp = Ip.objects.get(ipAddress=self.ip)
+#         except Instance.DoesNotExist:
+#             self.existed = False
+#         else:
+#             if thisIp.instance:
+#                 self.isUsed = thisIp.instance[0].instanceName

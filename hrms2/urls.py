@@ -15,7 +15,7 @@ urlpatterns = patterns(
     '',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login/', include(loginUrls)),
-    url(r'^$', include(deskUrls)),
+    url(r'^', include(deskUrls)),
     url(r'^vm/', include(dataUrls)),
     url(r'^user/', include(profileUrls)),
 )

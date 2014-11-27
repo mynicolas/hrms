@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'log',
     'userprofile',
     'login',
+    'desk',
 )
 
 MIDDLEWARE_CLASSES = (

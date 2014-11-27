@@ -16,3 +16,9 @@ def renderDesk(request):
 	渲染桌面
 	"""
 	return render_to_response('index.html')
+
+
+@login_required
+def logout(request):
+	auth.logout(request)
+	return HttpResponseRedirect('/login/')
