@@ -91,7 +91,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    'C:/Users/Nicolas-PC/pyproj/hrms2/static',
+    # 'C:/Users/Nicolas-PC/pyproj/hrms2/static',
+    os.path.join(
+    os.path.dirname(__file__),
+    '..',
+    'static'
+    ).replace('\\', '/'),
 )
 
 # List of finder classes that know how to find static files in

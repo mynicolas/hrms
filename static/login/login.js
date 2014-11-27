@@ -60,12 +60,21 @@ $(document).ready(function () {
     function register()
     {
         registerDialog.dialog({
+            title: "register",
             resizable: false,
-            height: 140,
             modal: true,
             buttons: {
                 Submit: function() {
-                    $( this ).dialog( "close" );
+                    var passwordInputVal = $('input#passwordInput').val();
+                    var pswdConfirmInputVal = $('input#pswdConfirmInput').val();
+                    if (passwordInputVal == pswdConfirmInputVal)
+                    {
+                        $('#registerForm').submit();
+                    }
+                    else
+                    {
+                        alert('password error')
+                    }
                 },
                 Cancel: function() {
                     $( this ).dialog( "close" );
@@ -74,5 +83,31 @@ $(document).ready(function () {
         });        
     }
 
+    // 注册对话框中的用户名输入框失焦时，向服务器判断该用户名是否已被注册
+    var usernameInput = $('input#usernameInput');
+    usernameInput.blur(checkUser);
+    function checkUser() 
+    {
+        if (usernameInput.val() != '')
+        {
+            $.post('/login/checkuser/', 'username=' + usernameInput.val(), isRegister);
+        }
+        else
+        {
+            usernameInput.removeClass('isRegistered notRegistered');
+        }
+    }
+    // 如果该用户名已被注册，将注册对话框的边框设置为红色, 如果未被注册，设置为绿色
+    function isRegister(receive)
+    {
+        if (receive == 'failed')
+        {
+            usernameInput.addClass('isRegistered');
+        }
+        else if (receive == 'successful')
+        {
+            usernameInput.addClass('notRegistered')
+        }
+    }
 
 });

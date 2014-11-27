@@ -32,8 +32,8 @@
                         <div id="loginHeadDiv" class='loginItem'>
                             <div id="loginHeadContent">VM Manager System</div>
                         </div>
-                        <div class="loginUserItem loginItem"><input type="text" class="loginUserItemInput" id="loginUsernameInput" value placeholder="username"></div>
-                        <div class="loginUserItem loginItem"><input type="password" class="loginUserItemInput" id="loginPasswordInput" value placeholder="password"></div>
+                        <div class="loginUserItem loginItem"><input type="text" name="username" class="loginUserItemInput" id="loginUsernameInput" value placeholder="username"></div>
+                        <div class="loginUserItem loginItem"><input type="password" name="password" class="loginUserItemInput" id="loginPasswordInput" value placeholder="password"></div>
                         <div class="loginUserItem loginItem"><input type="submit" class="loginUserItemInput" id='loginButton' value="login"></div>
                         <div id="registerButtonDiv" class="registerItem">
                             <div id="loginRegisterDiv" class='registerAndHelpButton'>register</div>
@@ -43,11 +43,13 @@
                 </div>
             </div>
         </div>
-        <div id="registerDialog" dialog-confirm>
-            <div class="dialogDiv">
-                <div id="reUsernameDiv" class="reUserItemDiv"><input type="text" id="usernameInput" class="reUserItemInput"></div>
-                <div id="rePasswordDiv" class="reUserItemDiv"><input type="password" id="passwordInput" class="reUserItemInput"></div>
-                <div id="rePswdConfirmDiv" class="reUserItemDiv"><input type="password" id="PswdConfirmInput" class="reUserItemInput"></div>
+        <div id="registerDialog">
+            <div id="dialogDiv">
+                <form method="post" action="/login/register/" id="registerForm">
+                    <div id="reUsernameDiv" class="reUserItemDiv"><input type="text" name="username" id="usernameInput" class="reUserItemInput" value placeholder="username"></div>
+                    <div id="rePasswordDiv" class="reUserItemDiv"><input type="password" name="password" id="passwordInput" class="reUserItemInput" value placeholder="password"></div>
+                    <div id="rePswdConfirmDiv" class="reUserItemDiv"><input type="password" id="pswdConfirmInput" class="reUserItemInput" value placeholder="confirm"></div>
+                </form>
             </div>
         </div>
     </div>

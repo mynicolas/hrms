@@ -18,3 +18,7 @@
 .ui-button {
 	float: right;
 }
+
+.ui-dialog-title {
+	color: #1c94c4;
+}
