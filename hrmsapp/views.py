@@ -75,6 +75,162 @@ def addHost(request):
             return HttpResponse('failed')
 
 
+@csrf_exempt
+@login_required
+def renderNodes(request):
+    """
+    渲染所有nodes
+    """
+    if request.method == "POST":
+        nodes = NodeHost.objects.all()
+        allNodes = [i.node for i in nodes]
+        return render_to_response('nodes.html', {'nodes': allNodes})
+
+
+@csrf_exempt
+@login_required
+def renderDogPorts(request):
+    """
+    渲染所有未被使用的dogports
+    """
+    if request.method == "POST":
+        dogPorts = UsbPort.objects.all()
+        sendContent = []
+        for dogPort in dogPorts:
+            if not dogPort.instance:
+                sendContent.append(dogPort.port)
+        return render_to_response('ports.html', {'ports': sendContent})
+    else:
+        return HttpResponse('404 not found')
+
+
+@csrf_exempt
+@login_required
+def renderIps(request):
+    """
+    渲染所有未被使用的ip
+    """
+    if request.method == "POST":
+        ips = Ip.objects.all()
+        sendContent = []
+        for ip in ips:
+            if not ip.instance:
+                sendContent.append(ip.ipAddress)
+        return render_to_response('ips.html', {'ips': sendContent})
+    else:
+        return HttpResponse('404 not found')
+
+
+@csrf_exempt
+@login_required
+def renderMacs(request):
+    """
+    渲染所有未被使用的ip
+    """
+    if request.method == "POST":
+        macs = Mac.objects.all()
+        sendContent = []
+        for mac in macs:
+            if not mac.instance:
+                sendContent.append(mac.macAddress)
+        return render_to_response('macs.html', {'macs': sendContent})
+    else:
+        return HttpResponse('404 not found')
+
+
+@csrf_exempt
+@login_required
+def addNode(request):
+    """
+    添加nodes
+    """
+    if request.method == "POST":
+        node = request.POST.get('newNode', '')
+        if node:
+            try:
+                NodeHost.objects.get(node=node)
+                return HttpResponse('failed')
+            except:
+                newNode = NodeHost.objects.create(node=node)
+                newNode.save()
+                return HttpResponse('successful')
+        else:
+            return HttpResponse('failed')
+    else:
+        return HttpResponse('404 not found')
+
+
+@csrf_exempt
+@login_required
+def addIp(request):
+    """
+    添加IP
+    """
+    if request.method == "POST":
+        ip = request.POST.get('newIp', '')
+        if ip:
+            try:
+                Ip.objects.get(ipAddress=ip)
+                return HttpResponse('failed')
+            except:
+                newIp = Ip.objects.create(ipAddress=ip)
+                newIp.save()
+                return HttpResponse('successful')
+        else:
+            return HttpResponse('failed')
+    else:
+        return HttpResponse('404 not found')
+
+
+@csrf_exempt
+@login_required
+def addDogPort(request):
+    """
+    添加狗
+    """
+    if request.method == "POST":
+        newDogPort = request.POST.get('dogPort', '')
+        thisNode = request.POST.get('node', '')
+        if newDogPort and thisNode:
+            try:
+                UsbPort.objects.get(port=newDogPort)
+                return HttpResponse('faild')
+            except:
+                try:
+                    newPort = NodeHost.objects.get(node=thisNode)
+                except:
+                    return HttpResponse('faild')
+                else:
+                    newPort.usbport_set.create(port=newDogPort)
+                    newPort.save()
+                    return HttpResponse('successful')
+        else:
+            return HttpResponse('failed')
+    else:
+        return HttpResponse('404 not found')
+
+
+@csrf_exempt
+@login_required
+def addMac(request):
+    """
+    添加mac
+    """
+    if request.method == "POST":
+        thisMac = request.POST.get('newMac', '')
+        if thisMac:
+            try:
+                Mac.objects.get(macAddress=thisMac)
+                return HttpResponse('failed')
+            except:
+                newMac = Mac.objects.create(macAddress=thisMac)
+                newMac.save()
+                return HttpResponse('successful')
+        else:
+            return HttpResponse('failed')
+    else:
+        return HttpResponse('404 not found')
+
 # @login_required
 # @csrf_exempt
 # def renderVms(request):

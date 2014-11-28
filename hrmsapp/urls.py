@@ -5,10 +5,15 @@ from views import *
 
 
 urlpatterns = patterns(
-	'',
-	url(r'^$', renderVms),
-	url(r'^add/$', addHost),
-	# url(r'^addip/$', addIp),
-	# url(r'^addnode/$', addNode),
-	# url(r'^renderip/$', renderIpNode),
+    '',
+    url(r'^$', renderVms),
+    url(r'^add/$', addHost),
+    url(r'^nodes/$', renderNodes),
+    url(r'^dogports/$', renderDogPorts),
+    url(r'^ips/$', renderIps),
+    url(r'^macs/$', renderMacs),
+    url(r'^addnode/$', addNode),
+    url(r'^addip/$', addIp),
+    url(r'^adddog/$', addDogPort),
+    url(r'^addmac/$', addMac),
 )
