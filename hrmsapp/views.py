@@ -55,7 +55,7 @@ def addHost(request):
         newVm = Vm(vmName)
         try:
             newVm.update(
-                thisUser=request.user,
+                owner=request.user,
                 vmName=vmName,
                 vcpus=request.POST.get('vcpus', ''),
                 mem=request.POST.get('mem', ''),
