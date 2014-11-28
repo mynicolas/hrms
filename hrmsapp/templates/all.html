@@ -1,0 +1,29 @@
+{% for aHost in all %}
+	<div id="{{ aHost.name }}">
+		<input type="text" class="hostItem hostName">{{ aHost.name }}</input>
+		<input type="text" class="hostItem vcpus">{{ aHost.vcpus }}</input>
+		<input type="text" class="hostItem mem">{{ aHost.mem }}</input>
+		<input type="text" class="hostItem disk">{{ aHost.disk }}</input>
+		<input type="text" class="hostItem disk">{{ aHost.disk}}</input>
+		<input type="text" class="hostItem mac">{{ aHost.mac }}</input>
+		<input type="text" class="hostItem start">{{ aHost.start }}</input>
+		<input type="text" class="hostItem end">{{ aHost.end }}</input>
+		<input type="text" class="hostItem company">{{ aHost.company }}</input>
+		<input type="text" class="hostItem bandwidth">{{ aHost.bandwidth }}</input>
+		<select class="hostItem ips">
+		{% for ip in aHost.ips %}
+			<option value="{{ ip }}"></option>
+		{% endfor %}
+		</select>
+		<select class="hostItem node">
+		{% for node in aHost.nodes %}
+			<option value="{{ node }}"></option>
+		{% endfor %}
+		</select>
+		<select class="hostItem dogNP">
+		{% for dog in aHost.dogNP %}
+			<option value="{{ dog }}"></option>
+		{% endfor %}
+		</select>
+	</div>
+{% endfor %}

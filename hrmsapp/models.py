@@ -228,6 +228,7 @@ class Vm(object):
                 nodeHost=NodeHost.objects.get(node=nodeHost),
             )
             thisInstance.save()
+            self.existed = True
             self.update(
                 startTime=startTime,
                 useInterval=useInterval,

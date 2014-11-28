@@ -7,7 +7,7 @@ from views import *
 urlpatterns = patterns(
 	'',
 	url(r'^$', renderVms),
-	# url(r'^add/$', addHost),
+	url(r'^add/$', addHost),
 	# url(r'^addip/$', addIp),
 	# url(r'^addnode/$', addNode),
 	# url(r'^renderip/$', renderIpNode),

@@ -1,3 +1,22 @@
-<div id="deskAllVms" title="all instances">
-	<p>hello</p>
+<div id="deskAllVms">
+	<div id="hostsDiv"></div>
+</div>
+<div id="deskAddVm">
+	<div id="vmItemDiv">
+		<form id='addHost' method="post" action="/vm/add/">
+			<div class="vmItem"><input type="text" name="vmname" id="vmName" value placeholder="instance name"></div>
+			<div class="vmItem"><input type="text" name="vcpus" id="vcpus" value placeholder="vcpus"></div>
+			<div class="vmItem"><input type="text" name="mem" id="mem" value placeholder="mem"></div>
+			<div class="vmItem"><input type="text" name="datadisk" id="disk" value placeholder="disk"></div>
+			<div class="vmItem"><input type="text" name="nodehost" id="node" value placeholder="node"></div>
+			<div class="vmItem"><input type="text" name="starttime" id="start" value placeholder="start"></div>
+			<div class="vmItem"><input type="text" name="endtime" id="end" value placeholder="end"></div>
+			<div class="vmItem"><input type="text" name="bandwidth" id="bandwidth" value placeholder="bandwidth"></div>
+			<div class="vmItem"><input type="text" name="company" id="company" value placeholder="company"></div>
+			<div class="vmItem"><input type="text" name="dogsn" id="dogSn" value placeholder="dog sn"></div>
+			<div class="vmItem"><input type="text" name="dogport" id="dogPort" value placeholder="dog port"></div>
+			<div class="vmItem"><input type="text" name="ip" id="ip" value placeholder="ip"></div>
+			<div class="vmItem"><input type="text" name="mac" id="mac" value placeholder="mac"></div>
+		</form>
+	</div>
 </div>

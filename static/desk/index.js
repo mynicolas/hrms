@@ -68,13 +68,74 @@ $(document).ready(function()
     }
 
     addIcon('allVms', '/static/desk/icons/test.png', 'all instances');
-    addIcon('allVms', '/static/desk/icons/test.png');
-    addIcon('allVms', '/static/desk/icons/test.png');
-    addIcon('allVms', '/static/desk/icons/test.png');
-    addIcon('allVms', '/static/desk/icons/test.png');
-    addIcon('allVms', '/static/desk/icons/test.png');
-    addIcon('allVms', '/static/desk/icons/test.png');
-    addIcon('allVms', '/static/desk/icons/test.png');
+    addIcon('addVm', '/static/desk/icons/test.png', 'add instance');
+    addIcon('test2', '/static/desk/icons/test.png');
+    addIcon('test3', '/static/desk/icons/test.png');
+    addIcon('test4', '/static/desk/icons/test.png');
+    addIcon('test5', '/static/desk/icons/test.png');
+    addIcon('test6', '/static/desk/icons/test.png');
 
+    var deskDialog = $('.ui-dialog');
+    deskDialog.hide();
+    var allIcon = $('img#allVms');
+    var hostsDiv = $('div#hostDiv');
+    var deskAllVms = $('div#deskAllVms');
+    allIcon.click(function()
+    {
+        $.post('/vm/', 'vm=all', renderAll);
+        deskAllVms.dialog({
+                title: "all instances",
+                resizable: false,
+                modal: false,
+                buttons: {
+                    Cancel: function() {
+                        $(this).dialog("close");
+                    }
+                }
+        });
+    });
+    var addIcon = $('img#addVm');
+    var deskAddVm = $('div#vmItemDiv');
+    deskAddVm.hide();
+    var starttime = $('#start');
+    var endtime = $('#end');
+    (function()
+    {
+        starttime.datepicker({
+            defaultDate: "+1w",
+            changeMonth: true,
+            numberOfMonths: 2,
+            onClose: function(selectedDate) {
+            endtime.datepicker("option", "minDate", selectedDate);
+            }
+        });
+        endtime.datepicker({
+            defaultDate: "+1w",
+            changeMonth: true,
+            numberOfMonths: 2,
+            onClose: function(selectedDate) {
+            starttime.datepicker("option", "maxDate", selectedDate);
+            }
+        });
+    })();
+    addIcon.click(function()
+    {
+        deskAddVm.dialog({
+            title: "add instance",
+            resizable: false,
+            modal: false,
+            buttons: {
+                Submit: function() {
+                    $('form#addHost').submit();
+                }
+            }
+        });
+    });
+
+    function renderAll(receive)
+    {
+        hostsDiv.empty();
+        hostsDiv.append(receive);
+    }
 
 });
