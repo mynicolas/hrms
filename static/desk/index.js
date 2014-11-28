@@ -44,7 +44,7 @@ $(document).ready(function()
     var container = $('div#container');
 
     $(window).resize(function()
-    {
+    {// 桌面根据浏览器大小自动调整
         var docWidth = $(document.body).width();
         container.css({
             width: docWidth,
@@ -54,7 +54,11 @@ $(document).ready(function()
     var desk = $('div#desk');
     desk.sortable();
     desk.disableSelection();
+
     // 在桌面添加一个icon
+    // id: 需要指定该icon的id
+    // iconPath: 需要指定该icon图片的路径
+    // name: 该icon的名字，可忽略
     function addIcon(id, iconPath, name)
     {
         if(name == undefined)
@@ -81,7 +85,7 @@ $(document).ready(function()
     var hostsDiv = $('div#hostDiv');
     var deskAllVms = $('div#deskAllVms');
     allIcon.click(function()
-    {
+    {// 所有实例的icon
         $.post('/vm/', 'item=all', renderAll);
         deskAllVms.dialog({
                 title: "all instances",
@@ -94,13 +98,70 @@ $(document).ready(function()
                 }
         });
     });
+
     var addIcon = $('img#addVm');
     var deskAddVm = $('div#vmItemDiv');
     deskAddVm.hide();
     var starttime = $('input#startTime');
     var endtime = $('input#endTime');
-    (function()
-    {
+    addIcon.click(function()
+    {// 添加实例的icon
+        renderNodes();
+        renderPorts();
+        renderIps();
+        renderMacs();
+        deskAddVm.dialog({
+            title: "add instance",
+            resizable: false,
+            modal: false,
+            buttons: {
+                Submit: __addHost
+            }
+        });
+        function __addHost()
+        {
+            var vmName = $('input#vmName').val();
+            var vcpus = $('input#vcpus').val();
+            var mem = $('input#mem').val();
+            var disk = $('input#disk').val();
+            var startTime = $('input#startTime').val();
+            var endTime = $('input#endTime').val();
+            var bandwidth = $('input#bandwidth').val();
+            var company = $('input#company').val();
+            var dogSn = $('input#dosSn').val();
+            var dogPort = $('select#dogPort').val();
+            var node = $('select#node').val();
+            var ip = $('select#ip').val();
+            var mac = $('select#mac').val();
+            $.post('/vm/add/',
+                'vmname=' + vmName +
+                '&vcpus=' + vcpus +
+                '&mem=' + mem +
+                '&datadisk=' + disk +
+                '&nodehost=' + node +
+                '&starttime=' + startTime +
+                '&endtime=' + endTime +
+                '&bandwidth=' + bandwidth +
+                '&company=' + company +
+                '&dogsn=' + dogSn +
+                '&dogport=' + dogPort +
+                '&ip=' + ip +
+                '&mac=' + mac,
+                isSaved
+            );
+            function isSaved(receive)
+            {
+                var vmItemDiv = $('div#vmItemDiv');
+                if (receive == 'successful')
+                {
+                    vmItemDiv.css('border', '1px solid rgb(0, 255, 255)');
+                }
+                else
+                {
+                    vmItemDiv.css('border', '1px solid rgb(255, 0, 0)');
+                }
+            }
+        }
         starttime.datepicker({
             defaultDate: "+1w",
             changeMonth: true,
@@ -116,28 +177,11 @@ $(document).ready(function()
             onClose: function(selectedDate) {
                 starttime.datepicker("option", "maxDate", selectedDate);
             }
-        });
-    })();
-    addIcon.click(function()
-    {
-        renderNodes();
-        renderPorts();
-        renderIps();
-        renderMacs();
-        deskAddVm.dialog({
-            title: "add instance",
-            resizable: false,
-            modal: false,
-            buttons: {
-                Submit: function() {
-                    $('form#addHost').submit();
-                }
-            }
-        });
+        });        
     });
 
     function renderAll(receive)
-    {
+    { // 渲染所有实例项目
         hostsDiv.empty();
         hostsDiv.append(receive);
     }
@@ -145,7 +189,7 @@ $(document).ready(function()
     var nodeSelector = $('select#node');
     nodeSelector.click(renderNodes);
     function renderNodes()
-    {
+    { // 渲染所有node
         $.post('/vm/nodes/', 'item=nodes', __renderNodes);
         function __renderNodes(receive)
         {
@@ -157,7 +201,7 @@ $(document).ready(function()
     var ipSelector = $('select#ip');
     ipSelector.click(renderIps);
     function renderIps()
-    {
+    { // 渲染所有ip
         $.post('/vm/ips/', 'item=ips', __renderIps);
         function __renderIps(receive)
         {
@@ -169,7 +213,7 @@ $(document).ready(function()
     var macSelector = $('select#mac');
     macSelector.click(renderMacs);
     function renderMacs()
-    {
+    { // 渲染所有mac
         $.post('/vm/macs/', 'item=macs', __renderMacs);
         function __renderMacs(receive)
         {
@@ -181,7 +225,7 @@ $(document).ready(function()
     var portsSelector = $('select#dogPort');
     portsSelector.click(renderPorts);
     function renderPorts()
-    {
+    { // 渲染所有dog port
         $.post('/vm/dogports/', 'item=dogports', __renderPorts);
         function __renderPorts(receive)
         {
@@ -194,7 +238,7 @@ $(document).ready(function()
     var deskAddNode = $('div#deskAddNode');
     deskAddNode.hide();
     addNodeIcon.click(function()
-    {
+    { // 添加node的icon
         var newNodeInput = $('input[name=newNode]');
         deskAddNode.dialog({
             title: "add node",
@@ -225,7 +269,7 @@ $(document).ready(function()
     var deskAddIp = $('div#deskAddIp');
     deskAddIp.hide();
     addIpIcon.click(function()
-    {
+    { // 添加ip的icon
         var newIpInput = $('input[name=newIp]');
         deskAddIp.dialog({
             title: "add node",
@@ -255,7 +299,7 @@ $(document).ready(function()
     var deskAddMac = $('div#deskAddMac');
     deskAddMac.hide();
     addMacIcon.click(function()
-    {
+    { // 添加mac的icon
         var newMacInput = $('input[name=newMac]');
         deskAddMac.dialog({
             title: "add node",
@@ -282,13 +326,13 @@ $(document).ready(function()
     });
 
 
-    var addDogIcon = $('img#addPort');
-    var deskAddDog = $('div#deskAddDog');
-    deskAddDog.hide();
-    addDogIcon.click(function()
-    {
+    var addPortIcon = $('img#addPort');
+    var deskAddPort = $('div#deskAddPort');
+    deskAddPort.hide();
+    addPortIcon.click(function()
+    { 
         var thisNode = $('select#allNodes');
-        var newDogPortInput = $('input[name=newDogPort]');
+        var newDogPortInput = $('input[name=newPort]');
         _();
         thisNode.click(_);
         function _()
@@ -301,8 +345,8 @@ $(document).ready(function()
                 thisNodes.append(receive);
             }
         };
-        deskAddDog.dialog({
-            title: "add dog",
+        deskAddPort.dialog({
+            title: "add dog port",
             resizable: false,
             modal: false,
             buttons: {

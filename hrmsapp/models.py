@@ -83,7 +83,7 @@ class Vm(object):
             self.useInterval = self.__days2DateString(
                 self.startTime,
                 thisInstance.useInterval
-                )
+            )
             self.bandwidth = thisInstance.bandwidth
             self.nodeHost = thisInstance.nodeHost.node
             self.company = thisInstance.company.companyName

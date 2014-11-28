@@ -5,6 +5,6 @@ from django.contrib.auth.models import User
 
 
 class Perm(models.Model):
-	user = models.ForeignKey(User, unique=True)
-	query_permission = models.TextField()
-	modify_permission = models.TextField()
+    user = models.ForeignKey(User, unique=True)
+    query_permission = models.TextField()
+    modify_permission = models.TextField()

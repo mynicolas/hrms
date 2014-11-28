@@ -3,7 +3,7 @@
 </div>
 <div id="deskAddVm">
 	<div id="vmItemDiv">
-		<form id='addHost' method="post" action="/vm/add/">
+		<form id='addHost'>
 			<div class="vmItem"><input type="text" name="vmname" id="vmName" value placeholder="instance name"></div>
 			<div class="vmItem"><input type="text" name="vcpus" id="vcpus" value placeholder="vcpus"></div>
 			<div class="vmItem"><input type="text" name="mem" id="mem" value placeholder="mem"></div>
@@ -13,8 +13,8 @@
 			<div class="vmItem"><input type="text" name="bandwidth" id="bandwidth" value placeholder="bandwidth"></div>
 			<div class="vmItem"><input type="text" name="company" id="company" value placeholder="company"></div>
 			<div class="vmItem"><input type="text" name="dogsn" id="dogSn" value placeholder="dog sn"></div>
+			<div class="vmItem">port<select name="dogport" id="dogPort"></select></div>			
 			<div class="vmItem">node<select name="nodehost" id="node"></select></div>			
-			<div class="vmItem">port<select name="dogport" id="dogPort"></select></div>
 			<div class="vmItem">ip<select name="ip" id="ip"></select></div>
 			<div class="vmItem">mac<select name="mac" id="mac"></select></div>
 		</form>
@@ -41,12 +41,12 @@
 		</form>
 	</div>
 </div>
-<div id="deskAddDog">
-	<div id="addDogDiv">
-		<form id="addDogForm"> 
+<div id="deskAddPort">
+	<div id="addPortDiv">
+		<form id="addPortForm"> 
 			node:<select id="allNodes"></select>
-			<div id="addDogInputdiv">
-				<input type="text" name="newDogPort" value placeholder="dog port">
+			<div id="addPortInputdiv">
+				<input type="text" name="newPort" value placeholder="dog port">
 			</div>
 		</form>
 	</div>

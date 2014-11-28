@@ -60,7 +60,7 @@ def addHost(request):
                 vcpus=request.POST.get('vcpus', ''),
                 mem=request.POST.get('mem', ''),
                 dataDisk=request.POST.get('datadisk', ''),
-                NodeHost=request.POST.get('nodehost', ''),
+                nodeHost=request.POST.get('nodehost', ''),
                 startTime=request.POST.get('starttime', ''),
                 useInterval=request.POST.get('endtime', ''),
                 bandwidth=request.POST.get('bandwidth', ''),
