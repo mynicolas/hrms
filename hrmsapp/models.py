@@ -132,7 +132,7 @@ class Vm(object):
             )
         # 如果该实例已存在，则修改该实例的相关信息
         else:
-            if not self.instanceName:
+            if self.instanceName:
                 thisInstance = Instance.objects.get(
                     instanceName=self.instanceName
                 )
@@ -221,7 +221,7 @@ class Vm(object):
         """
         try:
             thisInstance = owner.instance_set.create(
-                vmName=vmName,
+                instanceName=vmName,
                 vcpus=vcpus,
                 mem=mem,
                 dataDisk=dataDisk,
