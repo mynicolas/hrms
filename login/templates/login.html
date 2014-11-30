@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Host Resource Manage System</title>
+    <script type="text/javascript" src="/static/jquery.js"></script>
+    <script type="text/javascript" src="/static/login/login.js"></script>
+    <script type="text/javascript" src="/static/login/jquery-ui/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="/static/login/login.css"/>
+</head>
+<body onselectstart="return false">
+    <div id="background"></div>
+    <div id="container">
+        <div id="leftArea" class="loginArea">
+            <div id="leftContent" class="loginContentArea">
+                <div id="introduction" class='introductionItemDiv'>
+                    <div class="introductionItem">welcome<br/>to<br/>this<br/>system</div>
+                    <div class="introductionItem">the<br/>name<br/>of<br/>this<br/>system</div>
+                    <div class="introductionItem">is<br/>VM<br/>manage<br/>system</div>
+                </div>
+                <div id="introductionPointer" class='introductionItemDiv'>
+                    <div class="introductionPointerItem"></div>
+                    <div class="introductionPointerItem"></div>
+                    <div class="introductionPointerItem"></div>
+                </div>
+            </div>
+        </div>
+        <div id="rightArea" class="loginArea">
+            <div id="loginArea">
+                <div id="loginFormDiv">
+                    <form action="/login/check/" method="post">
+                        <div id="loginHeadDiv" class='loginItem'>
+                            <div id="loginHeadContent">VM Manager System</div>
+                        </div>
+                        <div class="loginUserItem loginItem"><input type="text" name="username" class="loginUserItemInput" id="loginUsernameInput" value placeholder="username"></div>
+                        <div class="loginUserItem loginItem"><input type="password" name="password" class="loginUserItemInput" id="loginPasswordInput" value placeholder="password"></div>
+                        <div class="loginUserItem loginItem"><input type="submit" class="loginUserItemInput" id='loginButton' value="login"></div>
+                        <div id="registerButtonDiv" class="registerItem">
+                            <div id="loginRegisterDiv" class='registerAndHelpButton'>register</div>
+                            <div id="loginHelpDiv" class='registerAndHelpButton'>help</div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="registerDialog">
+            <div id="dialogDiv">
+                <form method="post" action="/login/register/" id="registerForm">
+                    <div id="reUsernameDiv" class="reUserItemDiv"><input type="text" name="username" id="usernameInput" class="reUserItemInput" value placeholder="username"></div>
+                    <div id="rePasswordDiv" class="reUserItemDiv"><input type="password" name="password" id="passwordInput" class="reUserItemInput" value placeholder="password"></div>
+                    <div id="rePswdConfirmDiv" class="reUserItemDiv"><input type="password" id="pswdConfirmInput" class="reUserItemInput" value placeholder="confirm"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

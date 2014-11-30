@@ -1,0 +1,18 @@
+button#start {
+	width: 45px;
+	height: 100%;
+	border: none;
+	box-shadow: 0 0 5px #000000;
+	border-bottom-right-radius: 10px;
+}
+
+ul#startMenu {
+	width: 100px;
+	position: fixed;
+	top: 25px;
+	left: 0;
+}
+
+a {
+	text-decoration: none;
+}
