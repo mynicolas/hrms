@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 
 class Company(models.Model):
-    companyName = models.CharField(max_length=16, null=False, unique=True)
+    companyName = models.CharField(max_length=16, null=True, unique=True)
 
 
 class NodeHost(models.Model):
@@ -20,10 +20,10 @@ class Instance(models.Model):
     dataDisk = models.CharField(max_length=10, null=False)
     startTime = models.DateTimeField(default=datetime.datetime.now())
     useInterval = models.IntegerField(max_length=6, null=False, default=365)
-    bandwidth = models.CharField(max_length=4, null=True)
+    bandwidth = models.CharField(max_length=4, null=False)
     user = models.ForeignKey(User, null=False)
     nodeHost = models.ForeignKey(NodeHost, null=False)
-    company = models.ForeignKey(Company, null=True)
+    company = models.ForeignKey(Company, null=False)
 
 
 class Ip(models.Model):
@@ -48,6 +48,49 @@ class UsbPort(models.Model):
 class DogSN(models.Model):
     sn = models.CharField(max_length=20, null=False, unique=True)
     port = models.OneToOneField(UsbPort, null=False)
+
+
+def days2DateString(then, days):
+    """
+    将日期对象和具体的天数days相加得到最终的日期
+    :param then: datetime.date对象
+    :param days: 整型天数
+    :return:最终的日期string
+    """
+    overtime = then + datetime.timedelta(days)
+    return "%s/%s/%s" % (overtime.month, overtime.day, overtime.year)
+
+def date2Days(start, end):
+    """
+    将日期间隔转换为天数
+    :param start: 开始日期string
+    :param end:  结束日期string
+    :return: int，天数
+    """
+    startString = start.split('/')
+    endString = end.split('/')
+    startDate = datetime.date(
+        int(startString[2]), int(startString[0]), int(startString[1])
+        )
+    endDate = datetime.date(
+        int(endString[2]), int(endString[0]), int(endString[1])
+        )
+    dayDelta = (endDate - startDate).days
+    return dayDelta
+
+def string2Date(dateString):
+    """
+    将字符串转换为datetime.date对象
+    :param dateString: 需要转换的字符串
+    :return: datetime.date对象
+    """
+    dateList = dateString.split('/')
+    return datetime.date(
+        int(dateList[2]),
+        int(dateList[0]),
+        int(dateList[1])
+    )
+
 
 
 class Vm(object):
@@ -80,13 +123,12 @@ class Vm(object):
             self.mem = thisInstance.mem
             self.dataDisk = thisInstance.dataDisk
             self.startTime = thisInstance.startTime
-            self.useInterval = self.__days2DateString(
+            self.useInterval = days2DateString(
                 self.startTime,
                 thisInstance.useInterval
             )
             self.bandwidth = thisInstance.bandwidth
             self.nodeHost = thisInstance.nodeHost.node
-            self.company = thisInstance.company.companyName
             self.dogPort = []
             self.dogSn = {}
             self.mac = thisInstance.mac_set.all()[0]
@@ -99,6 +141,13 @@ class Vm(object):
                 self.dogPort.append(i.port)
                 for j in i.dogsn_set.all():
                     self.dogSn[i.port] = j.sn
+
+            try:
+                self.company = thisInstance.company.companyName
+            except:
+                thisCompany = thisInstance.company.create(companyName=' ')
+                thisCompany.save()
+                self.company = thisInstance.company.companyName
 
     def update(
         self,
@@ -151,12 +200,12 @@ class Vm(object):
                 thisInstance.dataDisk = dataDisk
 
             if startTime:
-                thisInstance.startTime = self.__string2Date(startTime)
+                thisInstance.startTime = string2Date(startTime)
 
             if useInterval:
-                thisInstance.useInterval = self.__date2Days(
-                    self.__string2Date(startTime),
-                    self.__string2Date(useInterval)
+                thisInstance.useInterval = date2Days(
+                    string2Date(startTime),
+                    string2Date(useInterval)
                 )
 
             if bandwidth:
@@ -165,11 +214,15 @@ class Vm(object):
             if nodeHost:
                 thisInstance.nodeHost = NodeHost.objects.get(node=nodeHost)
 
-            if company:
-                thisInstance.company = Company.objects.get(companName=company)
-
             if mac:
                 thisInstance.mac_set.macAddress = mac
+
+            if company:
+                try:
+                    thisInstance.company = Company.objects.get(companName=company)
+                except:
+                    Company.objects.create(companyName=company).save()
+                    thisInstance.company = Company.objects.get(companName=company)
 
             if dogSn:
                 for i in dogSn:
@@ -225,7 +278,7 @@ class Vm(object):
                 vcpus=vcpus,
                 mem=mem,
                 dataDisk=dataDisk,
-                nodeHost=NodeHost.objects.get(node=nodeHost),
+                nodeHost=NodeHost.objects.get(node=nodeHost)
             )
             thisInstance.save()
             self.existed = True
@@ -242,47 +295,6 @@ class Vm(object):
             return True
         except:
             return False
-
-        def __days2DateString(self, then, days):
-            """
-            将日期对象和具体的天数days相加得到最终的日期
-            :param then: datetime.date对象
-            :param days: 整型天数
-            :return:最终的日期string
-            """
-            overtime = then + datetime.timedelta(days)
-            return "%s/%s/%s" % (overtime.month, overtime.day, overtime.year)
-
-        def __date2Days(self, start, end):
-            """
-            将日期间隔转换为天数
-            :param start: 开始日期string
-            :param end:  结束日期string
-            :return: int，天数
-            """
-            startString = start.split('/')
-            endString = end.split('/')
-            startDate = datetime.date(
-                int(startString[2]), int(startString[0]), int(startString[1])
-                )
-            endDate = datetime.date(
-                int(endString[2]), int(endString[0]), int(endString[1])
-                )
-            dayDelta = (endDate - startDate).days
-            return dayDelta
-
-        def __string2Date(self, dateString):
-            """
-            将字符串转换为datetime.date对象
-            :param dateString: 需要转换的字符串
-            :return: datetime.date对象
-            """
-            dateList = dateString.split('/')
-            return datetime.date(
-                int(dateList[2]),
-                int(dateList[0]),
-                int(dateList[1])
-            )
 
 
 def getVms(start=0, end=None, user=None):

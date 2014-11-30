@@ -187,7 +187,7 @@ $(document).ready(function()
     }
 
     var nodeSelector = $('select#node');
-    nodeSelector.click(renderNodes);
+    // nodeSelector.click(renderNodes);
     function renderNodes()
     { // 渲染所有node
         $.post('/vm/nodes/', 'item=nodes', __renderNodes);
@@ -199,7 +199,7 @@ $(document).ready(function()
     }
 
     var ipSelector = $('select#ip');
-    ipSelector.click(renderIps);
+    // ipSelector.click(renderIps);
     function renderIps()
     { // 渲染所有ip
         $.post('/vm/ips/', 'item=ips', __renderIps);
@@ -211,7 +211,7 @@ $(document).ready(function()
     }
 
     var macSelector = $('select#mac');
-    macSelector.click(renderMacs);
+    // macSelector.click(renderMacs);
     function renderMacs()
     { // 渲染所有mac
         $.post('/vm/macs/', 'item=macs', __renderMacs);
@@ -223,7 +223,7 @@ $(document).ready(function()
     }
 
     var portsSelector = $('select#dogPort');
-    portsSelector.click(renderPorts);
+    // portsSelector.click(renderPorts);
     function renderPorts()
     { // 渲染所有dog port
         $.post('/vm/dogports/', 'item=dogports', __renderPorts);
@@ -302,7 +302,7 @@ $(document).ready(function()
     { // 添加mac的icon
         var newMacInput = $('input[name=newMac]');
         deskAddMac.dialog({
-            title: "add node",
+            title: "add mac",
             resizable: false,
             modal: false,
             buttons: {
@@ -332,9 +332,10 @@ $(document).ready(function()
     addPortIcon.click(function()
     { 
         var thisNode = $('select#allNodes');
+        thisNode.empty();
         var newDogPortInput = $('input[name=newPort]');
         _();
-        thisNode.click(_);
+        // thisNode.click(_);
         function _()
         {   
             $(this).empty();
