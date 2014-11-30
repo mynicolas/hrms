@@ -20,10 +20,10 @@ class Instance(models.Model):
     dataDisk = models.CharField(max_length=10, null=False)
     startTime = models.DateTimeField(default=datetime.datetime.now())
     useInterval = models.IntegerField(max_length=6, null=False, default=365)
-    bandwidth = models.CharField(max_length=4, null=False)
+    bandwidth = models.CharField(max_length=4, null=True)
     user = models.ForeignKey(User, null=False)
     nodeHost = models.ForeignKey(NodeHost, null=False)
-    company = models.ForeignKey(Company, null=False)
+    company = models.ForeignKey(Company, null=True)
 
 
 class Ip(models.Model):
@@ -50,6 +50,15 @@ class DogSN(models.Model):
     port = models.OneToOneField(UsbPort, null=False)
 
 
+def date2String(date):
+    """
+    将日期对象转换为字符串
+    :param date: 需要转换成字符串的date对象
+    :return: 日期字符串
+    """
+    return "%s/%s/%s" % (date.month, date.day, date.year)
+
+
 def days2DateString(then, days):
     """
     将日期对象和具体的天数days相加得到最终的日期
@@ -59,6 +68,7 @@ def days2DateString(then, days):
     """
     overtime = then + datetime.timedelta(days)
     return "%s/%s/%s" % (overtime.month, overtime.day, overtime.year)
+
 
 def date2Days(start, end):
     """
@@ -78,6 +88,7 @@ def date2Days(start, end):
     dayDelta = (endDate - startDate).days
     return dayDelta
 
+
 def string2Date(dateString):
     """
     将字符串转换为datetime.date对象
@@ -90,7 +101,6 @@ def string2Date(dateString):
         int(dateList[0]),
         int(dateList[1])
     )
-
 
 
 class Vm(object):
@@ -116,38 +126,41 @@ class Vm(object):
 
         try:
             thisInstance = Instance.objects.get(instanceName=self.instanceName)
-        except Instance.DoesNotExist:
+        except:
             self.existed = False
         else:
             self.vcpus = thisInstance.vcpus
             self.mem = thisInstance.mem
             self.dataDisk = thisInstance.dataDisk
-            self.startTime = thisInstance.startTime
+            _startTime = thisInstance.startTime
+            self.startTime = date2String(_startTime)
             self.useInterval = days2DateString(
-                self.startTime,
+                _startTime,
                 thisInstance.useInterval
             )
             self.bandwidth = thisInstance.bandwidth
             self.nodeHost = thisInstance.nodeHost.node
             self.dogPort = []
             self.dogSn = {}
-            self.mac = thisInstance.mac_set.all()[0]
+            self.mac = thisInstance.mac_set.all()[0].macAddress
             self.ip = thisInstance.ip_set.all()
-            self.owner = None
-            self.existed = True
+            self.owner = thisInstance.user.username
 
             usbPorts = thisInstance.usbport_set.all()
+            # for i in usbPorts:
+            #     self.dogPort.append(i.port)
+            #     for j in i.dogsn_set.all():
+            #         self.dogSn[i.port] = j.sn
+
             for i in usbPorts:
                 self.dogPort.append(i.port)
-                for j in i.dogsn_set.all():
-                    self.dogSn[i.port] = j.sn
+                self.dogSn[i.port] = i.dogsn.sn
 
             try:
                 self.company = thisInstance.company.companyName
             except:
-                thisCompany = thisInstance.company.create(companyName=' ')
-                thisCompany.save()
-                self.company = thisInstance.company.companyName
+                self.company = None
+            self.existed = True
 
     def update(
         self,
@@ -215,14 +228,21 @@ class Vm(object):
                 thisInstance.nodeHost = NodeHost.objects.get(node=nodeHost)
 
             if mac:
-                thisInstance.mac_set.macAddress = mac
+                # thisInstance.mac_set.macAddress = mac
+                thisMac = Mac.objects.get(macAddress=mac)
+                thisMac.instance = thisInstance
+                thisMac.save()
 
             if company:
                 try:
-                    thisInstance.company = Company.objects.get(companName=company)
+                    thisInstance.company = Company.objects.get(
+                        companName=company
+                    )
                 except:
                     Company.objects.create(companyName=company).save()
-                    thisInstance.company = Company.objects.get(companName=company)
+                    thisInstance.company = Company.objects.get(
+                        companName=company
+                    )
 
             if dogSn:
                 for i in dogSn:
@@ -264,7 +284,7 @@ class Vm(object):
                 dataDisk: 磁盘
                 startTime: 开始时间
                 useInterval: 使用期限
-                bandwidth: 贷款
+                bandwidth: 带宽
                 nodeHost: 节点
                 company: 公司名
                 dogSn: 狗号

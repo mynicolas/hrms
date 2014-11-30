@@ -1,15 +1,15 @@
 {% for aHost in all %}
 	<div id="{{ aHost.name }}">
-		<input type="text" class="hostItem hostName">{{ aHost.name }}</input>
-		<input type="text" class="hostItem vcpus">{{ aHost.vcpus }}</input>
-		<input type="text" class="hostItem mem">{{ aHost.mem }}</input>
-		<input type="text" class="hostItem disk">{{ aHost.disk }}</input>
-		<input type="text" class="hostItem disk">{{ aHost.disk}}</input>
-		<input type="text" class="hostItem mac">{{ aHost.mac }}</input>
-		<input type="text" class="hostItem start">{{ aHost.start }}</input>
-		<input type="text" class="hostItem end">{{ aHost.end }}</input>
-		<input type="text" class="hostItem company">{{ aHost.company }}</input>
-		<input type="text" class="hostItem bandwidth">{{ aHost.bandwidth }}</input>
+		<input type="text" class="hostItem hostName" value="{{ aHost.name }}"</input>
+		<input type="text" class="hostItem vcpus" value="{{ aHost.vcpus }}"</input>
+		<input type="text" class="hostItem mem" value="{{ aHost.mem }}"</input>
+		<input type="text" class="hostItem disk" value="{{ aHost.disk }}"</input>
+		<input type="text" class="hostItem disk" value="{{ aHost.disk}}"</input>
+		<input type="text" class="hostItem mac" value="{{ aHost.mac }}"</input>
+		<input type="text" class="hostItem start" value="{{ aHost.start }}"</input>
+		<input type="text" class="hostItem end" value="{{ aHost.end }}"</input>
+		<input type="text" class="hostItem company" value="{{ aHost.company }}"</input>
+		<input type="text" class="hostItem bandwidth" value="{{ aHost.bandwidth }}"</input>
 		<select class="hostItem ips">
 		{% for ip in aHost.ips %}
 			<option value="{{ ip }}"></option>

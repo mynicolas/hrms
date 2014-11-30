@@ -82,7 +82,6 @@ $(document).ready(function()
     var deskDialog = $('.ui-dialog');
     deskDialog.hide();
     var allIcon = $('img#allVms');
-    var hostsDiv = $('div#hostDiv');
     var deskAllVms = $('div#deskAllVms');
     allIcon.click(function()
     {// 所有实例的icon
@@ -99,6 +98,13 @@ $(document).ready(function()
         });
     });
 
+    var hostsDiv = $('div#hostsDiv');
+    function renderAll(receive)
+    { // 渲染所有实例项目
+        hostsDiv.empty();
+        hostsDiv.append(receive);
+    }
+
     var addIcon = $('img#addVm');
     var deskAddVm = $('div#vmItemDiv');
     deskAddVm.hide();
@@ -107,9 +113,14 @@ $(document).ready(function()
     addIcon.click(function()
     {// 添加实例的icon
         renderNodes();
-        renderPorts();
         renderIps();
         renderMacs();
+        var thisNode = $('select#node');
+        thisNode.change(function()
+        {
+            renderPorts($(this).val());
+        });
+
         deskAddVm.dialog({
             title: "add instance",
             resizable: false,
@@ -180,12 +191,6 @@ $(document).ready(function()
         });        
     });
 
-    function renderAll(receive)
-    { // 渲染所有实例项目
-        hostsDiv.empty();
-        hostsDiv.append(receive);
-    }
-
     var nodeSelector = $('select#node');
     // nodeSelector.click(renderNodes);
     function renderNodes()
@@ -195,6 +200,7 @@ $(document).ready(function()
         {
             nodeSelector.empty();
             nodeSelector.append(receive);
+            renderPorts($('select#node').val());
         }
     }
 
@@ -224,9 +230,9 @@ $(document).ready(function()
 
     var portsSelector = $('select#dogPort');
     // portsSelector.click(renderPorts);
-    function renderPorts()
+    function renderPorts(node)
     { // 渲染所有dog port
-        $.post('/vm/dogports/', 'item=dogports', __renderPorts);
+        $.post('/vm/dogports/', 'node=' + node, __renderPorts);
         function __renderPorts(receive)
         {
             portsSelector.empty();

@@ -17,6 +17,7 @@ def renderVms(request):
             vms = getVms()
         else:
             vms = getVms(user=request.user)
+        vms = getVms()
 
         ins = []
         for i in vms:
@@ -33,7 +34,7 @@ def renderVms(request):
             aIn['end'] = vm.useInterval
             aIn['company'] = vm.company
             aIn['bandwidth'] = vm.bandwidth
-            aIn['nodes'] = vm.nodehost   # list
+            aIn['nodes'] = vm.nodeHost   # list
             ips = [ip for ip in ipOs]
             aIn['ips'] = ips            # list
             dogNP = ['%s:%s' % (i, dogOs[i]) for i in dogOs]
@@ -94,7 +95,9 @@ def renderDogPorts(request):
     渲染所有未被使用的dogports
     """
     if request.method == "POST":
-        dogPorts = UsbPort.objects.all()
+        thisNodeName = smart_str(request.POST.get('node', ''))
+        thisNode = NodeHost.objects.get(node=thisNodeName)
+        dogPorts = thisNode.usbport_set.all()
         sendContent = []
         for dogPort in dogPorts:
             if not dogPort.instance:
