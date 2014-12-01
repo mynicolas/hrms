@@ -389,9 +389,6 @@ def getVms(start=0, end=None, user=None):
     return vmS
 
 
-import pdb
-pdb.run("Vm('vm4').update(vcpus='5', mem='7', dataDisk='9', bandwidth='5', nodeHost='12.34.56.78', startTime='2/1/2011', useInterval='12/2/2014', company='a', dogSn=['fdsaf', '1234'], ip=['192.168.1.4'], mac='44:44:44:44:44:44')")
-
 # def getUserVms(user):
 #     """
 #     获取该当前用户的所有实例

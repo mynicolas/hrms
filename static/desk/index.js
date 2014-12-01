@@ -103,6 +103,12 @@ $(document).ready(function()
     { // 渲染所有实例项目
         hostsDiv.empty();
         hostsDiv.append(receive);
+        var hostsDivWidth = 0;
+        $('div.aHostItem').first().children().each(function()
+        {
+            hostsDivWidth += $(this).width();
+        });
+        hostsDiv.css('width', hostsDivWidth + 'px');
     }
 
     var addIcon = $('img#addVm');
