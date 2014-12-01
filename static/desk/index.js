@@ -88,7 +88,7 @@ $(document).ready(function()
         $.post('/vm/', 'item=all', renderAll);
         deskAllVms.dialog({
                 title: "all instances",
-                resizable: false,
+                resizable: true,
                 modal: false,
                 buttons: {
                     Cancel: function() {

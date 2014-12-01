@@ -1,6 +1,7 @@
 @import url('/static/desk/header.css');
 @import url('/static/desk/desk.css');
 @import url('/static/desk/footer.css');
+@import url('/static/hrmsapp/all.css');
 
 html, body {
 	margin: 0;

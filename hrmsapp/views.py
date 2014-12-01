@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
-from xml.dom import minidom
+# from xml.dom import minidom
 from django.http.response import HttpResponse
 from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_exempt
@@ -55,8 +55,7 @@ def addHost(request):
         newVm = Vm(vmName)
         try:
             newVm.update(
-                owner=request.user,
-                vmName=vmName,
+                owner=request.user.username,
                 vcpus=request.POST.get('vcpus', ''),
                 mem=request.POST.get('mem', ''),
                 dataDisk=request.POST.get('datadisk', ''),
@@ -65,10 +64,14 @@ def addHost(request):
                 useInterval=request.POST.get('endtime', ''),
                 bandwidth=request.POST.get('bandwidth', ''),
                 company=request.POST.get('company', ''),
-                dogSn=request.POST.get('dogsn', ''),
-                dogPort=request.POST.get('dogport', ''),
-                ip=request.POST.get('ip', ''),
-                mac=request.POST.get('mac', '')
+                mac=request.POST.get('mac', ''),
+                dogSn=[
+                    request.POST.get('dogsn', ''),
+                    request.POST.get('dogport', '')
+                ],
+                ip=[
+                    request.POST.get('ip', '')
+                ]
             )
             return HttpResponse('successful')
         except:
@@ -95,7 +98,10 @@ def renderDogPorts(request):
     """
     if request.method == "POST":
         thisNodeName = smart_str(request.POST.get('node', ''))
-        thisNode = NodeHost.objects.get(node=thisNodeName)
+        try:
+            thisNode = NodeHost.objects.get(node=thisNodeName)
+        except:
+            return HttpResponse('failed')
         dogPorts = thisNode.usbport_set.all()
         sendContent = []
         for dogPort in dogPorts:

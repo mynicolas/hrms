@@ -1,30 +1,54 @@
 {% for aHost in all %}
-	<div id="{{ aHost.name }}">
-		<input type="text" class="hostItem hostName" value="{{ aHost.name }}"</input>
-		<input type="text" class="hostItem vcpus" value="{{ aHost.vcpus }}"</input>
-		<input type="text" class="hostItem mem" value="{{ aHost.mem }}"</input>
-		<input type="text" class="hostItem disk" value="{{ aHost.disk }}"</input>
-		<input type="text" class="hostItem disk" value="{{ aHost.disk}}"</input>
-		<input type="text" class="hostItem mac" value="{{ aHost.mac }}"</input>
-		<input type="text" class="hostItem start" value="{{ aHost.start }}"</input>
-		<input type="text" class="hostItem end" value="{{ aHost.end }}"</input>
-		<input type="text" class="hostItem company" value="{{ aHost.company }}"</input>
-		<input type="text" class="hostItem bandwidth" value="{{ aHost.bandwidth }}"</input>
-		
-		<select class="hostItem ips">
-		{% for ip in aHost.ips %}
-			<option value="{{ ip }}"></option>
-		{% endfor %}
-		</select>
-		<select class="hostItem node">
-		{% for node in aHost.nodes %}
-			<option value="{{ node }}"></option>
-		{% endfor %}
-		</select>
-		<select class="hostItem dogNP">
-		{% for dog in aHost.dogNP %}
-			<option value="{{ dog }}"></option>
-		{% endfor %}
-		</select>
+	<div class="aHostItem" id="{{ aHost.name }}">
+		<div class="hostItemDiv" id="hostNameDiv">
+			<input type="text" class="hostItem hostName" value="{{ aHost.name }}"</input>
+		</div>
+		<div class="hostItemDiv" id="vcpusDiv">
+			<input type="text" class="hostItem vcpus" value="{{ aHost.vcpus }}"</input>
+		</div>
+		<div class="hostItemDiv" id="memDiv">
+			<input type="text" class="hostItem mem" value="{{ aHost.mem }}"</input>
+		</div>
+		<div class="hostItemDiv" id="diskDiv">
+			<input type="text" class="hostItem disk" value="{{ aHost.disk }}"</input>
+		</div>
+		<div class="hostItemDiv" id="macDiv">
+			<input type="text" class="hostItem mac" value="{{ aHost.mac }}"</input>
+		</div>
+		<div class="hostItemDiv" id="startDiv">
+			<input type="text" class="hostItem start" value="{{ aHost.start }}"</input>
+		</div>
+		<div class="hostItemDiv" id="endDiv">
+			<input type="text" class="hostItem end" value="{{ aHost.end }}"</input>
+		</div>
+		<div class="hostItemDiv" id="companyDiv">
+			<input type="text" class="hostItem company" value="{{ aHost.company }}"</input>
+		</div>
+		<div class="hostItemDiv" id="bandwidthDiv">
+			<input type="text" class="hostItem bandwidth" value="{{ aHost.bandwidth }}"</input>
+		</div>
+		<div class="hostItemDiv" id="ipsDiv">
+			<select class="hostItem ips">
+			{% for ip in aHost.ips %}
+				<option value="{{ ip }}"></option>
+			{% endfor %}
+			</select>
+			<button id="addIps">+</button>
+		</div>
+		<div class="hostItemDiv" id="nodeDiv">
+			<select class="hostItem node">
+			{% for node in aHost.nodes %}
+				<option value="{{ node }}"></option>
+			{% endfor %}
+			</select>
+			<button id="changeNode">#</button>
+		<div class="hostItemDiv" id="dogNPDiv">
+			<select class="hostItem dogNP">
+			{% for dog in aHost.dogNP %}
+				<option value="{{ dog }}"></option>
+			{% endfor %}
+			</select>
+			<button id="changeDogNP">#</button>
+		</div>
 	</div>
 {% endfor %}

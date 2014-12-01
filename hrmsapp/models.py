@@ -77,15 +77,16 @@ def date2Days(start, end):
     :param end:  结束日期string
     :return: int，天数
     """
-    startString = start.split('/')
-    endString = end.split('/')
-    startDate = datetime.date(
-        int(startString[2]), int(startString[0]), int(startString[1])
-        )
-    endDate = datetime.date(
-        int(endString[2]), int(endString[0]), int(endString[1])
-        )
-    dayDelta = (endDate - startDate).days
+    # startString = start.split('/')
+    # endString = end.split('/')
+    # startDate = datetime.date(
+    #     int(startString[2]), int(startString[0]), int(startString[1])
+    #     )
+    # endDate = datetime.date(
+    #     int(endString[2]), int(endString[0]), int(endString[1])
+    #     )
+    # dayDelta = (endDate - startDate).days
+    dayDelta = (end - start).days
     return dayDelta
 
 
@@ -117,9 +118,13 @@ class Vm(object):
         self.bandwidth = None
         self.nodeHost = None
         self.company = None
+        #{'2-1.5': 'xxx', '2-1.6': 'xxx', ...}
         self.dogSn = {}
+        #['2-1.5', '2-1.6', ...]
         self.dogPort = []
+        #格式:['192.168.1.1', '192.168.1.1', ...]
         self.ip = []
+        #格式:['52:54:00:00:00:00', '52:54:00:00:00:01', ...]
         self.mac = []
         self.owner = None
         self.existed = False
@@ -129,6 +134,7 @@ class Vm(object):
         except:
             self.existed = False
         else:
+            self.instanceName = thisInstance.instanceName
             self.vcpus = thisInstance.vcpus
             self.mem = thisInstance.mem
             self.dataDisk = thisInstance.dataDisk
@@ -142,16 +148,14 @@ class Vm(object):
             self.nodeHost = thisInstance.nodeHost.node
             self.dogPort = []
             self.dogSn = {}
-            self.mac = thisInstance.mac_set.all()[0].macAddress
+            try:
+                self.mac = thisInstance.mac_set.all()[0].macAddress
+            except:
+                self.mac = None
             self.ip = thisInstance.ip_set.all()
             self.owner = thisInstance.user.username
 
             usbPorts = thisInstance.usbport_set.all()
-            # for i in usbPorts:
-            #     self.dogPort.append(i.port)
-            #     for j in i.dogsn_set.all():
-            #         self.dogSn[i.port] = j.sn
-
             for i in usbPorts:
                 self.dogPort.append(i.port)
                 self.dogSn[i.port] = i.dogsn.sn
@@ -164,7 +168,6 @@ class Vm(object):
 
     def update(
         self,
-        vmName=None,
         vcpus=None,
         mem=None,
         dataDisk=None,
@@ -174,7 +177,6 @@ class Vm(object):
         nodeHost=None,
         company=None,
         dogSn=None,
-        dogPort=None,
         ip=None,
         mac=None,
         owner=None
@@ -196,20 +198,43 @@ class Vm(object):
                 bandwidth=bandwidth,
                 company=company,
                 dogSn=dogSn,
-                dogPort=dogPort,
                 ip=ip,
                 mac=mac
             )
-        return
-        # 如果该实例已存在，则修改该实例的相关信息
-        #
-        # if self.instanceName:
-        #     thisInstance = Instance.objects.get(
-        #         instanceName=self.instanceName
-        #     )
-        #     thisInstance.instanceName = self.instanceName
-        #     thisInstance.save()
+        else:
+            self.__update(
+                vmName=self.instanceName,
+                vcpus=vcpus,
+                mem=mem,
+                dataDisk=dataDisk,
+                nodeHost=nodeHost,
+                owner=owner,
+                startTime=startTime,
+                useInterval=useInterval,
+                bandwidth=bandwidth,
+                company=company,
+                dogSn=dogSn,
+                ip=ip,
+                mac=mac
+            )
 
+    def __update(
+        self,
+        vmName=None,
+        vcpus=None,
+        mem=None,
+        dataDisk=None,
+        nodeHost=None,
+        owner=None,
+        startTime=None,
+        useInterval=None,
+        bandwidth=None,
+        company=None,
+        dogSn=None,
+        dogPort=None,
+        ip=None,
+        mac=None
+    ):
         thisInstance = Instance.objects.get(instanceName=self.instanceName)
 
         if mem:
@@ -243,31 +268,35 @@ class Vm(object):
             self.nodeHost = nodeHost
             thisInstance.nodeHost = NodeHost.objects.get(node=nodeHost)
 
-        if mac:
-            self.mac = mac
-            # thisInstance.mac_set.macAddress = mac
-            thisMac = Mac.objects.get(macAddress=mac)
-            thisMac.instance = thisInstance
-            thisMac.save()
-
         if company:
-            self.company = company
             try:
                 thisInstance.company = Company.objects.get(
-                    companName=company
+                    companyName=company
                 )
             except:
                 Company.objects.create(companyName=company).save()
                 thisInstance.company = Company.objects.get(
-                    companName=company
+                    companyName=company
                 )
 
+        if mac:
+            self.mac = mac
+            thisMac = Mac.objects.get(macAddress=mac)
+            if not thisMac.instance:
+                thisMac.instance = thisInstance
+                thisMac.save()
+
         if dogSn:
-            self.dogSn = dogSn
+            self.dogSn = dogSn[0]
+            self.dogPort = dogSn[1]
             for i in dogSn:
-                thisSn = DogSN.objects.create(sn=i)
-                thisSn.port = dogPort[dogSn.index(i)]
-                thisSn.save()
+                thisPort = UsbPort.objects.get(port=self.dogPort)
+                thisPort.instance = thisInstance
+                try:
+                    thisPort.dogsn.sn = self.dogSn
+                except:
+                    DogSN.objects.create(sn=self.dogSn, port=thisPort).save()
+                thisPort.save()
 
         if ip:
             self.ip = ip
@@ -310,10 +339,13 @@ class Vm(object):
                 dogSn: 狗号
                 dogPort: 狗端口
                 owner: 拥有者
+                mac: macAddress
+                ip: ipAddress
         return: boolean
         """
         try:
-            thisInstance = owner.instance_set.create(
+            thisOwner = User.objects.get(username=owner)
+            thisOwner.instance_set.create(
                 instanceName=vmName,
                 vcpus=vcpus,
                 mem=mem,
@@ -321,17 +353,22 @@ class Vm(object):
                 bandwidth=bandwidth,
                 nodeHost=NodeHost.objects.get(node=nodeHost)
             )
-            thisInstance.save()
+            thisOwner.save()
+            thisMac = Mac.objects.get(macAddress=mac)
+            thisMac.instantce = Instance.objects.get(instanceName=vmName)
+            thisMac.save()
             self.existed = True
-            self.update(
+
+            self.__update(
+                vmName=vmName,
                 startTime=startTime,
                 useInterval=useInterval,
                 company=company,
                 dogSn=dogSn,
-                dogPort=dogPort,
-                ip=ip,
-                mac=mac
+                mac=mac,
+                ip=ip
             )
+
             return True
         except:
             return False
@@ -347,9 +384,13 @@ def getVms(start=0, end=None, user=None):
     if user is None:
         for i in Instance.objects.all()[start:end]:
             vmS.append(i.instanceName)
+    else:
+        pass
     return vmS
 
 
+import pdb
+pdb.run("Vm('vm4').update(vcpus='5', mem='7', dataDisk='9', bandwidth='5', nodeHost='12.34.56.78', startTime='2/1/2011', useInterval='12/2/2014', company='a', dogSn=['fdsaf', '1234'], ip=['192.168.1.4'], mac='44:44:44:44:44:44')")
 
 # def getUserVms(user):
 #     """

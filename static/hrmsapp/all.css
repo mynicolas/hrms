@@ -1,0 +1,14 @@
+div.aHostItem:after {
+	content: '';
+	height: 0;
+	display: block;
+	clear: both;
+}
+
+div.hostItemDiv {
+	float: left;
+}
+
+div#deskAllVms {
+	width: 1000px;
+}
