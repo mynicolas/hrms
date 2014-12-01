@@ -1,54 +1,54 @@
+
 {% for aHost in all %}
 	<div class="aHostItem" id="{{ aHost.name }}">
-		<div class="hostItemDiv" id="hostNameDiv">
-			<input type="text" class="hostItem hostName" value="{{ aHost.name }}"</input>
+		<div class="hostItemDiv hostNameDiv">
+			<input type="text" disabled class="hostItem hostName" value="{{ aHost.name }}"</input>
 		</div>
-		<div class="hostItemDiv" id="vcpusDiv">
+		<div class="hostItemDiv vcpusDiv">
 			<input type="text" class="hostItem vcpus" value="{{ aHost.vcpus }}"</input>
 		</div>
-		<div class="hostItemDiv" id="memDiv">
+		<div class="hostItemDiv memDiv">
 			<input type="text" class="hostItem mem" value="{{ aHost.mem }}"</input>
 		</div>
-		<div class="hostItemDiv" id="diskDiv">
+		<div class="hostItemDiv diskDiv">
 			<input type="text" class="hostItem disk" value="{{ aHost.disk }}"</input>
 		</div>
-		<div class="hostItemDiv" id="macDiv">
-			<input type="text" class="hostItem mac" value="{{ aHost.mac }}"</input>
-		</div>
-		<div class="hostItemDiv" id="startDiv">
+		<div class="hostItemDiv startDiv">
 			<input type="text" class="hostItem start" value="{{ aHost.start }}"</input>
 		</div>
-		<div class="hostItemDiv" id="endDiv">
+		<div class="hostItemDiv endDiv">
 			<input type="text" class="hostItem end" value="{{ aHost.end }}"</input>
 		</div>
-		<div class="hostItemDiv" id="companyDiv">
+		<div class="hostItemDiv companyDiv">
 			<input type="text" class="hostItem company" value="{{ aHost.company }}"</input>
 		</div>
-		<div class="hostItemDiv" id="bandwidthDiv">
+		<div class="hostItemDiv bandwidthDiv">
 			<input type="text" class="hostItem bandwidth" value="{{ aHost.bandwidth }}"</input>
 		</div>
-		<div class="hostItemDiv" id="ipsDiv">
+		<div class="hostItemDiv nodeDiv">
+			<select class="hostItem node">
+				<option>{{ aHost.node }}</option>
+			</select>
+		</div>
+		<div class="hostItemDiv macDiv">
+			<input disabled value="{{ aHost.mac }}"/>
+			<button class="changeMac">@</button>
+		</div>
+		<div class="hostItemDiv ipsDiv">
 			<select class="hostItem ips">
 			{% for ip in aHost.ips %}
-				<option value="{{ ip }}"></option>
+				<option value="{{ ip }}">{{ ip }}</option>
 			{% endfor %}
 			</select>
-			<button id="addIps">+</button>
+			<button class="addIps">+</button>
 		</div>
-		<div class="hostItemDiv" id="nodeDiv">
-			<select class="hostItem node">
-			{% for node in aHost.nodes %}
-				<option value="{{ node }}"></option>
-			{% endfor %}
-			</select>
-			<button id="changeNode">#</button>
-		<div class="hostItemDiv" id="dogNPDiv">
+		<div class="hostItemDiv dogNPDiv">
 			<select class="hostItem dogNP">
 			{% for dog in aHost.dogNP %}
-				<option value="{{ dog }}"></option>
+				<option value="{{ dog }}">{{ dog }}</option>
 			{% endfor %}
 			</select>
-			<button id="changeDogNP">#</button>
+			<button class="changeDogNP">@</button>
 		</div>
 	</div>
 {% endfor %}

@@ -34,8 +34,8 @@ def renderVms(request):
             aIn['end'] = vm.useInterval
             aIn['company'] = vm.company
             aIn['bandwidth'] = vm.bandwidth
-            aIn['nodes'] = vm.nodeHost   # list
-            ips = [ip for ip in ipOs]
+            aIn['node'] = vm.nodeHost
+            ips = [ip.ipAddress for ip in ipOs]
             aIn['ips'] = ips            # list
             dogNP = ['%s:%s' % (i, dogOs[i]) for i in dogOs]
             aIn['dogNP'] = dogNP        # list

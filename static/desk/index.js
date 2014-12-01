@@ -109,6 +109,36 @@ $(document).ready(function()
             hostsDivWidth += $(this).width();
         });
         hostsDiv.css('width', hostsDivWidth + 'px');
+        var starttime = $('.start');
+        var endtime = $('.end');
+        starttime.datepicker({
+            defaultDate: "+1w",
+            changeMonth: true,
+            numberOfMonths: 1,
+            onClose: function(selectedDate) {
+                endtime.datepicker("option", "minDate", selectedDate);
+            }
+        });
+        endtime.datepicker({
+            defaultDate: "+1w",
+            changeMonth: true,
+            numberOfMonths: 1,
+            onClose: function(selectedDate) {
+                starttime.datepicker("option", "maxDate", selectedDate);
+            }
+        }); 
+
+        var nodeSelector = $('.node');
+        nodeSelector.click(function()
+        {
+            thisSelector = $(this);
+            $.post('/vm/nodes/', 'item=nodes', __renderNodes);
+            function __renderNodes(receive)
+            {
+                thisSelector.empty();
+                thisSelector.append(receive);
+            }
+        });
     }
 
     var addIcon = $('img#addVm');
@@ -198,7 +228,6 @@ $(document).ready(function()
     });
 
     var nodeSelector = $('select#node');
-    // nodeSelector.click(renderNodes);
     function renderNodes()
     { // 渲染所有node
         $.post('/vm/nodes/', 'item=nodes', __renderNodes);
@@ -211,7 +240,6 @@ $(document).ready(function()
     }
 
     var ipSelector = $('select#ip');
-    // ipSelector.click(renderIps);
     function renderIps()
     { // 渲染所有ip
         $.post('/vm/ips/', 'item=ips', __renderIps);
@@ -223,7 +251,6 @@ $(document).ready(function()
     }
 
     var macSelector = $('select#mac');
-    // macSelector.click(renderMacs);
     function renderMacs()
     { // 渲染所有mac
         $.post('/vm/macs/', 'item=macs', __renderMacs);
@@ -235,7 +262,6 @@ $(document).ready(function()
     }
 
     var portsSelector = $('select#dogPort');
-    // portsSelector.click(renderPorts);
     function renderPorts(node)
     { // 渲染所有dog port
         $.post('/vm/dogports/', 'node=' + node, __renderPorts);

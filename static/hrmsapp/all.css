@@ -12,3 +12,26 @@ div.hostItemDiv {
 div#deskAllVms {
 	width: 1000px;
 }
+
+div.ipsDiv:after, div.dogNPDiv:after {
+	content: '';
+	display: block;
+	height: 0;
+	clear: both;
+}
+
+select.ips, button.addIps,
+select.dogNP, button.changeDogNP {
+	float: left;
+}
+
+div.nodesDiv:after {
+	content: '';
+	height: 0;
+	display: block;
+	clear: both;
+}
+
+select.nodes, button.changeNode {
+	float: left;
+}
