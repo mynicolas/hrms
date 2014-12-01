@@ -41,7 +41,6 @@ def renderVms(request):
             aIn['dogNP'] = dogNP        # list
             ins.append(aIn)
         return render_to_response('all.html', {'all': ins})
-        # return HttpResponse(ins)
 
 
 @login_required

@@ -10,6 +10,7 @@
 		<input type="text" class="hostItem end" value="{{ aHost.end }}"</input>
 		<input type="text" class="hostItem company" value="{{ aHost.company }}"</input>
 		<input type="text" class="hostItem bandwidth" value="{{ aHost.bandwidth }}"</input>
+		
 		<select class="hostItem ips">
 		{% for ip in aHost.ips %}
 			<option value="{{ ip }}"></option>

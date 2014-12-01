@@ -190,74 +190,94 @@ class Vm(object):
                 mem=mem,
                 dataDisk=dataDisk,
                 nodeHost=nodeHost,
-                owner=owner
+                owner=owner,
+                startTime=startTime,
+                useInterval=useInterval,
+                bandwidth=bandwidth,
+                company=company,
+                dogSn=dogSn,
+                dogPort=dogPort,
+                ip=ip,
+                mac=mac
             )
+        return
         # 如果该实例已存在，则修改该实例的相关信息
-        else:
-            if self.instanceName:
-                thisInstance = Instance.objects.get(
-                    instanceName=self.instanceName
+        #
+        # if self.instanceName:
+        #     thisInstance = Instance.objects.get(
+        #         instanceName=self.instanceName
+        #     )
+        #     thisInstance.instanceName = self.instanceName
+        #     thisInstance.save()
+
+        thisInstance = Instance.objects.get(instanceName=self.instanceName)
+
+        if mem:
+            self.mem = mem
+            thisInstance.mem = mem
+
+        if vcpus:
+            self.vcpus = vcpus
+            thisInstance.vcpus = vcpus
+
+        if dataDisk:
+            self.dataDisk = dataDisk
+            thisInstance.dataDisk = dataDisk
+
+        if startTime:
+            self.startTime = startTime
+            thisInstance.startTime = string2Date(startTime)
+
+        if useInterval:
+            self.useInterval = useInterval
+            thisInstance.useInterval = date2Days(
+                string2Date(startTime),
+                string2Date(useInterval)
+            )
+
+        if bandwidth:
+            self.bandwidth = bandwidth
+            thisInstance.bandwidth = bandwidth
+
+        if nodeHost:
+            self.nodeHost = nodeHost
+            thisInstance.nodeHost = NodeHost.objects.get(node=nodeHost)
+
+        if mac:
+            self.mac = mac
+            # thisInstance.mac_set.macAddress = mac
+            thisMac = Mac.objects.get(macAddress=mac)
+            thisMac.instance = thisInstance
+            thisMac.save()
+
+        if company:
+            self.company = company
+            try:
+                thisInstance.company = Company.objects.get(
+                    companName=company
                 )
-                thisInstance.instanceName = self.instanceName
-                thisInstance.save()
-
-            thisInstance = Instance.objects.get(instanceName=self.instanceName)
-
-            if mem:
-                thisInstance.mem = mem
-
-            if vcpus:
-                thisInstance.vcpus = vcpus
-
-            if dataDisk:
-                thisInstance.dataDisk = dataDisk
-
-            if startTime:
-                thisInstance.startTime = string2Date(startTime)
-
-            if useInterval:
-                thisInstance.useInterval = date2Days(
-                    string2Date(startTime),
-                    string2Date(useInterval)
+            except:
+                Company.objects.create(companyName=company).save()
+                thisInstance.company = Company.objects.get(
+                    companName=company
                 )
 
-            if bandwidth:
-                thisInstance.bandwidth = bandwidth
+        if dogSn:
+            self.dogSn = dogSn
+            for i in dogSn:
+                thisSn = DogSN.objects.create(sn=i)
+                thisSn.port = dogPort[dogSn.index(i)]
+                thisSn.save()
 
-            if nodeHost:
-                thisInstance.nodeHost = NodeHost.objects.get(node=nodeHost)
+        if ip:
+            self.ip = ip
+            for i in ip:
+                thisIp = Ip.objects.get(ipAddress=i)
+                if not thisIp.instance:
+                    thisIp.instance = thisInstance
+                    thisIp.save()
 
-            if mac:
-                # thisInstance.mac_set.macAddress = mac
-                thisMac = Mac.objects.get(macAddress=mac)
-                thisMac.instance = thisInstance
-                thisMac.save()
-
-            if company:
-                try:
-                    thisInstance.company = Company.objects.get(
-                        companName=company
-                    )
-                except:
-                    Company.objects.create(companyName=company).save()
-                    thisInstance.company = Company.objects.get(
-                        companName=company
-                    )
-
-            if dogSn:
-                for i in dogSn:
-                    thisSn = DogSN.objects.create(sn=i)
-                    thisSn.port = dogPort[dogSn.index(i)]
-                    thisSn.save()
-
-            if ip:
-                for i in ip:
-                    thisIp = Ip.objects.get(ipAddress=i)
-                    if not thisIp.instance:
-                        thisIp.instance = thisInstance
-                        thisIp.save()
-
-            thisInstance.save()
+        thisInstance.save()
 
     def __create(
         self,
@@ -298,6 +318,7 @@ class Vm(object):
                 vcpus=vcpus,
                 mem=mem,
                 dataDisk=dataDisk,
+                bandwidth=bandwidth,
                 nodeHost=NodeHost.objects.get(node=nodeHost)
             )
             thisInstance.save()
@@ -305,7 +326,6 @@ class Vm(object):
             self.update(
                 startTime=startTime,
                 useInterval=useInterval,
-                bandwidth=bandwidth,
                 company=company,
                 dogSn=dogSn,
                 dogPort=dogPort,
