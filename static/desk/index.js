@@ -142,6 +142,7 @@ $(document).ready(function()
                 thisSelector.append(receive);
             }
         }
+        
     }
 
     var addIcon = $('img#addVm');
@@ -376,7 +377,6 @@ $(document).ready(function()
         thisNode.empty();
         var newDogPortInput = $('input[name=newPort]');
         _();
-        // thisNode.click(_);
         function _()
         {   
             $(this).empty();

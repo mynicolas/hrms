@@ -18,4 +18,6 @@ urlpatterns = patterns(
     url(r'^addmac/$', addMac),
     url(r'^modify/$', modify),
     url(r'^addmacdialog/$', renderAddMacs),
+    url(r'^addipdialog/$', renderAddIps),
+    url(r'^adddogdialog/$', renderAddDogs),
 )

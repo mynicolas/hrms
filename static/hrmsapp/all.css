@@ -128,3 +128,8 @@ div#headerIp, div.ipsDiv {
 div#headerdogNP, div.dogNPDiv {
 	width: 150px;
 }
+
+div#dialogAddIpDiv{
+	width: 120px;
+	margin: 0 20px;
+}

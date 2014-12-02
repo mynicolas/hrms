@@ -75,26 +75,72 @@ $(document).ready(function()
     var addMacs = $('button.addMacs');
     addMacs.click(function()
     {
+        if($('[aria-describedby=dialogAddMac]').length >= 1)
+        {
+            console.log($('[aria-describedby=dialogAddMac]').length);
+            $('[aria-describedby=dialogAddMac]').remove();
+        }
         var thisVm = $(this).parent().parent().attr('id');
         $.post('/vm/addmacdialog/', 'dialog=macs&host=' + thisVm, renderAddMacDialog);
         function renderAddMacDialog(receive)
         {
-            // deskAllVms.append(receive);
+            var dialogAddMacDiv = $('div#dialogAddMacDiv');
             var dialogAddMac = $('div#dialogAddMac');
-            // dialogAddMam.dialog({
-            //     title: "add mac",
-            //     resizable: false,
-            //     modal: false,
-            //     width: 1200,
-            //     height: 300,
-            //     buttons: {
-            //         Submit: function() {
-            //             console.log('test');
-            //         }
-            //         Cancel: function() {
-            //             $(this).dialog("close");
-            //         }
-            // });
+            dialogAddMac.hide();
+            dialogAddMacDiv.empty();
+            dialogAddMacDiv.append(receive);
+            dialogAddMac.dialog({
+                title: "add mac",
+                resizable: false,
+                modal: true,
+                width: 210,
+                height: 300,
+                close: function(){$(this).dialog("destroy")},
+                buttons: {
+                    Submit: function() {
+                        $(this).dialog("widget");
+                    },
+                    Cancel: function() {
+                        $(this).dialog("destroy");
+                    }
+                }
+            });
+        }
+    });
+
+
+    var addIps = $('button.addIps');
+    addIps.click(function()
+    {
+        if($('[aria-describedby=dialogAddMac]').length >= 2)
+        {
+            $('[aria-describedby=dialogAddMac]').remove();
+        }        
+        var thisVm = $(this).parent().parent().attr('id');
+        $.post('/vm/addipdialog/', 'dialog=ips&host=' + thisVm, renderAddIpDialog);
+        function renderAddIpDialog(receive)
+        {
+            var dialogAddIpDiv = $('div#dialogAddIpDiv');
+            var dialogAddIp = $('div#dialogAddIp');
+            dialogAddIp.hide();
+            dialogAddIpDiv.empty();
+            dialogAddIpDiv.append(receive);
+            dialogAddIp.dialog({
+                title: "add ip",
+                resizable: false,
+                modal: true,
+                width: 210,
+                height: 300,
+                close: function(){$(this).dialog("destroy")},
+                buttons: {
+                    Submit: function() {
+                        $(this).dialog("widget");
+                    },
+                    Cancel: function() {
+                        $(this).dialog("destroy");
+                    }
+                }
+            });
         }
     });
 });

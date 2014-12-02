@@ -18,7 +18,7 @@ class Instance(models.Model):
     vcpus = models.CharField(max_length=10, null=False)
     mem = models.CharField(max_length=10, null=False)
     dataDisk = models.CharField(max_length=10, null=False)
-    startTime = models.DateTimeField(default=datetime.datetime.now())
+    startTime = models.DateTimeField(null=False)
     useInterval = models.IntegerField(max_length=6, null=False, default=365)
     bandwidth = models.CharField(max_length=4, null=True)
     user = models.ForeignKey(User, null=False)
@@ -240,14 +240,17 @@ class Vm(object):
         if mem:
             self.mem = mem
             thisInstance.mem = mem
+            thisInstance.save()
 
         if vcpus:
             self.vcpus = vcpus
             thisInstance.vcpus = vcpus
+            thisInstance.save()
 
         if dataDisk:
             self.dataDisk = dataDisk
             thisInstance.dataDisk = dataDisk
+            thisInstance.save()
 
         if startTime:
             newDeltaTime = (
@@ -257,6 +260,7 @@ class Vm(object):
             self.startTime = startTime
             thisInstance.startTime = string2Date(self.startTime) +\
                 datetime.timedelta(1)
+            thisInstance.save()
 
         if useInterval:
             self.useInterval = useInterval
@@ -264,14 +268,17 @@ class Vm(object):
                 string2Date(self.startTime),
                 string2Date(self.useInterval)
             )
+            thisInstance.save()
 
         if bandwidth:
             self.bandwidth = bandwidth
             thisInstance.bandwidth = bandwidth
+            thisInstance.save()
 
         if nodeHost:
             self.nodeHost = nodeHost
             thisInstance.nodeHost = NodeHost.objects.get(node=nodeHost)
+            thisInstance.save()
 
         if company:
             try:
@@ -283,6 +290,8 @@ class Vm(object):
                 thisInstance.company = Company.objects.get(
                     companyName=company
                 )
+            self.company = company
+            thisInstance.save()
 
         if mac:
             thisMac = Mac.objects.get(macAddress=mac)
@@ -290,6 +299,7 @@ class Vm(object):
             if not thisMac.instance:
                 thisMac.instance = thisInstance
                 thisMac.save()
+            thisInstance.save()
 
         if dogSn:
             self.dogSn = dogSn[0]
@@ -302,6 +312,7 @@ class Vm(object):
                 except:
                     DogSN.objects.create(sn=self.dogSn, port=thisPort).save()
                 thisPort.save()
+            thisInstance.save()
 
         if ip:
             self.ip = ip
@@ -310,8 +321,7 @@ class Vm(object):
                 if not thisIp.instance:
                     thisIp.instance = thisInstance
                     thisIp.save()
-
-        thisInstance.save()
+            thisInstance.save()
 
     def __create(
         self,

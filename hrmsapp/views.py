@@ -346,7 +346,54 @@ def renderAddMacs(request):
             freeMacs = [
                 aMacOs.macAddress for aMacOs in allMacOs if not aMacOs.instance
             ]
-            return HttpResponse("%s/%s" % (macs, freeMacs))
+            return render_to_response(
+                'allMacs.html',
+                {'macs': macs, 'freeMacs': freeMacs}
+            )
+        else:
+            return HttpResponse('failed')
+
+
+@csrf_exempt
+@login_required
+def renderAddIps(request):
+    """
+    渲染添加mac的对话框
+    """
+    if request.method == "POST":
+        if request.POST.get('dialog', ''):
+            vm = Vm(smart_str(request.POST.get('host')))
+            ips = [ipOs.ipAddress for ipOs in vm.ip]
+            allIpOs = Ip.objects.all()
+            freeIps = [
+                aIpOs.ipAddress for aIpOs in allIpOs if not aIpOs.instance
+            ]
+            return render_to_response(
+                'allIps.html',
+                {'ips': ips, 'freeIps': freeIps}
+            )
+        else:
+            return HttpResponse('failed')
+
+
+@csrf_exempt
+@login_required
+def renderAddDogs(request):
+    """
+    渲染添加mac的对话框
+    """
+    if request.method == "POST":
+        if request.POST.get('dialog', ''):
+            vm = Vm(smart_str(request.POST.get('host')))
+            ips = [ipOs.ipAddress for ipOs in vm.ip]
+            allIpOs = Ip.objects.all()
+            freeIps = [
+                aIpOs.ipAddress for aIpOs in allIpOs if not aIpOs.instance
+            ]
+            return render_to_response(
+                'allIps.html',
+                {'ips': ips, 'freeIps': freeIps}
+            )
         else:
             return HttpResponse('failed')
 
@@ -354,6 +401,16 @@ def renderAddMacs(request):
 @csrf_exempt
 @login_required
 def addMacs(request):
+    """
+    为某个实例添加或删除mac
+    """
+    if request.method == "POST":
+        return HttpResponse('successful')
+
+
+@csrf_exempt
+@login_required
+def addIps(request):
     """
     为某个实例添加或删除mac
     """
