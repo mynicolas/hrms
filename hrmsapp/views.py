@@ -22,9 +22,9 @@ def renderVms(request):
         ins = []
         for i in vms:
             vm = Vm(i)
-            dogOs = vm.dogSn
+            dogOs = vm.dogSn #dogObjects
             ipOs = vm.ip
-            aIn = {}
+            aIn = {}         #aInstance
             aIn['name'] = {
                 'valu': vm.instanceName,
                 'perm': 'enabled',
@@ -302,12 +302,16 @@ def modify(request):
 
         thisVm = Vm(thisHost)
         if not thisVm.existed:
+            return HttpResponse('failed')
+        else:
             if thisItem == 'hostName':
-                return HttpResponse('successful')
+                try:
+                    thisVm.update(vmName=newValue)
+                    return HttpResponse('successful')
+                except:
+                    return HttpResponse('failed')
             else:
                 return HttpResponse('failed')
-        else:
-            return HttpResponse('successful')
     else:
         return HttpResponse('404 not found')
 

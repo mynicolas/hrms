@@ -168,6 +168,7 @@ class Vm(object):
 
     def update(
         self,
+        vmName=None,
         vcpus=None,
         mem=None,
         dataDisk=None,
@@ -203,7 +204,7 @@ class Vm(object):
             )
         else:
             self.__update(
-                vmName=self.instanceName,
+                vmName=vmName,
                 vcpus=vcpus,
                 mem=mem,
                 dataDisk=dataDisk,
