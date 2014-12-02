@@ -1,54 +1,120 @@
+<script type="text/javascript" src="/static/hrmsapp/all.js"></script>
 
+<div id="hostsHeaderDiv">
+{% if header.name.visi %}
+	<div class="headerItem" id="headerHostName">name</div>
+{% endif %}
+{% if header.vcpus.visi %}
+	<div class="headerItem" id="headerVcpus">vcpus</div>
+{% endif %}
+{% if header.mem.visi %}
+	<div class="headerItem" id="headerMem">mem<br/>(G)</div>
+{% endif %}
+{% if header.disk.visi %}
+	<div class="headerItem" id="headerDisk">disk<br/>(G)</div>
+{% endif %}
+{% if header.start.visi %}
+	<div class="headerItem" id="headerStart">start<br/>(m/d/y)</div>
+{% endif %}
+{% if header.end.visi %}
+	<div class="headerItem" id="headerEnd">end<br/>(m/d/y)</div>
+{% endif %}
+{% if header.company.visi %}
+	<div class="headerItem" id="headerCompany">company</div>
+{% endif %}
+{% if header.bandwidth.visi %}
+	<div class="headerItem" id="headerBandwidth">bandwidth<br/>(Mbps)</div>
+{% endif %}
+{% if header.node.visi %}
+	<div class="headerItem" id="headerNode">node</div>
+{% endif %}
+{% if header.mac.visi %}
+	<div class="headerItem" id="headerMac">mac</div>
+{% endif %}
+{% if header.ips.visi %}
+	<div class="headerItem" id="headerIp">IP</div>
+{% endif %}
+{% if header.dogNP.visi %}
+	<div class="headerItem" id="headerdogNP">dog<br/>(Port:SN)</div>
+{% endif %}
+</div>
+
+<div id="hosts">
 {% for aHost in all %}
-	<div class="aHostItem" id="{{ aHost.name }}">
+	<div class="aHostItem" id="{{ aHost.name.valu }}">
+	{% if aHost.name.visi %}
 		<div class="hostItemDiv hostNameDiv">
-			<input type="text" disabled class="hostItem hostName" value="{{ aHost.name }}"</input>
+			<input {{ aHost.name.perm }} type="text" class="hostItem hostName" value="{{ aHost.name.valu }}"</input>
 		</div>
+	{% endif %}
+	{% if aHost.vcpus.visi %}
 		<div class="hostItemDiv vcpusDiv">
-			<input type="text" class="hostItem vcpus" value="{{ aHost.vcpus }}"</input>
+			<input {{ aHost.vcpus.perm }} type="text" class="hostItem vcpus" value="{{ aHost.vcpus.valu }}"</input>
 		</div>
+	{% endif %}
+	{% if aHost.mem.visi %}
 		<div class="hostItemDiv memDiv">
-			<input type="text" class="hostItem mem" value="{{ aHost.mem }}"</input>
+			<input {{ aHost.mem.perm }} type="text" class="hostItem mem" value="{{ aHost.mem.valu }}"</input>
 		</div>
+	{% endif %}
+	{% if aHost.disk.visi %}
 		<div class="hostItemDiv diskDiv">
-			<input type="text" class="hostItem disk" value="{{ aHost.disk }}"</input>
+			<input {{ aHost.disk.perm }} type="text" class="hostItem disk" value="{{ aHost.disk.valu }}"</input>
 		</div>
+	{% endif %}
+	{% if aHost.start.visi %}
 		<div class="hostItemDiv startDiv">
-			<input type="text" class="hostItem start" value="{{ aHost.start }}"</input>
+			<input {{ aHost.start.perm }} type="text" class="hostItem start" value="{{ aHost.start.valu }}"</input>
 		</div>
+	{% endif %}
+	{% if aHost.end.visi %}
 		<div class="hostItemDiv endDiv">
-			<input type="text" class="hostItem end" value="{{ aHost.end }}"</input>
+			<input {{ aHost.end.perm }} type="text" class="hostItem end" value="{{ aHost.end.valu }}"</input>
 		</div>
+	{% endif %}
+	{% if aHost.company.visi %}
 		<div class="hostItemDiv companyDiv">
-			<input type="text" class="hostItem company" value="{{ aHost.company }}"</input>
+			<input {{ aHost.company.perm }} type="text" class="hostItem company" value="{{ aHost.company.valu }}"</input>
 		</div>
+	{% endif %}
+	{% if aHost.bandwidth.visi %}
 		<div class="hostItemDiv bandwidthDiv">
-			<input type="text" class="hostItem bandwidth" value="{{ aHost.bandwidth }}"</input>
+			<input {{ aHost.bandwidth.perm }} type="text" class="hostItem bandwidth" value="{{ aHost.bandwidth.valu }}"</input>
 		</div>
+	{% endif %}
+	{% if aHost.node.visi %}
 		<div class="hostItemDiv nodeDiv">
-			<select class="hostItem node">
-				<option>{{ aHost.node }}</option>
+			<select {{ aHost.node.perm }} class="hostItem node">
+				<option>{{ aHost.node.valu }}</option>
 			</select>
 		</div>
+	{% endif %}
+	{% if aHost.mac.visi %}
 		<div class="hostItemDiv macDiv">
-			<input disabled value="{{ aHost.mac }}"/>
-			<button class="changeMac">@</button>
+			<input class="hostItem mac hostItemHasButton" {{ aHost.mac.perm }} value="{{ aHost.mac.valu }}"/>
+			<button {{ aHost.mac.perm }} class="hostItemButton changeMac">@</button>
 		</div>
+	{% endif %}
+	{% if aHost.ips.visi %}
 		<div class="hostItemDiv ipsDiv">
-			<select class="hostItem ips">
-			{% for ip in aHost.ips %}
+			<select {{ aHost.ips.perm }} class="hostItem ips hostItemHasButton">
+			{% for ip in aHost.ips.valu %}
 				<option value="{{ ip }}">{{ ip }}</option>
 			{% endfor %}
 			</select>
-			<button class="addIps">+</button>
+			<button {{ aHost.ips.perm }} class="hostItemButton addIps">+</button>
 		</div>
+	{% endif %}
+	{% if aHost.dogNP.visi %}
 		<div class="hostItemDiv dogNPDiv">
-			<select class="hostItem dogNP">
-			{% for dog in aHost.dogNP %}
+			<select {{ aHost.dogNP.perm }} class="hostItem dogNP hostItemHasButton">
+			{% for dog in aHost.dogNP.valu %}
 				<option value="{{ dog }}">{{ dog }}</option>
 			{% endfor %}
 			</select>
-			<button class="changeDogNP">@</button>
+			<button {{ aHost.dogNP.perm }} class="hostItemButton changeDogNP">@</button>
 		</div>
+	{% endif %}
 	</div>
 {% endfor %}
+</div>

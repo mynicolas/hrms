@@ -25,22 +25,70 @@ def renderVms(request):
             dogOs = vm.dogSn
             ipOs = vm.ip
             aIn = {}
-            aIn['name'] = vm.instanceName
-            aIn['vcpus'] = vm.vcpus
-            aIn['mem'] = vm.mem
-            aIn['disk'] = vm.dataDisk
-            aIn['mac'] = vm.mac
-            aIn['start'] = vm.startTime
-            aIn['end'] = vm.useInterval
-            aIn['company'] = vm.company
-            aIn['bandwidth'] = vm.bandwidth
-            aIn['node'] = vm.nodeHost
+            aIn['name'] = {
+                'valu': vm.instanceName,
+                'perm': 'enabled',
+                'visi': True
+            }
+            aIn['vcpus'] = {
+                'valu': vm.vcpus,
+                'perm': 'enabled',
+                'visi': True
+            }
+            aIn['mem'] = {
+                'valu': vm.mem,
+                'perm': 'enabled',
+                'visi': True
+            }
+            aIn['disk'] = {
+                'valu': vm.dataDisk,
+                'perm': 'enabled',
+                'visi': True
+            }
+            aIn['mac'] = {
+                'valu': vm.mac,
+                'perm': 'enabled',
+                'visi': True
+            }
+            aIn['start'] = {
+                'valu': vm.startTime,
+                'perm': 'enabled',
+                'visi': True
+            }
+            aIn['end'] = {
+                'valu': vm.useInterval,
+                'perm': 'enabled',
+                'visi': True
+            }
+            aIn['company'] = {
+                'valu': vm.company,
+                'perm': 'enabled',
+                'visi': True
+            }
+            aIn['bandwidth'] = {
+                'valu': vm.bandwidth,
+                'perm': 'enabled',
+                'visi': True
+            }
+            aIn['node'] = {
+                'valu': vm.nodeHost,
+                'perm': 'enabled',
+                'visi': True
+            }
             ips = [ip.ipAddress for ip in ipOs]
-            aIn['ips'] = ips            # list
+            aIn['ips'] = {
+                'valu': ips,
+                'perm': 'enabled',
+                'visi': True
+            }           # list
             dogNP = ['%s:%s' % (i, dogOs[i]) for i in dogOs]
-            aIn['dogNP'] = dogNP        # list
+            aIn['dogNP'] = {
+                'valu': dogNP,
+                'perm': 'enabled',
+                'visi': True
+            }           # list
             ins.append(aIn)
-        return render_to_response('all.html', {'all': ins})
+        return render_to_response('all.html', {'all': ins, 'header': ins[0]})
 
 
 @login_required
@@ -236,6 +284,30 @@ def addMac(request):
                 return HttpResponse('successful')
         else:
             return HttpResponse('failed')
+    else:
+        return HttpResponse('404 not found')
+
+
+@csrf_exempt
+@login_required
+def modify(request):
+    """
+    修改实例数据
+    """
+    if request.method == "POST":
+        thisHost = smart_str(request.POST.get('host', ''))
+        thisItem = smart_str(request.POST.get('item', ''))
+        oldValue = smart_str(request.POST.get('oldvalue', ''))
+        newValue = smart_str(request.POST.get('newvalue', ''))
+
+        thisVm = Vm(thisHost)
+        if not thisVm.existed:
+            if thisItem == 'hostName':
+                return HttpResponse('successful')
+            else:
+                return HttpResponse('failed')
+        else:
+            return HttpResponse('successful')
     else:
         return HttpResponse('404 not found')
 

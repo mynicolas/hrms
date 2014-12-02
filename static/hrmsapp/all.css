@@ -35,3 +35,96 @@ div.nodesDiv:after {
 select.nodes, button.changeNode {
 	float: left;
 }
+
+div#hostsHeaderDiv:after {
+	content: '';
+	display: block;
+	height: 0;
+	clear: both;
+}
+
+div.headerItem {
+	float: left;
+	text-align: center;
+}
+
+div.aHostItem {
+	margin: 1px 0;
+	border-top: 1px solid #000000;
+	border-bottom: 1px solid #000000;
+}
+
+.hostItem {
+	text-align: center;
+	width: 90%;
+	border: 1px solid #ffffff;
+}
+
+.hostItem:hover {
+	text-align: center;
+	width: 90%;
+	border: 1px solid #00dd00;
+}
+
+.hostItemHasButton {
+	text-align: center;
+	width: 65%;
+}
+
+.hostItemHasButton:hover {
+	text-align: center;
+	width: 65%;
+}
+
+.hostItemButton {
+	width: 30%;
+	text-align: center;
+}
+
+div#headerHostName, div.hostNameDiv {
+	width: 80px;
+}
+
+div#headerVcpus, div.vcpusDiv {
+	width: 50px;
+}
+
+div#headerMem, div.memDiv {
+	width: 50px;
+}
+
+div#headerDisk, div.diskDiv {
+	width: 50px;
+}
+
+div#headerStart, div.startDiv {
+	width: 150px;
+}
+
+div#headerEnd, div.endDiv {
+	width: 150px;
+}
+
+div#headerCompany, div.companyDiv {
+	width: 150px;
+}
+
+div#headerBandwidth, div.bandwidthDiv {
+	width: 50px;
+}
+
+div#headerNode, div.nodeDiv {
+	width: 150px;
+}
+
+div#headerMac, div.macDiv {
+	width: 250px;
+}
+
+div#headerIp, div.ipsDiv {
+	width: 200px;
+}
+
+div#headerdogNP, div.dogNPDiv {
+	width: 150px;
+}

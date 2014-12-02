@@ -77,7 +77,7 @@ $(document).ready(function()
     addIcon('addIp', '/static/desk/icons/test.png', 'add ip');
     addIcon('addPort', '/static/desk/icons/test.png', 'add dog port');
     addIcon('addMac', '/static/desk/icons/test.png', 'add mac');
-    addIcon('test6', '/static/desk/icons/test.png');
+    addIcon('log', '/static/desk/icons/test.png', 'log');
 
     var deskDialog = $('.ui-dialog');
     deskDialog.hide();
@@ -90,6 +90,8 @@ $(document).ready(function()
                 title: "all instances",
                 resizable: true,
                 modal: false,
+                width: 1200,
+                height: 300,
                 buttons: {
                     Cancel: function() {
                         $(this).dialog("close");

@@ -16,4 +16,5 @@ urlpatterns = patterns(
     url(r'^addip/$', addIp),
     url(r'^adddog/$', addDogPort),
     url(r'^addmac/$', addMac),
+    url(r'^modify/$', modify),
 )
