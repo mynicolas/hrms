@@ -131,7 +131,8 @@ $(document).ready(function()
         }); 
 
         var nodeSelector = $('.node');
-        nodeSelector.click(function()
+        nodeSelector.click(__allNodes);
+        function __allNodes()
         {
             thisSelector = $(this);
             $.post('/vm/nodes/', 'item=nodes', __renderNodes);
@@ -140,7 +141,7 @@ $(document).ready(function()
                 thisSelector.empty();
                 thisSelector.append(receive);
             }
-        });
+        }
     }
 
     var addIcon = $('img#addVm');

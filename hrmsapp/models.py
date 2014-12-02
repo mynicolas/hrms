@@ -77,15 +77,6 @@ def date2Days(start, end):
     :param end:  结束日期string
     :return: int，天数
     """
-    # startString = start.split('/')
-    # endString = end.split('/')
-    # startDate = datetime.date(
-    #     int(startString[2]), int(startString[0]), int(startString[1])
-    #     )
-    # endDate = datetime.date(
-    #     int(endString[2]), int(endString[0]), int(endString[1])
-    #     )
-    # dayDelta = (endDate - startDate).days
     dayDelta = (end - start).days
     return dayDelta
 
@@ -148,10 +139,12 @@ class Vm(object):
             self.nodeHost = thisInstance.nodeHost.node
             self.dogPort = []
             self.dogSn = {}
+
             try:
-                self.mac = thisInstance.mac_set.all()[0].macAddress
+                self.mac = thisInstance.mac_set.all()
             except:
-                self.mac = None
+                self.mac = []
+
             self.ip = thisInstance.ip_set.all()
             self.owner = thisInstance.user.username
 
@@ -238,6 +231,12 @@ class Vm(object):
     ):
         thisInstance = Instance.objects.get(instanceName=self.instanceName)
 
+        if vmName:
+            thisInstance.instanceName = vmName
+            self.instanceName = vmName
+            thisInstance.save()
+            thisInstance = Instance.objects.get(instanceName=self.instanceName)
+
         if mem:
             self.mem = mem
             thisInstance.mem = mem
@@ -251,14 +250,19 @@ class Vm(object):
             thisInstance.dataDisk = dataDisk
 
         if startTime:
+            newDeltaTime = (
+                string2Date(self.useInterval) - string2Date(startTime)
+            ).days
+            thisInstance.useInterval = newDeltaTime
             self.startTime = startTime
-            thisInstance.startTime = string2Date(startTime)
+            thisInstance.startTime = string2Date(self.startTime) +\
+                datetime.timedelta(1)
 
         if useInterval:
             self.useInterval = useInterval
             thisInstance.useInterval = date2Days(
-                string2Date(startTime),
-                string2Date(useInterval)
+                string2Date(self.startTime),
+                string2Date(self.useInterval)
             )
 
         if bandwidth:
@@ -281,8 +285,8 @@ class Vm(object):
                 )
 
         if mac:
-            self.mac = mac
             thisMac = Mac.objects.get(macAddress=mac)
+            self.mac = self.mac.append(thisMac)
             if not thisMac.instance:
                 thisMac.instance = thisInstance
                 thisMac.save()
@@ -356,7 +360,7 @@ class Vm(object):
             )
             thisOwner.save()
             thisMac = Mac.objects.get(macAddress=mac)
-            thisMac.instantce = Instance.objects.get(instanceName=vmName)
+            thisMac.instance = Instance.objects.get(instanceName=vmName)
             thisMac.save()
             self.existed = True
 
@@ -366,7 +370,6 @@ class Vm(object):
                 useInterval=useInterval,
                 company=company,
                 dogSn=dogSn,
-                mac=mac,
                 ip=ip
             )
 

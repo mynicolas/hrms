@@ -28,7 +28,7 @@
 {% if header.node.visi %}
 	<div class="headerItem" id="headerNode">node</div>
 {% endif %}
-{% if header.mac.visi %}
+{% if header.macs.visi %}
 	<div class="headerItem" id="headerMac">mac</div>
 {% endif %}
 {% if header.ips.visi %}
@@ -89,12 +89,16 @@
 			</select>
 		</div>
 	{% endif %}
-	{% if aHost.mac.visi %}
+	{% if aHost.macs.visi %}
 		<div class="hostItemDiv macDiv">
-			<input class="hostItem mac hostItemHasButton" {{ aHost.mac.perm }} value="{{ aHost.mac.valu }}"/>
-			<button {{ aHost.mac.perm }} class="hostItemButton changeMac">@</button>
+			<select {{ aHost.macs.perm }} class="hostItem mac hostItemHasButton">
+			{% for mac in aHost.macs.valu %}
+				<option value="{{ mac }}">{{ mac }}</option>
+			{% endfor %}
+			</select>
+			<button {{ aHost.ips.perm }} class="hostItemButton addMacs">+</button>
 		</div>
-	{% endif %}
+	{% endif %}	
 	{% if aHost.ips.visi %}
 		<div class="hostItemDiv ipsDiv">
 			<select {{ aHost.ips.perm }} class="hostItem ips hostItemHasButton">
@@ -117,4 +121,10 @@
 	{% endif %}
 	</div>
 {% endfor %}
+</div>
+
+<div id="dialogAddMac">
+	<div id="dialogAddMacDiv">
+		fklds
+	</div>
 </div>

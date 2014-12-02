@@ -22,9 +22,10 @@ def renderVms(request):
         ins = []
         for i in vms:
             vm = Vm(i)
-            dogOs = vm.dogSn #dogObjects
-            ipOs = vm.ip
-            aIn = {}         #aInstance
+            dogOs = vm.dogSn    # dogObjects
+            ipOs = vm.ip        # ipObjects
+            macOs = vm.mac      # macObjects
+            aIn = {}            # aInstance
             aIn['name'] = {
                 'valu': vm.instanceName,
                 'perm': 'enabled',
@@ -42,11 +43,6 @@ def renderVms(request):
             }
             aIn['disk'] = {
                 'valu': vm.dataDisk,
-                'perm': 'enabled',
-                'visi': True
-            }
-            aIn['mac'] = {
-                'valu': vm.mac,
                 'perm': 'enabled',
                 'visi': True
             }
@@ -75,6 +71,11 @@ def renderVms(request):
                 'perm': 'enabled',
                 'visi': True
             }
+            aIn['macs'] = {
+                'valu': [mac.macAddress for mac in macOs],
+                'perm': 'enabled',
+                'visi': True
+            }           # list
             ips = [ip.ipAddress for ip in ipOs]
             aIn['ips'] = {
                 'valu': ips,
@@ -297,23 +298,67 @@ def modify(request):
     if request.method == "POST":
         thisHost = smart_str(request.POST.get('host', ''))
         thisItem = smart_str(request.POST.get('item', ''))
-        oldValue = smart_str(request.POST.get('oldvalue', ''))
+        # oldValue = smart_str(request.POST.get('oldvalue', ''))
         newValue = smart_str(request.POST.get('newvalue', ''))
 
         thisVm = Vm(thisHost)
         if not thisVm.existed:
             return HttpResponse('failed')
         else:
-            if thisItem == 'hostName':
-                try:
+            try:
+                if thisItem == "hostName":
                     thisVm.update(vmName=newValue)
-                    return HttpResponse('successful')
-                except:
-                    return HttpResponse('failed')
-            else:
+                elif thisItem == "vcpus":
+                    thisVm.update(vcpus=newValue)
+                elif thisItem == "mem":
+                    thisVm.update(mem=newValue)
+                elif thisItem == "disk":
+                    thisVm.update(dataDisk=newValue)
+                elif thisItem == "start":
+                    thisVm.update(startTime=newValue)
+                elif thisItem == "end":
+                    thisVm.update(useInterval=newValue)
+                elif thisItem == "company":
+                    thisVm.update(company=newValue)
+                elif thisItem == "bandwidth":
+                    thisVm.update(bandwidth=newValue)
+                elif thisItem == "node":
+                    thisVm.update(nodeHost=newValue)
+
+                return HttpResponse('successful')
+            except:
                 return HttpResponse('failed')
     else:
         return HttpResponse('404 not found')
+
+
+@csrf_exempt
+@login_required
+def renderAddMacs(request):
+    """
+    渲染添加mac的对话框
+    """
+    if request.method == "POST":
+        if request.POST.get('dialog', ''):
+            vm = Vm(smart_str(request.POST.get('host')))
+            macs = [macOs.macAddress for macOs in vm.mac]
+            allMacOs = Mac.objects.all()
+            freeMacs = [
+                aMacOs.macAddress for aMacOs in allMacOs if not aMacOs.instance
+            ]
+            return HttpResponse("%s/%s" % (macs, freeMacs))
+        else:
+            return HttpResponse('failed')
+
+
+@csrf_exempt
+@login_required
+def addMacs(request):
+    """
+    为某个实例添加或删除mac
+    """
+    if request.method == "POST":
+        return HttpResponse('successful')
 
 # @login_required
 # @csrf_exempt

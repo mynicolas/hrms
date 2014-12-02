@@ -45,7 +45,7 @@ $(document).ready(function()
     var thisItem;
     var oldValue;
     var newValue;
-    var hostItemDiv = $('.hostItem').not('.mac').not('.ips').not('.dogNP').not('.node');
+    var hostItemDiv = $('.hostItem').not('.mac').not('.ips').not('.dogNP');
     hostItemDiv.focus(function()
     {
         $(this).css('background-color', '#ffffff');
@@ -53,7 +53,7 @@ $(document).ready(function()
         thisHost = $(this).parent().parent().attr('id');
         oldValue = $(this).val();
     });
-    hostItemDiv.blur(function()
+    hostItemDiv.change(function()
     {
         var savedItem = $(this);
         newValue = $(this).val();
@@ -68,6 +68,33 @@ $(document).ready(function()
             {
                 savedItem.css('background-color', '#ff0000');
             }
+        }
+    });
+
+    var deskAllVms = $('div#deskAllVms');
+    var addMacs = $('button.addMacs');
+    addMacs.click(function()
+    {
+        var thisVm = $(this).parent().parent().attr('id');
+        $.post('/vm/addmacdialog/', 'dialog=macs&host=' + thisVm, renderAddMacDialog);
+        function renderAddMacDialog(receive)
+        {
+            // deskAllVms.append(receive);
+            var dialogAddMac = $('div#dialogAddMac');
+            // dialogAddMam.dialog({
+            //     title: "add mac",
+            //     resizable: false,
+            //     modal: false,
+            //     width: 1200,
+            //     height: 300,
+            //     buttons: {
+            //         Submit: function() {
+            //             console.log('test');
+            //         }
+            //         Cancel: function() {
+            //             $(this).dialog("close");
+            //         }
+            // });
         }
     });
 });

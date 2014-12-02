@@ -17,4 +17,5 @@ urlpatterns = patterns(
     url(r'^adddog/$', addDogPort),
     url(r'^addmac/$', addMac),
     url(r'^modify/$', modify),
+    url(r'^addmacdialog/$', renderAddMacs),
 )
