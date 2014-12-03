@@ -1,0 +1,6 @@
+{% for ip in ips %}
+	<input type="checkbox" checked class="dialogAddMacInput" value="{{ ip }}">{{ ip }}</input>
+{% endfor %}
+{% for ip in freeIps %}
+	<input type="checkbox" class="dialogAddMacInput" value="{{ ip }}">{{ ip }}</input>
+{% endfor %}

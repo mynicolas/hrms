@@ -1,0 +1,6 @@
+{% for mac in macs %}
+	<input type="checkbox" checked class="dialogAddMacInput" value="{{ mac }}">{{ mac }}</input>
+{% endfor %}
+{% for mac in freeMacs %}
+	<input type="checkbox" class="dialogAddMacInput" value="{{ mac }}">{{ mac }}</input>
+{% endfor %}
