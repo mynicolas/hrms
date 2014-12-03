@@ -1,0 +1,16 @@
+div.aUserPermissionDiv {
+	content: '';
+	height: 0;
+	clear: both;
+	display: block;
+}
+
+div.permissionItem {
+	width: 80px;
+	float: left;
+}
+
+input.aUserPermissionItem {
+	width: 30%;
+	margin-left: 11%;
+}

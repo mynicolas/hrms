@@ -1,53 +1,92 @@
 <div id="deskAllVms">
 	<div id="hostsDiv"></div>
 </div>
-<div id="deskAddVm">
-	<div id="vmItemDiv">
-		<form id='addHost'>
-			<div class="vmItem"><input type="text" name="vmname" id="vmName" value placeholder="instance name"></div>
-			<div class="vmItem"><input type="text" name="vcpus" id="vcpus" value placeholder="vcpus"></div>
-			<div class="vmItem"><input type="text" name="mem" id="mem" value placeholder="mem"></div>
-			<div class="vmItem"><input type="text" name="datadisk" id="disk" value placeholder="disk"></div>
-			<div class="vmItem"><input type="text" name="starttime" id="startTime" value placeholder="start"></div>
-			<div class="vmItem"><input type="text" name="endtime" id="endTime" value placeholder="end"></div>
-			<div class="vmItem"><input type="text" name="bandwidth" id="bandwidth" value placeholder="bandwidth"></div>
-			<div class="vmItem"><input type="text" name="company" id="company" value placeholder="company"></div>
-			<div class="vmItem"><input type="text" name="dogsn" id="dogSn" value placeholder="dog sn"></div>
-			<div class="vmItem">node<select name="nodehost" id="node"></select></div>			
-			<div class="vmItem">port<select name="dogport" id="dogPort"></select></div>			
-			<div class="vmItem">ip<select name="ip" id="ip"></select></div>
-			<div class="vmItem">mac<select name="mac" id="mac"></select></div>
-		</form>
+{% if admin %}
+	<div id="deskAddVm">
+		<div id="vmItemDiv">
+			<form id='addHost'>
+				<div class="vmItem"><input type="text" name="vmname" id="vmName" value placeholder="instance name"></div>
+				<div class="vmItem"><input type="text" name="vcpus" id="vcpus" value placeholder="vcpus"></div>
+				<div class="vmItem"><input type="text" name="mem" id="mem" value placeholder="mem"></div>
+				<div class="vmItem"><input type="text" name="datadisk" id="disk" value placeholder="disk"></div>
+				<div class="vmItem"><input type="text" name="starttime" id="startTime" value placeholder="start"></div>
+				<div class="vmItem"><input type="text" name="endtime" id="endTime" value placeholder="end"></div>
+				<div class="vmItem"><input type="text" name="bandwidth" id="bandwidth" value placeholder="bandwidth"></div>
+				<div class="vmItem"><input type="text" name="company" id="company" value placeholder="company"></div>
+				<div class="vmItem"><input type="text" name="dogsn" id="dogSn" value placeholder="dog sn"></div>
+				<div class="vmItem">node<select name="nodehost" id="node"></select></div>			
+				<div class="vmItem">port<select name="dogport" id="dogPort"></select></div>			
+				<div class="vmItem">ip<select name="ip" id="ip"></select></div>
+				<div class="vmItem">mac<select name="mac" id="mac"></select></div>
+			</form>
+		</div>
 	</div>
-</div>
-<div id="deskAddNode">
-	<div id="addNodeDiv">
-		<form id="addNodeForm">
-			<div id="addNodeInputDiv"><input type="text" name="newNode"></div>
-		</form>
+	<div id="deskAddNode">
+		<div id="addNodeDiv">
+			<form id="addNodeForm">
+				<div id="addNodeInputDiv"><input type="text" name="newNode"></div>
+			</form>
+		</div>
 	</div>
-</div>
-<div id="deskAddIp">
-	<div id="addIpDiv">
-		<form id="addIpForm">
-			<div id="addIpInputdiv"><input type="text" name="newIp"></div>
-		</form>
+	<div id="deskAddIp">
+		<div id="addIpDiv">
+			<form id="addIpForm">
+				<div id="addIpInputdiv"><input type="text" name="newIp"></div>
+			</form>
+		</div>
 	</div>
-</div>
-<div id="deskAddMac">
-	<div id="addMacDiv">
-		<form id="addMacForm">
-			<div id="addMacInputdiv"><input type="text" name="newMac"></div>
-		</form>
+	<div id="deskAddMac">
+		<div id="addMacDiv">
+			<form id="addMacForm">
+				<div id="addMacInputdiv"><input type="text" name="newMac"></div>
+			</form>
+		</div>
 	</div>
-</div>
-<div id="deskAddPort">
-	<div id="addPortDiv">
-		<form id="addPortForm"> 
-			node:<select id="allNodes"></select>
-			<div id="addPortInputdiv">
-				<input type="text" name="newPort" value placeholder="dog port">
+	<div id="deskAddPort">
+		<div id="addPortDiv">
+			<form id="addPortForm"> 
+				node:<select id="allNodes"></select>
+				<div id="addPortInputdiv">
+					<input type="text" name="newPort" value placeholder="dog port">
+				</div>
+			</form>
+		</div>
+	</div>
+	<div id="deskUser">
+		<div id="deskUserDiv">
+			<div class="userHeader">
+				<div class="userHeaderItem" id="userHeaderUsername">user</div>
+				<div class="userHeaderItem" id="userHeaderVmName">vmName</div>
+				<div class="userHeaderItem" id="userHeaderVcpus">vcpus</div>
+				<div class="userHeaderItem" id="userHeaderMem">mem</div>
+				<div class="userHeaderItem" id="userHeaderDisk">disk</div>
+				<div class="userHeaderItem" id="userHeaderStart">start</div>
+				<div class="userHeaderItem" id="userHeaderEnd">end</div>
+				<div class="userHeaderItem" id="userHeaderCompany">company</div>
+				<div class="userHeaderItem" id="userHeaderBandwidth">bandwidth</div>
+				<div class="userHeaderItem" id="userHeaderNode">node</div>
+				<div class="userHeaderItem" id="userHeaderMac">mac</div>
+				<div class="userHeaderItem" id="userHeaderIp">ip</div>
+				<div class="userHeaderItem" id="userHeaderDogNP">dogNP</div>
 			</div>
-		</form>
+			<div class="userHeader">
+				<div class="userHeaderItem userHeaderPermissionItem"><div class="queryPermission permissionHeaderItem">-</div><div class="modifyPermission permissionHeaderItem">-</div></div>
+				<div class="userHeaderItem userHeaderPermissionItem"><div class="queryPermission permissionHeaderItem">Q</div><div class="modifyPermission permissionHeaderItem">M</div></div>
+				<div class="userHeaderItem userHeaderPermissionItem"><div class="queryPermission permissionHeaderItem">Q</div><div class="modifyPermission permissionHeaderItem">M</div></div>
+				<div class="userHeaderItem userHeaderPermissionItem"><div class="queryPermission permissionHeaderItem">Q</div><div class="modifyPermission permissionHeaderItem">M</div></div>
+				<div class="userHeaderItem userHeaderPermissionItem"><div class="queryPermission permissionHeaderItem">Q</div><div class="modifyPermission permissionHeaderItem">M</div></div>
+				<div class="userHeaderItem userHeaderPermissionItem"><div class="queryPermission permissionHeaderItem">Q</div><div class="modifyPermission permissionHeaderItem">M</div></div>
+				<div class="userHeaderItem userHeaderPermissionItem"><div class="queryPermission permissionHeaderItem">Q</div><div class="modifyPermission permissionHeaderItem">M</div></div>
+				<div class="userHeaderItem userHeaderPermissionItem"><div class="queryPermission permissionHeaderItem">Q</div><div class="modifyPermission permissionHeaderItem">M</div></div>
+				<div class="userHeaderItem userHeaderPermissionItem"><div class="queryPermission permissionHeaderItem">Q</div><div class="modifyPermission permissionHeaderItem">M</div></div>
+				<div class="userHeaderItem userHeaderPermissionItem"><div class="queryPermission permissionHeaderItem">Q</div><div class="modifyPermission permissionHeaderItem">M</div></div>
+				<div class="userHeaderItem userHeaderPermissionItem"><div class="queryPermission permissionHeaderItem">Q</div><div class="modifyPermission permissionHeaderItem">M</div></div>
+				<div class="userHeaderItem userHeaderPermissionItem"><div class="queryPermission permissionHeaderItem">Q</div><div class="modifyPermission permissionHeaderItem">M</div></div>
+				<div class="userHeaderItem userHeaderPermissionItem"><div class="queryPermission permissionHeaderItem">Q</div><div class="modifyPermission permissionHeaderItem">M</div></div>
+			</div>
+			<form id="userForm">
+				<div id="usersDiv"></div>
+			</form>
+		</div>
 	</div>
-</div>
+{% endif %}

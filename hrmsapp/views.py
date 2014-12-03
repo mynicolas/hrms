@@ -6,6 +6,7 @@ from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.encoding import smart_str
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from models import *
 
 
@@ -13,11 +14,83 @@ from models import *
 @csrf_exempt
 def renderVms(request):
     if request.method == "POST":
-        if request.user.username == u'admin':
+        thisUser = request.user
+        if thisUser.username == u'admin':
             vms = getVms()
         else:
             vms = getVms(user=request.user)
         vms = getVms()
+
+        try:
+            permission = thisUser.get_profile()
+            queryList = permission.query.split(',')
+            modifyList = permission.modify.split(',')
+            query = {}
+            modify = {}
+            if thisUser.username == u'admin':
+                query = {
+                    'instanceName': True,
+                    'vcpus': True,
+                    'mem': True,
+                    'dataDisk': True,
+                    'startTime': True,
+                    'useInterval': True,
+                    'company': True,
+                    'bandwidth': True,
+                    'nodeHost': True,
+                    'macAddress': True,
+                    'ipAddress': True,
+                    'dogNP': True
+                }
+                modify = {
+                    'instanceName': 'enabled',
+                    'vcpus': 'enabled',
+                    'mem': 'enabled',
+                    'dataDisk': 'enabled',
+                    'startTime': 'enabled',
+                    'useInterval': 'enabled',
+                    'company': 'enabled',
+                    'bandwidth': 'enabled',
+                    'nodeHost': 'enabled',
+                    'macAddress': 'enabled',
+                    'ipAddress': 'enabled',
+                    'dogNP': 'enabled'
+                }
+            else:
+                for q in queryList:
+                    query[q] = True
+                for m in modifyList:
+                    modify[m] = 'enabled'
+
+        except:
+            modify = {
+                'instanceName': 'disabled',
+                'vcpus': 'disabled',
+                'mem': 'disabled',
+                'dataDisk': 'disabled',
+                'startTime': 'disabled',
+                'useInterval': 'disabled',
+                'company': 'disabled',
+                'bandwidth': 'disabled',
+                'nodeHost': 'disabled',
+                'macAddress': 'disabled',
+                'ipAddress': 'disabled',
+                'dogNP': 'disabled'
+            }
+            query = {
+                'instanceName': True,
+                'vcpus': True,
+                'mem': True,
+                'dataDisk': True,
+                'startTime': True,
+                'useInterval': True,
+                'company': True,
+                'bandwidth': True,
+                'nodeHost': False,
+                'macAddress': False,
+                'ipAddress': True,
+                'dogNP': True
+            }
 
         ins = []
         for i in vms:
@@ -27,66 +100,66 @@ def renderVms(request):
             macOs = vm.mac      # macObjects
             aIn = {}            # aInstance
             aIn['name'] = {
-                'valu': vm.instanceName,
-                'perm': 'enabled',
-                'visi': True
+                'value': vm.instanceName,
+                'modify': modify.get('instanceName', 'disabled'),
+                'query': query.get('instanceName', False)
             }
             aIn['vcpus'] = {
-                'valu': vm.vcpus,
-                'perm': 'enabled',
-                'visi': True
+                'value': vm.vcpus,
+                'modify': modify.get('vcpus', 'disabled'),
+                'query': query.get('vcpus', False)
             }
             aIn['mem'] = {
-                'valu': vm.mem,
-                'perm': 'enabled',
-                'visi': True
+                'value': vm.mem,
+                'modify': modify.get('mem', 'disabled'),
+                'query': query.get('mem', False)
             }
             aIn['disk'] = {
-                'valu': vm.dataDisk,
-                'perm': 'enabled',
-                'visi': True
+                'value': vm.dataDisk,
+                'modify': modify.get('dataDisk', 'disabled'),
+                'query': query.get('dataDisk', False)
             }
             aIn['start'] = {
-                'valu': vm.startTime,
-                'perm': 'enabled',
-                'visi': True
+                'value': vm.startTime,
+                'modify': modify.get('startTime', 'disabled'),
+                'query': modify.get('startTime', False)
             }
             aIn['end'] = {
-                'valu': vm.useInterval,
-                'perm': 'enabled',
-                'visi': True
+                'value': vm.useInterval,
+                'modify': modify.get('useInterval', 'disabled'),
+                'query': query.get('useInterval', False)
             }
             aIn['company'] = {
-                'valu': vm.company,
-                'perm': 'enabled',
-                'visi': True
+                'value': vm.company,
+                'modify': modify.get('company', 'disabled'),
+                'query': query.get('company', False)
             }
             aIn['bandwidth'] = {
-                'valu': vm.bandwidth,
-                'perm': 'enabled',
-                'visi': True
+                'value': vm.bandwidth,
+                'modify': modify.get('bandwidth', 'disabled'),
+                'query': query.get('bandwidth', False)
             }
             aIn['node'] = {
-                'valu': vm.nodeHost,
-                'perm': 'enabled',
-                'visi': True
+                'value': vm.nodeHost,
+                'modify': modify.get('nodeHost', 'disabled'),
+                'query': query.get('nodeHost', False)
             }
             aIn['macs'] = {
-                'valu': [mac.macAddress for mac in macOs],
-                'perm': 'enabled',
-                'visi': True
+                'value': [mac.macAddress for mac in macOs],
+                'modify': modify.get('macAddress', 'disabled'),
+                'query': query.get('macAddress', False)
             }           # list
             ips = [ip.ipAddress for ip in ipOs]
             aIn['ips'] = {
-                'valu': ips,
-                'perm': 'enabled',
-                'visi': True
+                'value': ips,
+                'modify': modify.get('ipAddress', 'disabled'),
+                'query': query.get('ipAddress', False)
             }           # list
             dogNP = ['%s:%s' % (i, dogOs[i]) for i in dogOs]
             aIn['dogNP'] = {
-                'valu': dogNP,
-                'perm': 'enabled',
-                'visi': True
+                'value': dogNP,
+                'modify': modify.get('dogNP', 'disabled'),
+                'query': query.get('dogNP', False)
             }           # list
             ins.append(aIn)
         return render_to_response('all.html', {'all': ins, 'header': ins[0]})
@@ -105,7 +178,7 @@ def addHost(request):
         if newVm.existed:
             return HttpResponse('failed')
         try:
-            newVm.update(
+            isSaved = newVm.update(
                 owner=request.user.username,
                 vcpus=request.POST.get('vcpus', ''),
                 mem=request.POST.get('mem', ''),
@@ -124,7 +197,11 @@ def addHost(request):
                     request.POST.get('ip', '')
                 ]
             )
-            return HttpResponse('successful')
+
+            if isSaved:
+                return HttpResponse('successful')
+            else:
+                return HttpResponse('failed')
         except:
             return HttpResponse('failed')
 

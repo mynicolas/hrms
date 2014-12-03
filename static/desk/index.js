@@ -78,6 +78,7 @@ $(document).ready(function()
     addIcon('addPort', '/static/desk/icons/test.png', 'add dog port');
     addIcon('addMac', '/static/desk/icons/test.png', 'add mac');
     addIcon('log', '/static/desk/icons/test.png', 'log');
+    addIcon('user', '/static/desk/icons/test.png', 'user');
 
     var deskDialog = $('.ui-dialog');
     deskDialog.hide();
@@ -421,6 +422,35 @@ $(document).ready(function()
                 newDogPortInput.css('border', '1px solid rgb(255, 0, 0)')
             }
         } 
+    });
+
+
+    var userIcon = $('img#user');
+    var deskUser = $('div#deskUser');
+    deskUser.hide();
+    userIcon.click(function()
+    { // user的icon
+        $('div#usersDiv').empty();
+        deskUser.dialog({
+            title: "user",
+            resizable: false,
+            modal: false,
+            width: 1140,
+            height: 300,
+            close: function(){$(this).dialog("destroy")},
+            buttons: {
+                Submit: function() {
+                    $(this).dialog("destroy");
+                }
+            }
+        });
+
+        $.post('/user/', 'user=all', renderUsers);
+        function renderUsers(receive)
+        {
+            var usersDiv = $('div#usersDiv')
+            usersDiv.append(receive);
+        }
     });
 
 });

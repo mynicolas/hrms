@@ -1,3 +1,145 @@
-from django.shortcuts import render
+#!/usr/bin/env python
+#-*- coding: utf-8 -*-
+from django.http.response import HttpResponse
+from django.shortcuts import render_to_response
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.encoding import smart_str
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from models import *
 
-# Create your views here.
+
+@csrf_exempt
+@login_required
+def renderAllUsers(request):
+    if request.method == "POST":
+        allUserOs = User.objects.all()
+        allUsers = []
+        for aUserO in allUserOs:
+            aUser = {}
+            thisUsername = aUserO.username
+            try:
+                queryList = aUserO.get_profile().query.split(',')
+                modifyList = aUserO.get_profile().modify.split(',')
+                query = {}
+                modify = {}
+                if thisUser.username == u'admin':
+                    query = {
+                        'instanceName': 'checked',
+                        'vcpus': 'checked',
+                        'mem': 'checked',
+                        'dataDisk': 'checked',
+                        'startTime': 'checked',
+                        'useInterval': 'checked',
+                        'company': 'checked',
+                        'bandwidth': 'checked',
+                        'nodeHost': 'checked',
+                        'macAddress': 'checked',
+                        'ipAddress': 'checked',
+                        'dogNP': 'checked'
+                    }
+                    modify = {
+                        'instanceName': 'checked',
+                        'vcpus': 'checked',
+                        'mem': 'checked',
+                        'dataDisk': 'checked',
+                        'startTime': 'checked',
+                        'useInterval': 'checked',
+                        'company': 'checked',
+                        'bandwidth': 'checked',
+                        'nodeHost': 'checked',
+                        'macAddress': 'checked',
+                        'ipAddress': 'checked',
+                        'dogNP': 'checked'
+                    }
+                else:
+                    for q in queryList:
+                        query[q] = 'checked'
+                    for m in modifyList:
+                        modify[m] = 'checked'
+
+                    if not query.get('instanceName', ''):
+                        query['instanceName'] = ''
+                    if not query.get('vcpus', ''):
+                        query['vcpus'] = ''
+                    if not query.get('mem', ''):
+                        query['mem'] = ''
+                    if not query.get('dataDisk', ''):
+                        query['dataDisk'] = ''
+                    if not query.get('startTime', ''):
+                        query['startTime'] = ''
+                    if not query.get('useInterval', ''):
+                        query['useInterval'] = ''
+                    if not query.get('company', ''):
+                        query['company'] = ''
+                    if not query.get('bandwidth', ''):
+                        query['bandwidth'] = ''
+                    if not query.get('nodeHost', ''):
+                        query['nodeHost'] = ''
+                    if not query.get('macAddress', ''):
+                        query['macAddress'] = ''
+                    if not query.get('ipAddress', ''):
+                        query['ipAddress'] = ''
+                    if not query.get('dogNP', ''):
+                        query['dogNP'] = ''
+
+                    if not modify.get('instanceName', ''):
+                        modify['instanceName'] = ''
+                    if not modify.get('vcpus', ''):
+                        modify['vcpus'] = ''
+                    if not modify.get('mem', ''):
+                        modify['mem'] = ''
+                    if not modify.get('dataDisk', ''):
+                        modify['dataDisk'] = ''
+                    if not modify.get('startTime', ''):
+                        modify['startTime'] = ''
+                    if not modify.get('useInterval', ''):
+                        modify['useInterval'] = ''
+                    if not modify.get('company', ''):
+                        modify['company'] = ''
+                    if not modify.get('bandwidth', ''):
+                        modify['bandwidth'] = ''
+                    if not modify.get('nodeHost', ''):
+                        modify['nodeHost'] = ''
+                    if not modify.get('macAddress', ''):
+                        modify['macAddress'] = ''
+                    if not modify.get('ipAddress', ''):
+                        modify['ipAddress'] = ''
+                    if not modify.get('dogNP', ''):
+                        modify['dogNP'] = ''
+            except:
+                modify = {
+                    'instanceName': '',
+                    'vcpus': '',
+                    'mem': '',
+                    'dataDisk': '',
+                    'startTime': '',
+                    'useInterval': '',
+                    'company': '',
+                    'bandwidth': '',
+                    'nodeHost': '',
+                    'macAddress': '',
+                    'ipAddress': '',
+                    'dogNP': ''
+                }
+                query = {
+                    'instanceName': 'checked',
+                    'vcpus': 'checked',
+                    'mem': 'checked',
+                    'dataDisk': 'checked',
+                    'startTime': 'checked',
+                    'useInterval': 'checked',
+                    'company': 'checked',
+                    'bandwidth': 'checked',
+                    'nodeHost': '',
+                    'macAddress': '',
+                    'ipAddress': 'checked',
+                    'dogNP': 'checked'
+                }
+            aUser['username'] = thisUsername
+            aUser['query'] = query
+            aUser['modify'] = modify
+            allUsers.append(aUser)
+        return render_to_response('allUsers.html', {'allUsers': allUsers})
+    else:
+        return HttpResponse('404 not found')

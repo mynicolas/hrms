@@ -12,13 +12,14 @@ from django.utils.encoding import smart_str
 @csrf_exempt
 @login_required
 def renderDesk(request):
-	"""
-	渲染桌面
-	"""
-	return render_to_response('index.html')
+    """
+    渲染桌面
+    """
+    isAdmin = request.user.is_superuser
+    return render_to_response('index.html', {'admin': isAdmin})
 
 
 @login_required
 def logout(request):
-	auth.logout(request)
-	return HttpResponseRedirect('/login/')
+    auth.logout(request)
+    return HttpResponseRedirect('/login/')

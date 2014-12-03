@@ -183,7 +183,7 @@ class Vm(object):
         """
         # 如果该实例不存在，则创建新实例
         if not self.existed:
-            self.__create(
+            isSaved = self.__create(
                 vmName=self.instanceName,
                 vcpus=vcpus,
                 mem=mem,
@@ -199,7 +199,7 @@ class Vm(object):
                 mac=mac
             )
         else:
-            self.__update(
+            isSaved = self.__update(
                 vmName=vmName,
                 vcpus=vcpus,
                 mem=mem,
@@ -214,6 +214,8 @@ class Vm(object):
                 ip=ip,
                 mac=mac
             )
+
+        return isSaved
 
     def __update(
         self,
@@ -233,6 +235,30 @@ class Vm(object):
         mac=None
     ):
         thisInstance = Instance.objects.get(instanceName=self.instanceName)
+
+        if dogSn:
+            try:
+                self.dogSn = dogSn[0]
+                self.dogPort = dogSn[1]
+                for i in dogSn:
+                    thisPort = UsbPort.objects.get(port=self.dogPort)
+                    thisPort.instance = thisInstance
+                    try:
+                        thisPort.dogsn.sn = self.dogSn
+                    except:
+                        try:
+                            DogSN.objects.get(sn=self.dogSn)
+                            thisInstance.delete()
+                            return False
+                        except:
+                            DogSN.objects.create(
+                                sn=self.dogSn,
+                                port=thisPort
+                            ).save()
+                    thisPort.save()
+                thisInstance.save()
+            except:
+                pass
 
         if vmName:
             thisInstance.instanceName = vmName
@@ -304,19 +330,6 @@ class Vm(object):
                 thisMac.save()
             thisInstance.save()
 
-        if dogSn:
-            self.dogSn = dogSn[0]
-            self.dogPort = dogSn[1]
-            for i in dogSn:
-                thisPort = UsbPort.objects.get(port=self.dogPort)
-                thisPort.instance = thisInstance
-                try:
-                    thisPort.dogsn.sn = self.dogSn
-                except:
-                    DogSN.objects.create(sn=self.dogSn, port=thisPort).save()
-                thisPort.save()
-            thisInstance.save()
-
         if ip:
             self.ip = ip
             for i in ip:
@@ -325,6 +338,7 @@ class Vm(object):
                     thisIp.instance = thisInstance
                     thisIp.save()
             thisInstance.save()
+        return True
 
     def __create(
         self,
@@ -377,19 +391,18 @@ class Vm(object):
                 nodeHost=NodeHost.objects.get(node=nodeHost)
             )
             thisOwner.save()
-            # thisMac = Mac.objects.get(macAddress=mac)
-            # thisMac.instance = Instance.objects.get(instanceName=vmName)
-            # thisMac.save()
-            self.existed = True
 
-            self.__update(
+            isSaved = self.__update(
                 company=company,
                 dogSn=dogSn,
                 ip=ip,
                 mac=mac
             )
-
-            return True
+            if isSaved:
+                self.existed = True
+                return True
+            else:
+                return False
         except:
             return False
 
