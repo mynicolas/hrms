@@ -151,7 +151,10 @@ class Vm(object):
             usbPorts = thisInstance.usbport_set.all()
             for i in usbPorts:
                 self.dogPort.append(i.port)
-                self.dogSn[i.port] = i.dogsn.sn
+                try:
+                    self.dogSn[i.port] = i.dogsn.sn
+                except:
+                    self.dogSn[i.port] = '-'
 
             try:
                 self.company = thisInstance.company.companyName
@@ -366,6 +369,8 @@ class Vm(object):
                 mem=mem,
                 dataDisk=dataDisk,
                 bandwidth=bandwidth,
+                startTime=startTime,
+                useInterval=useInterval,
                 nodeHost=NodeHost.objects.get(node=nodeHost)
             )
             thisOwner.save()
@@ -375,9 +380,6 @@ class Vm(object):
             self.existed = True
 
             self.__update(
-                vmName=vmName,
-                startTime=startTime,
-                useInterval=useInterval,
                 company=company,
                 dogSn=dogSn,
                 ip=ip

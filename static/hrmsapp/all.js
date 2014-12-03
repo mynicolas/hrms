@@ -111,11 +111,7 @@ $(document).ready(function()
 
     var addIps = $('button.addIps');
     addIps.click(function()
-    {
-        if($('[aria-describedby=dialogAddMac]').length >= 2)
-        {
-            $('[aria-describedby=dialogAddMac]').remove();
-        }        
+    {       
         var thisVm = $(this).parent().parent().attr('id');
         $.post('/vm/addipdialog/', 'dialog=ips&host=' + thisVm, renderAddIpDialog);
         function renderAddIpDialog(receive)
@@ -127,6 +123,85 @@ $(document).ready(function()
             dialogAddIpDiv.append(receive);
             dialogAddIp.dialog({
                 title: "add ip",
+                resizable: false,
+                modal: true,
+                width: 210,
+                height: 300,
+                close: function(){$(this).dialog("destroy")},
+                buttons: {
+                    Submit: function() {
+                        $(this).dialog("widget");
+                    },
+                    Cancel: function() {
+                        $(this).dialog("destroy");
+                    }
+                }
+            });
+        }
+    });
+
+
+    var changeNode = $('button.changeNode');
+    changeNode.click(function()
+    {
+        var thisNodeInput = $(this).prev();
+        var thisVm = $(this).parent().parent().attr('id');
+        $.post('/vm/changenodedialog/', 'dialog=nodes&host=' + thisVm, renderChangeNodeDialog);
+        function renderChangeNodeDialog(receive)
+        {
+            oldValue = thisNodeInput.val();
+            var dialogAddDogDiv = $('div#dialogAddDogDiv');
+            var dialogAddDog = $('div#dialogAddDog');
+            dialogAddDog.hide();
+            dialogAddDogDiv.empty();
+            dialogAddDogDiv.append(receive);
+            dialogAddDog.dialog({
+                title: "add node",
+                resizable: false,
+                modal: true,
+                width: 210,
+                height: 300,
+                close: function(){$(this).dialog("destroy")},
+                buttons: {
+                    Submit: function() {
+                        newValue = $('[name=nodeRadio]:checked').val();
+                        $.post('/vm/changeitem/', 'host=' + thisVm + '&change=node' + '&oldvalue=' + oldValue + '&newvalue=' + newValue, __isSaved);
+                        function __isSaved(receive)
+                        {
+                            if(receive == "successful")
+                            {
+                                thisNodeInput.css('background-color', '#00dd00');
+                                thisNodeInput.val(newValue);
+                            }
+                            else
+                            {
+                                thisNodeInput.css('background-color', '#ff0000');
+                            }
+                        }
+                    },
+                    Cancel: function() {
+                        $(this).dialog("destroy");
+                    }
+                }
+            });
+        }
+    });
+
+
+    var addDogs = $('button.addDogs');
+    addDogs.click(function()
+    {       
+        var thisVm = $(this).parent().parent().attr('id');
+        $.post('/vm/adddogdialog/', 'dialog=dogs&host=' + thisVm, renderAddDogDialog);
+        function renderAddDogDialog(receive)
+        {
+            var dialogAddDogDiv = $('div#dialogAddDogDiv');
+            var dialogAddDog = $('div#dialogAddDog');
+            dialogAddDog.hide();
+            dialogAddDogDiv.empty();
+            dialogAddDogDiv.append(receive);
+            dialogAddDog.dialog({
+                title: "add dog",
                 resizable: false,
                 modal: true,
                 width: 210,

@@ -378,24 +378,71 @@ def renderAddIps(request):
 
 @csrf_exempt
 @login_required
+def renderChangeNode(request):
+    """
+    渲染添加mac的对话框
+    """
+    if request.method == "POST":
+        if request.POST.get('dialog', ''):
+            node = Vm(smart_str(request.POST.get('host'))).nodeHost
+            allNodeOs = NodeHost.objects.all()
+            allNodes = [
+                aNodeOs.node
+                for aNodeOs in allNodeOs
+                if not aNodeOs.node == node
+            ]
+            return render_to_response(
+                'allNodes.html',
+                {'node': node, 'allNodes': allNodes}
+            )
+        else:
+            return HttpResponse('failed')
+
+
+@csrf_exempt
+@login_required
 def renderAddDogs(request):
     """
     渲染添加mac的对话框
     """
     if request.method == "POST":
         if request.POST.get('dialog', ''):
-            vm = Vm(smart_str(request.POST.get('host')))
-            ips = [ipOs.ipAddress for ipOs in vm.ip]
-            allIpOs = Ip.objects.all()
-            freeIps = [
-                aIpOs.ipAddress for aIpOs in allIpOs if not aIpOs.instance
+            vmDog = Vm(smart_str(request.POST.get('host'))).dogSn
+            dogs = []
+            for dogPort in vmDog:
+                dogNP = {}
+                dogNP['port'] = dogPort
+                dogNP['sn'] = vmDog[dogPort]
+                dogs.append(dogNP)
+            allDogOs = UsbPort.objects.all()
+            freeDogs = [
+                aDogOs.port for aDogOs in allDogOs if not aDogOs.instance
             ]
             return render_to_response(
-                'allIps.html',
-                {'ips': ips, 'freeIps': freeIps}
+                'allDogs.html',
+                {'dogs': dogs, 'freeDogs': freeDogs}
             )
         else:
             return HttpResponse('failed')
+
+
+@csrf_exempt
+@login_required
+def changeItem(request):
+    """
+    为某个实例修改node
+    """
+    if request.method == "POST":
+        if request.POST.get('change', '') == u"node":
+            host = smart_str(request.POST.get('host'))
+            oldValue = smart_str(request.POST.get('oldvalue', ''))
+            newValue = smart_str(request.POST.get('newvalue', ''))
+            vm = Vm(host)
+            try:
+                vm.update(nodeHost=newValue)
+                return HttpResponse('successful')
+            except:
+                return HttpResponse('failed')
 
 
 @csrf_exempt

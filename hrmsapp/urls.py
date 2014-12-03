@@ -20,4 +20,6 @@ urlpatterns = patterns(
     url(r'^addmacdialog/$', renderAddMacs),
     url(r'^addipdialog/$', renderAddIps),
     url(r'^adddogdialog/$', renderAddDogs),
+    url(r'^changenodedialog/$', renderChangeNode),
+    url(r'^changeitem/$', changeItem),
 )

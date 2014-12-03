@@ -1,0 +1,6 @@
+<form>
+	<input type="radio" checked name="nodeRadio" value="{{ node }}"/>{{ node }}<br/>
+{% for aNode in allNodes %}
+	<input type="radio" name="nodeRadio" value="{{ aNode }}"/>{{ aNode }}<br/>
+{% endfor %}<br/>
+</form>

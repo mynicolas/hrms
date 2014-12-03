@@ -44,49 +44,48 @@
 	<div class="aHostItem" id="{{ aHost.name.valu }}">
 	{% if aHost.name.visi %}
 		<div class="hostItemDiv hostNameDiv">
-			<input {{ aHost.name.perm }} type="text" class="hostItem hostName" value="{{ aHost.name.valu }}"</input>
+			<input {{ aHost.name.perm }} type="text" class="hostItem hostName" value="{{ aHost.name.valu }}"></input>
 		</div>
 	{% endif %}
 	{% if aHost.vcpus.visi %}
 		<div class="hostItemDiv vcpusDiv">
-			<input {{ aHost.vcpus.perm }} type="text" class="hostItem vcpus" value="{{ aHost.vcpus.valu }}"</input>
+			<input {{ aHost.vcpus.perm }} type="text" class="hostItem vcpus" value="{{ aHost.vcpus.valu }}"></input>
 		</div>
 	{% endif %}
 	{% if aHost.mem.visi %}
 		<div class="hostItemDiv memDiv">
-			<input {{ aHost.mem.perm }} type="text" class="hostItem mem" value="{{ aHost.mem.valu }}"</input>
+			<input {{ aHost.mem.perm }} type="text" class="hostItem mem" value="{{ aHost.mem.valu }}"></input>
 		</div>
 	{% endif %}
 	{% if aHost.disk.visi %}
 		<div class="hostItemDiv diskDiv">
-			<input {{ aHost.disk.perm }} type="text" class="hostItem disk" value="{{ aHost.disk.valu }}"</input>
+			<input {{ aHost.disk.perm }} type="text" class="hostItem disk" value="{{ aHost.disk.valu }}"></input>
 		</div>
 	{% endif %}
 	{% if aHost.start.visi %}
 		<div class="hostItemDiv startDiv">
-			<input {{ aHost.start.perm }} type="text" class="hostItem start" value="{{ aHost.start.valu }}"</input>
+			<input {{ aHost.start.perm }} type="text" class="hostItem start" value="{{ aHost.start.valu }}"></input>
 		</div>
 	{% endif %}
 	{% if aHost.end.visi %}
 		<div class="hostItemDiv endDiv">
-			<input {{ aHost.end.perm }} type="text" class="hostItem end" value="{{ aHost.end.valu }}"</input>
+			<input {{ aHost.end.perm }} type="text" class="hostItem end" value="{{ aHost.end.valu }}"></input>
 		</div>
 	{% endif %}
 	{% if aHost.company.visi %}
 		<div class="hostItemDiv companyDiv">
-			<input {{ aHost.company.perm }} type="text" class="hostItem company" value="{{ aHost.company.valu }}"</input>
+			<input {{ aHost.company.perm }} type="text" class="hostItem company" value="{{ aHost.company.valu }}"></input>
 		</div>
 	{% endif %}
 	{% if aHost.bandwidth.visi %}
 		<div class="hostItemDiv bandwidthDiv">
-			<input {{ aHost.bandwidth.perm }} type="text" class="hostItem bandwidth" value="{{ aHost.bandwidth.valu }}"</input>
+			<input {{ aHost.bandwidth.perm }} type="text" class="hostItem bandwidth" value="{{ aHost.bandwidth.valu }}"></input>
 		</div>
 	{% endif %}
 	{% if aHost.node.visi %}
 		<div class="hostItemDiv nodeDiv">
-			<select {{ aHost.node.perm }} class="hostItem node">
-				<option>{{ aHost.node.valu }}</option>
-			</select>
+			<input disabled type="text" class="hostItem node hostItemHasButton" value="{{ aHost.node.valu }}"></input>
+			<button {{ aHost.node.perm }} class="hostItemButton changeNode">@</button>			
 		</div>
 	{% endif %}
 	{% if aHost.macs.visi %}
@@ -116,7 +115,7 @@
 				<option value="{{ dog }}">{{ dog }}</option>
 			{% endfor %}
 			</select>
-			<button {{ aHost.dogNP.perm }} class="hostItemButton changeDogNP">@</button>
+			<button {{ aHost.dogNP.perm }} class="hostItemButton addDogs">@</button>
 		</div>
 	{% endif %}
 	</div>
@@ -129,6 +128,10 @@
 
 <div id="dialogAddIp">
 	<div id="dialogAddIpDiv"></div>
+</div>
+
+<div id="dialogChangeNode">
+	<div id="dialogChangeNodeDiv"></div>
 </div>
 
 <div id="dialogAddDog">

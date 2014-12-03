@@ -1,0 +1,6 @@
+{% for dog in dogs %}
+	<input type="checkbox" checked value="{{ dog.port }}:{{ dog.sn }}">{{ dog.port }}:{{ dog.sn }}</input><br/>
+{% endfor %}
+{% for dog in freeDogs %}
+	<input type="checkbox" value="{{ dog }}:-">{{ dog }}:-</input><br/>
+{% endfor %}

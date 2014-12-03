@@ -127,7 +127,7 @@ CREATE TABLE `auth_user` (
 
 LOCK TABLES `auth_user` WRITE;
 /*!40000 ALTER TABLE `auth_user` DISABLE KEYS */;
-INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$12000$xDJX2ISFD3WZ$sj20K3g2EnVazrS5v8idbfm/f8r+xomCSjZxuIzdO3I=','2014-12-01 12:34:38',1,'admin','','','sdfsad@fsda.dd',1,1,'2014-12-01 12:29:09');
+INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$12000$xDJX2ISFD3WZ$sj20K3g2EnVazrS5v8idbfm/f8r+xomCSjZxuIzdO3I=','2014-12-02 09:53:16',1,'admin','','','sdfsad@fsda.dd',1,1,'2014-12-01 12:29:09');
 /*!40000 ALTER TABLE `auth_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -297,7 +297,7 @@ CREATE TABLE `django_session` (
 
 LOCK TABLES `django_session` WRITE;
 /*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
-INSERT INTO `django_session` VALUES ('va8giwyh6xt2g9fry6pddqx1x650hlbn','ZjMyMjRjY2VhMzg2NmI2ZDM4ZTZiOTI1ZGVkZjA1MmE4YmNiMmU4NDp7Il9hdXRoX3VzZXJfaGFzaCI6IjM4ZDA2NzdhNmYzMjU1ODJjZjU0ODlhNDY5Y2QyNTI3YTc4ZGQ0MTEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjF9','2014-12-15 12:34:38');
+INSERT INTO `django_session` VALUES ('139cghy7iksf5fj0fuz5rjlrsivgx5bc','YjIyYjA3ODkzOTJjMDFhNTBkZjAyNDI2NjQ4OGIwMjQwODBkNDE2Njp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6MX0=','2014-12-16 09:53:16'),('eu2ol6fjxamksy35uwfsix4ztui6cbs0','ZDQyMjc5NTAzMjdmOTQ1MDQxOTQ2NmQ1MDRlODQ3Mjc5NDgxYTAwZjp7fQ==','2014-12-16 05:57:45'),('lglft1zas386lb9aj2vfgwtwcsdksjpg','ZDQyMjc5NTAzMjdmOTQ1MDQxOTQ2NmQ1MDRlODQ3Mjc5NDgxYTAwZjp7fQ==','2014-12-16 05:57:45'),('va8giwyh6xt2g9fry6pddqx1x650hlbn','ZjMyMjRjY2VhMzg2NmI2ZDM4ZTZiOTI1ZGVkZjA1MmE4YmNiMmU4NDp7Il9hdXRoX3VzZXJfaGFzaCI6IjM4ZDA2NzdhNmYzMjU1ODJjZjU0ODlhNDY5Y2QyNTI3YTc4ZGQ0MTEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjF9','2014-12-15 12:34:38');
 /*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -389,7 +389,7 @@ CREATE TABLE `hrmsapp_instance` (
 
 LOCK TABLES `hrmsapp_instance` WRITE;
 /*!40000 ALTER TABLE `hrmsapp_instance` DISABLE KEYS */;
-INSERT INTO `hrmsapp_instance` VALUES (1,'vm1','8','8','8','2014-11-30 16:00:00',30,'8',1,1,1);
+INSERT INTO `hrmsapp_instance` VALUES (1,'vm1','12','45','8','2014-11-19 16:00:00',38,'8',1,3,1);
 /*!40000 ALTER TABLE `hrmsapp_instance` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -445,7 +445,7 @@ CREATE TABLE `hrmsapp_mac` (
 
 LOCK TABLES `hrmsapp_mac` WRITE;
 /*!40000 ALTER TABLE `hrmsapp_mac` DISABLE KEYS */;
-INSERT INTO `hrmsapp_mac` VALUES (1,'11:11:11:11:11:11',1),(2,'22:22:22:22:22:22',NULL),(3,'33:33:33:33:33:33',NULL),(4,'44:44:44:44:44:44',NULL);
+INSERT INTO `hrmsapp_mac` VALUES (1,'11:11:11:11:11:11',1),(2,'22:22:22:22:22:22',1),(3,'33:33:33:33:33:33',NULL),(4,'44:44:44:44:44:44',NULL);
 /*!40000 ALTER TABLE `hrmsapp_mac` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -461,7 +461,7 @@ CREATE TABLE `hrmsapp_nodehost` (
   `node` varchar(17) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `node` (`node`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -470,7 +470,7 @@ CREATE TABLE `hrmsapp_nodehost` (
 
 LOCK TABLES `hrmsapp_nodehost` WRITE;
 /*!40000 ALTER TABLE `hrmsapp_nodehost` DISABLE KEYS */;
-INSERT INTO `hrmsapp_nodehost` VALUES (1,'12.34.56.78'),(2,'87.65.43.21');
+INSERT INTO `hrmsapp_nodehost` VALUES (1,'12.34.56.78'),(3,'25.36.14.89'),(2,'87.65.43.21');
 /*!40000 ALTER TABLE `hrmsapp_nodehost` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -501,7 +501,7 @@ CREATE TABLE `hrmsapp_usbport` (
 
 LOCK TABLES `hrmsapp_usbport` WRITE;
 /*!40000 ALTER TABLE `hrmsapp_usbport` DISABLE KEYS */;
-INSERT INTO `hrmsapp_usbport` VALUES (1,'123',1,1),(2,'456',1,NULL),(3,'1234',2,NULL),(4,'5678',2,NULL);
+INSERT INTO `hrmsapp_usbport` VALUES (1,'123',1,1),(2,'456',1,1),(3,'1234',2,NULL),(4,'5678',2,NULL);
 /*!40000 ALTER TABLE `hrmsapp_usbport` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -566,4 +566,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-12-01 23:46:05
+-- Dump completed on 2014-12-03 10:57:30

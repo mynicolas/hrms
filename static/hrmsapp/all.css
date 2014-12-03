@@ -13,6 +13,7 @@ div#deskAllVms {
 	width: 1000px;
 }
 
+div.nodeDiv:after, div.macDiv:after,
 div.ipsDiv:after, div.dogNPDiv:after {
 	content: '';
 	display: block;
@@ -20,6 +21,7 @@ div.ipsDiv:after, div.dogNPDiv:after {
 	clear: both;
 }
 
+input.node,
 select.ips, button.addIps,
 select.dogNP, button.changeDogNP {
 	float: left;
@@ -71,6 +73,12 @@ div.aHostItem {
 	width: 65%;
 }
 
+.hostItemButton:hover {
+	text-align: center;
+	width: 30%;
+	border: 1px solid #00dd00;
+}
+
 .hostItemHasButton:hover {
 	text-align: center;
 	width: 65%;
@@ -114,7 +122,7 @@ div#headerBandwidth, div.bandwidthDiv {
 }
 
 div#headerNode, div.nodeDiv {
-	width: 150px;
+	width: 200px;
 }
 
 div#headerMac, div.macDiv {
