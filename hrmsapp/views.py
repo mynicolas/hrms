@@ -102,6 +102,8 @@ def addHost(request):
     if request.method == "POST":
         vmName = request.POST.get('vmname', '')
         newVm = Vm(vmName)
+        if newVm.existed:
+            return HttpResponse('failed')
         try:
             newVm.update(
                 owner=request.user.username,

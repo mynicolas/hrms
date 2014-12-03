@@ -150,7 +150,8 @@ $(document).ready(function()
     deskAddVm.hide();
     var starttime = $('input#startTime');
     var endtime = $('input#endTime');
-    addIcon.click(function()
+    addIcon.click(addIconClick);
+    function addIconClick()
     {// 添加实例的icon
         renderNodes();
         renderIps();
@@ -179,7 +180,7 @@ $(document).ready(function()
             var endTime = $('input#endTime').val();
             var bandwidth = $('input#bandwidth').val();
             var company = $('input#company').val();
-            var dogSn = $('input#dosSn').val();
+            var dogSn = $('input#dogSn').val();
             var dogPort = $('select#dogPort').val();
             var node = $('select#node').val();
             var ip = $('select#ip').val();
@@ -205,7 +206,8 @@ $(document).ready(function()
                 var vmItemDiv = $('div#vmItemDiv');
                 if (receive == 'successful')
                 {
-                    vmItemDiv.css('border', '1px solid rgb(0, 255, 255)');
+                    vmItemDiv.css('border', '1px solid rgb(0, 255, 0)');
+                    addIconClick();
                 }
                 else
                 {
@@ -229,7 +231,7 @@ $(document).ready(function()
                 starttime.datepicker("option", "maxDate", selectedDate);
             }
         });        
-    });
+    }
 
     var nodeSelector = $('select#node');
     function renderNodes()

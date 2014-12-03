@@ -369,20 +369,24 @@ class Vm(object):
                 mem=mem,
                 dataDisk=dataDisk,
                 bandwidth=bandwidth,
-                startTime=startTime,
-                useInterval=useInterval,
+                startTime=string2Date(startTime),
+                useInterval=date2Days(
+                    string2Date(startTime),
+                    string2Date(useInterval)
+                ),
                 nodeHost=NodeHost.objects.get(node=nodeHost)
             )
             thisOwner.save()
-            thisMac = Mac.objects.get(macAddress=mac)
-            thisMac.instance = Instance.objects.get(instanceName=vmName)
-            thisMac.save()
+            # thisMac = Mac.objects.get(macAddress=mac)
+            # thisMac.instance = Instance.objects.get(instanceName=vmName)
+            # thisMac.save()
             self.existed = True
 
             self.__update(
                 company=company,
                 dogSn=dogSn,
-                ip=ip
+                ip=ip,
+                mac=mac
             )
 
             return True
