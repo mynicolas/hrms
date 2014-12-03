@@ -450,6 +450,13 @@ $(document).ready(function()
         {
             var usersDiv = $('div#usersDiv')
             usersDiv.append(receive);
+
+            var permItem = $('input.aUserPermissionItem');
+            permItem.change(function()
+            {
+                thisUser = $(this).parent().parent().attr('id');
+                console.log(thisUser);
+            });
         }
     });
 

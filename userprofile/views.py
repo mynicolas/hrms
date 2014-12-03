@@ -19,26 +19,13 @@ def renderAllUsers(request):
             aUser = {}
             thisUsername = aUserO.username
             try:
-                queryList = aUserO.get_profile().query.split(',')
-                modifyList = aUserO.get_profile().modify.split(',')
+                thisUserPerm = aUserO.perm_set.all()[0]
+                queryList = thisUserPerm.query.split(',')
+                modifyList = thisUserPerm.modify.split(',')
                 query = {}
                 modify = {}
-                if thisUser.username == u'admin':
-                    query = {
-                        'instanceName': 'checked',
-                        'vcpus': 'checked',
-                        'mem': 'checked',
-                        'dataDisk': 'checked',
-                        'startTime': 'checked',
-                        'useInterval': 'checked',
-                        'company': 'checked',
-                        'bandwidth': 'checked',
-                        'nodeHost': 'checked',
-                        'macAddress': 'checked',
-                        'ipAddress': 'checked',
-                        'dogNP': 'checked'
-                    }
-                    modify = {
+                if aUserO.is_superuser:
+                    query = modify = {
                         'instanceName': 'checked',
                         'vcpus': 'checked',
                         'mem': 'checked',
@@ -136,10 +123,41 @@ def renderAllUsers(request):
                     'ipAddress': 'checked',
                     'dogNP': 'checked'
                 }
+
             aUser['username'] = thisUsername
             aUser['query'] = query
             aUser['modify'] = modify
             allUsers.append(aUser)
+
         return render_to_response('allUsers.html', {'allUsers': allUsers})
+    else:
+        return HttpResponse('404 not found')
+
+
+@csrf_exempt
+@login_required
+def changePerm(request):
+    """
+    修改用户的权限
+    """
+    if request.method == "POST":
+        username = request.POST.get('username', '')
+        oldQuery = request.POST.get('oldquery', '')
+        newQuery = request.POST.get('newquery', '')
+        oldModify = request.POST.get('oldmodify', '')
+        newModify = request.POST.get('newmodify', '')
+        if not thisUser:
+            return HttpResponse('failed')
+        else:
+            thisUser = User.objects.get(username=username)
+            try:
+                thisPerm = thisUser.perm_set
+                thisPerm.query = newQuery
+                thisPerm.modify = newModify
+                thisUser.save()
+            except:
+                thisUser.perm_set.create(query=newQuery, modify=newModify)
+                thisUser.save()
+            return HttpResponse('successful')
     else:
         return HttpResponse('404 not found')

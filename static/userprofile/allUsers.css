@@ -1,4 +1,4 @@
-div.aUserPermissionDiv {
+div.aUserPermissionDiv:after {
 	content: '';
 	height: 0;
 	clear: both;
@@ -13,4 +13,8 @@ div.permissionItem {
 input.aUserPermissionItem {
 	width: 30%;
 	margin-left: 11%;
+}
+
+div.permissionItem:hover {
+	background-color: #00dddd;
 }

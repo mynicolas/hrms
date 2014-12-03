@@ -22,12 +22,12 @@ def renderVms(request):
         vms = getVms()
 
         try:
-            permission = thisUser.get_profile()
+            permission = thisUser.perm_set.all()[0]
             queryList = permission.query.split(',')
             modifyList = permission.modify.split(',')
             query = {}
             modify = {}
-            if thisUser.username == u'admin':
+            if thisUser.is_superuser:
                 query = {
                     'instanceName': True,
                     'vcpus': True,
