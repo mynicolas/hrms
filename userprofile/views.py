@@ -146,18 +146,21 @@ def changePerm(request):
         newQuery = request.POST.get('newquery', '')
         oldModify = request.POST.get('oldmodify', '')
         newModify = request.POST.get('newmodify', '')
-        if not thisUser:
+        if not username:
             return HttpResponse('failed')
         else:
             thisUser = User.objects.get(username=username)
             try:
-                thisPerm = thisUser.perm_set
+                thisPerm = thisUser.perm_set.all()[0]
                 thisPerm.query = newQuery
                 thisPerm.modify = newModify
-                thisUser.save()
+                thisPerm.save()
             except:
-                thisUser.perm_set.create(query=newQuery, modify=newModify)
-                thisUser.save()
+                try:
+                    thisUser.perm_set.create(query=newQuery, modify=newModify)
+                    thisUser.save()
+                except:
+                    return HttpResponse('failed')
             return HttpResponse('successful')
     else:
         return HttpResponse('404 not found')

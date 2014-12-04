@@ -75,17 +75,15 @@ $(document).ready(function()
     var addMacs = $('button.addMacs');
     addMacs.click(function()
     {
-        if($('[aria-describedby=dialogAddMac]').length >= 1)
-        {
-            console.log($('[aria-describedby=dialogAddMac]').length);
-            $('[aria-describedby=dialogAddMac]').remove();
-        }
+        var thisMacInput = $(this).prev();
         var thisVm = $(this).parent().parent().attr('id');
         $.post('/vm/addmacdialog/', 'dialog=macs&host=' + thisVm, renderAddMacDialog);
         function renderAddMacDialog(receive)
         {
+            var macsDiv = $('div#dialogAddMacDiv');
             var dialogAddMacDiv = $('div#dialogAddMacDiv');
             var dialogAddMac = $('div#dialogAddMac');
+            oldValue = macsDiv.children().filter(':checked');
             dialogAddMac.hide();
             dialogAddMacDiv.empty();
             dialogAddMacDiv.append(receive);
@@ -98,7 +96,23 @@ $(document).ready(function()
                 close: function(){$(this).dialog("destroy")},
                 buttons: {
                     Submit: function() {
-                        $(this).dialog("widget");
+                        macsChecked = macsDiv.children().filter(':checked');
+                        macsChecked.each(function()
+                        {
+                            newValue += $(this).val() + ',';
+                        });
+                        $.post('/vm/changecacs/', 'host=' + thisVm + '&oldvalue=' + oldValue + '&newvalue=' + newValue, __isSaved);
+                        function __isSaved(receive)
+                        {
+                            if(receive == "successful")
+                            {
+                                thisMacInput.css('background-color', '#00dd00');
+                            }
+                            else
+                            {
+                                thisMacInput.css('background-color', '#ff0000');
+                            }
+                        }
                     },
                     Cancel: function() {
                         $(this).dialog("destroy");

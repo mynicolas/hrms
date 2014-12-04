@@ -7,5 +7,5 @@ from views import *
 urlpatterns = patterns(
     '',
     url('^$', renderAllUsers),
-    url('^changeperm', changePerm),
+    url('^changeperm/$', changePerm),
 )

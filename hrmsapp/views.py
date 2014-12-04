@@ -507,7 +507,7 @@ def renderAddDogs(request):
 
 @csrf_exempt
 @login_required
-def changeItem(request):
+def changeItems(request):
     """
     为某个实例修改node
     """
@@ -526,7 +526,7 @@ def changeItem(request):
 
 @csrf_exempt
 @login_required
-def addMacs(request):
+def changeMacs(request):
     """
     为某个实例添加或删除mac
     """
@@ -536,116 +536,9 @@ def addMacs(request):
 
 @csrf_exempt
 @login_required
-def addIps(request):
+def changeIps(request):
     """
     为某个实例添加或删除mac
     """
     if request.method == "POST":
         return HttpResponse('successful')
-
-# @login_required
-# @csrf_exempt
-# def renderVms(request):
-#     """
-#     根据用户权限渲染实例项目
-#     """
-#     if request.method != "POST":
-#         return 0
-#     user = request.user
-#     if user == u'root':
-#         vms = getVms()
-#     else:
-#         vms = getVms(user=user)
-
-#     sendContent = minidom.parseString("<xml></xml>")
-#     root = sendContent.documentElement
-#     for i in vms:
-#         vm = Vm(i)
-#         dogs = vm.dogSn
-#         ips = vm.ip
-#         vmXml = "\
-#             <aHost>\
-#                 <name>%s</name>\
-#                 <core>%s</core>\
-#                 <mem>%s</mem>\
-#                 <disk>%s</disk>\
-#                 <mac>%s</mac>\
-#                 <start>%s</start>\
-#                 <end>%s</end>\
-#                 <company>%s</company>\
-#                 <dogNP></dogNP>\
-#                 <bandwidth>%s</bandwidth>\
-#                 <node>%s</node>\
-#                 <ips></ips>\
-#             </aHost>\
-#         " % (
-#             vm.instanceName,
-#             vm.vcpus,
-#             vm.mem,
-#             vm.dataDisk,
-#             vm.mac,
-#             vm.startTime,
-#             vm.useInterval,
-#             vm.company,
-#             vm.bandwidth,
-#             vm.nodeHost,
-#             )
-#         aVm = minidom.parseString(vmXml).documentElement
-#         dogNP = aVm.getElementsByTagName('dogNp')
-#         for p in dogs:
-#             dogNPXml = "<dogN dogP='%s'>%s</dogN>" % (p, dogs[p])
-#             dogNP.appendChild(minidom.parseString(dogNPXml).documentElement)
-#         ipN = aVm.getElementsByTagName('ips')
-#         for ip in ips:
-#             ipXml = "<ip>%s</ip>" % ip
-#             ipN.appendChild(minidom.parseString(ipXml).documentElement)
-
-#         root.appendChild(aVm)
-#     return HttpResponse(sendContent.toxml())
-
-
-# @login_required
-# @csrf_exempt
-# def addIp(request):
-#     """
-#     添加IP
-#     参数中带有需要添加的ip信息
-#     """
-#     if request.method == "POST":
-#         try:
-#             addIps(request.POST.get('ips', ''))
-#             return HttpResponse('successful')
-#         except:
-#             return HttpResponse('failed')
-
-
-# @login_required
-# @csrf_exempt
-# def addNode(request):
-#     """
-#     添加节点
-#     参数中带有需要添加的节点信息
-#     """
-#     if request.method == "POST":
-#         try:
-#             addNodes(request.POST.get('nodes', ''))
-#             return HttpResponse('successful')
-#         except:
-#             return HttpResponse('failed')
-
-
-# @login_required
-# @csrf_exempt
-# def renderIpNode(request):
-#     """
-#     获取并返回ip池中的所有ip
-#     param: request.POST['item']
-#         item: ip || node
-#     """
-#     item = request.POST.get('item', '')
-#     if item == u'ip':
-#         ips = getIps()
-#         return HttpResponse(ips)
-#     elif item == u'node':
-#         nodes = getNodes()
-#         return HttpResponse(nodes)

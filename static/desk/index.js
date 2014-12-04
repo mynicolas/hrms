@@ -448,14 +448,73 @@ $(document).ready(function()
         $.post('/user/', 'user=all', renderUsers);
         function renderUsers(receive)
         {
+            var thisUser;
+            var oldQuery = ',';
+            var oldModify = ',';
+            var newQuery = ',';
+            var newModify = ',';
             var usersDiv = $('div#usersDiv')
             usersDiv.append(receive);
 
             var permItem = $('input.aUserPermissionItem');
+            $('div.aUserPermissionDiv').mouseenter(function()
+            {
+                thisUser = $(this);
+                var oldQueryChecked = thisUser.children().children().children().filter('.queryItem').filter(':checked');
+                var oldModifyChecked = thisUser.children().children().children().filter('.modifyItem').filter(':checked');
+                oldQueryChecked.each(function()
+                {
+                    oldQuery += $(this).attr('name') + ',';
+                });
+                oldModifyChecked.each(function()
+                {
+                    oldModify += $(this).attr('name') + ',';
+                });
+            });
+            console.log(oldQuery);
             permItem.change(function()
             {
-                thisUser = $(this).parent().parent().attr('id');
-                console.log(thisUser);
+                thisChecked = $(this);
+                newQuery = ',';
+                newModify = ',';
+                var newQueryChecked = thisUser.children().children().children().filter('.queryItem').filter(':checked');
+                var newModifyChecked = thisUser.children().children().children().filter('.modifyItem').filter(':checked');
+                newQueryChecked.each(function()
+                {
+                    newQuery += $(this).attr('name') + ',';
+                });
+                newModifyChecked.each(function()
+                {
+                    newModify += $(this).attr('name') + ',';
+                });
+
+                $.post('/user/changeperm/',
+                    'username=' + thisUser.attr('id') +
+                    '&oldquery=' + oldQuery +
+                    '&newquery=' + newQuery +
+                    '&oldmodify=' + oldModify +
+                    '&newmodify=' + newModify,
+                    isSaved);
+
+                function isSaved(receive)
+                {
+                    if(receive == 'successful')
+                    {
+                        thisChecked.parent().css('background-color', '#00ff00');
+                    }
+                    else
+                    {
+                        thisChecked.parent().css('background-color', "ff0000");
+                    }
+                }
+            });
+
+            $('div.aUserPermissionDiv').mouseleave(function()
+            {
+                oldQuery = ',';
+                oldModify = ',';
+                newQuery = ',';
+                newModify = ',';
             });
         }
     });

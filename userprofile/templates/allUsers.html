@@ -6,52 +6,52 @@
 			<div id="permissionUsername">{{ aUser.username }}</div>
 		</div>
 		<div class="permissionVmNameDiv permissionItem">
-			<input class="aUserPermissionItem queryVmName" {{ aUser.query.instanceName }} type="checkbox"/>
-			<input class="aUserPermissionItem modifyVmName" {{ aUser.modify.instanceName }} type="checkbox"/>
+			<div class="permissionInputItem"><input class="aUserPermissionItem queryItem" name="instanceName" {{ aUser.query.instanceName }} type="checkbox"/></div>
+			<div class="permissionInputItem"><input class="aUserPermissionItem modifyItem" name="instanceName" {{ aUser.modify.instanceName }} type="checkbox"/></div>
 		</div>
 		<div class="permissionVcpusDiv permissionItem">
-			<input class="aUserPermissionItem queryVcpus" {{ aUser.query.vcpus }} type="checkbox"/>
-			<input class="aUserPermissionItem modifyVcpus" {{ aUser.modify.vcpus }} type="checkbox"/>
+			<div class="permissionInputItem"><input class="aUserPermissionItem queryItem" name="vcpus" {{ aUser.query.vcpus }} type="checkbox"/></div>
+			<div class="permissionInputItem"><input class="aUserPermissionItem modifyItem" name="vcpus" {{ aUser.modify.vcpus }} type="checkbox"/></div>
 		</div>
 		<div class="permissionMemDiv permissionItem">
-			<input class="aUserPermissionItem queryMem" {{ aUser.query.mem }} type="checkbox"/>
-			<input class="aUserPermissionItem modifyMem" {{ aUser.modify.mem }} type="checkbox"/>
+			<div class="permissionInputItem"><input class="aUserPermissionItem queryItem" name="mem" {{ aUser.query.mem }} type="checkbox"/></div>
+			<div class="permissionInputItem"><input class="aUserPermissionItem modifyItem" name="mem" {{ aUser.modify.mem }} type="checkbox"/></div>
 		</div>
 		<div class="permissionDataDiskDiv permissionItem">
-			<input class="aUserPermissionItem queryDataDisk" {{ aUser.query.dataDisk }} type="checkbox"/>
-			<input class="aUserPermissionItem modifyDataDisk" {{ aUser.modify.dataDisk }} type="checkbox"/>
+			<div class="permissionInputItem"><input class="aUserPermissionItem queryItem" name="dataDisk" {{ aUser.query.dataDisk }} type="checkbox"/></div>
+			<div class="permissionInputItem"><input class="aUserPermissionItem modifyItem" name="dataDisk" {{ aUser.modify.dataDisk }} type="checkbox"/></div>
 		</div>
 		<div class="permissionStartTimeDiv permissionItem">
-			<input class="aUserPermissionItem queryStartTime" {{ aUser.query.startTime }} type="checkbox"/>
-			<input class="aUserPermissionItem modifyStartTime" {{ aUser.modify.startTime }} type="checkbox"/>
+			<div class="permissionInputItem"><input class="aUserPermissionItem queryItem" name="startTime" {{ aUser.query.startTime }} type="checkbox"/></div>
+			<div class="permissionInputItem"><input class="aUserPermissionItem modifyItem" name="startTime" {{ aUser.modify.startTime }} type="checkbox"/></div>
 		</div>
 		<div class="permissionUseIntervalDiv permissionItem">
-			<input class="aUserPermissionItem queryUseInterval" {{ aUser.query.useInterval }} type="checkbox"/>
-			<input class="aUserPermissionItem modifyUseInterval" {{ aUser.modify.useInterval }} type="checkbox"/>
+			<div class="permissionInputItem"><input class="aUserPermissionItem queryItem" name="useInterval" {{ aUser.query.useInterval }} type="checkbox"/></div>
+			<div class="permissionInputItem"><input class="aUserPermissionItem modifyItem" name="useInterval" {{ aUser.modify.useInterval }} type="checkbox"/></div>
 		</div>
 		<div class="permissionCompanyDiv permissionItem">
-			<input class="aUserPermissionItem queryCompany" {{ aUser.query.company }} type="checkbox"/>
-			<input class="aUserPermissionItem modifyCompany" {{ aUser.modify.company }} type="checkbox"/>
+			<div class="permissionInputItem"><input class="aUserPermissionItem queryItem" name="company" {{ aUser.query.company }} type="checkbox"/></div>
+			<div class="permissionInputItem"><input class="aUserPermissionItem modifyItem" name="company" {{ aUser.modify.company }} type="checkbox"/></div>
 		</div>
 		<div class="permissionBandwidthDiv permissionItem">
-			<input class="aUserPermissionItem queryBandwidth" {{ aUser.query.bandwidth }} type="checkbox"/>
-			<input class="aUserPermissionItem modifyBandwidth" {{ aUser.modify.bandwidth }} type="checkbox"/>
+			<div class="permissionInputItem"><input class="aUserPermissionItem queryItem" name="bandwidth" {{ aUser.query.bandwidth }} type="checkbox"/></div>
+			<div class="permissionInputItem"><input class="aUserPermissionItem modifyItem" name="bandwidth" {{ aUser.modify.bandwidth }} type="checkbox"/></div>
 		</div>
 		<div class="permissionNodeHostDiv permissionItem">
-			<input class="aUserPermissionItem queryNodeHost" {{ aUser.query.nodeHost }} type="checkbox"/>
-			<input class="aUserPermissionItem modifyNodeHost" {{ aUser.modify.nodeHost }} type="checkbox"/>
+			<div class="permissionInputItem"><input class="aUserPermissionItem queryItem" name="nodeHost" {{ aUser.query.nodeHost }} type="checkbox"/></div>
+			<div class="permissionInputItem"><input class="aUserPermissionItem modifyItem" name="nodeHost" {{ aUser.modify.nodeHost }} type="checkbox"/></div>
 		</div>
 		<div class="permissionMacAddressDiv permissionItem">
-			<input class="aUserPermissionItem queryMacAddress" {{ aUser.query.macAddress }} type="checkbox"/>
-			<input class="aUserPermissionItem modifyMacAddress" {{ aUser.modify.macAddress }} type="checkbox"/>
+			<div class="permissionInputItem"><input class="aUserPermissionItem queryItem" name="macAddress" {{ aUser.query.macAddress }} type="checkbox"/></div>
+			<div class="permissionInputItem"><input class="aUserPermissionItem modifyItem" name="macAddress" {{ aUser.modify.macAddress }} type="checkbox"/></div>
 		</div>
 		<div class="permissionIpAddressDiv permissionItem">
-			<input class="aUserPermissionItem queryIpAddress" {{ aUser.query.ipAddress }} type="checkbox"/>
-			<input class="aUserPermissionItem modifyIpAddress" {{ aUser.modify.ipAddress }} type="checkbox"/>
+			<div class="permissionInputItem"><input class="aUserPermissionItem queryItem" name="ipAddress" {{ aUser.query.ipAddress }} type="checkbox"/></div>
+			<div class="permissionInputItem"><input class="aUserPermissionItem modifyItem" name="ipAddress" {{ aUser.modify.ipAddress }} type="checkbox"/></div>
 		</div>
 		<div class="permissionDogNPDiv permissionItem">
-			<input class="aUserPermissionItem queryDogNP" {{ aUser.query.dogNP }} type="checkbox"/>
-			<input class="aUserPermissionItem modifyDogNP" {{ aUser.modify.dogNP }} type="checkbox"/>
+			<div class="permissionInputItem"><input class="aUserPermissionItem queryItem" name="dogNP" {{ aUser.query.dogNP }} type="checkbox"/></div>
+			<div class="permissionInputItem"><input class="aUserPermissionItem modifyItem" name="dogNP" {{ aUser.modify.dogNP }} type="checkbox"/></div>
 		</div>
 	</div>
 {% endfor %}
