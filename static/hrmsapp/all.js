@@ -341,19 +341,26 @@ $(document).ready(function()
                     Submit: function() {
                         if(newDogs != oldDogs)
                         {
-                            $.post('/vm/changedogs/', 'host=' + thisVm + '&oldvalue=' + oldDogs + '&newvalue=' + newDogs, __isSaved);
-                            function __isSaved(receive)
+                            dialogAddDogDiv.children().filter(':checked').each(function()
                             {
-                                if(receive == "successful")
+                                newDogs += $(this).next().text() + $(this).next().next().text() + ',';
+                            });
+                            if(newDogs != oldDogs)
+                            {
+                                $.post('/vm/changedogs/', 'host=' + thisVm + '&oldvalue=' + oldDogs + '&newvalue=' + newDogs, __isSaved);
+                                function __isSaved(receive)
                                 {
-                                    thisDogSN.css('background-color', '#00dd00');
+                                    if(receive == "successful")
+                                    {
+                                        thisDogSN.css('background-color', '#00dd00');
+                                    }
+                                    else
+                                    {
+                                        thisDogSN.css('background-color', '#ff0000');
+                                    }
                                 }
-                                else
-                                {
-                                    thisDogSN.css('background-color', '#ff0000');
-                                }
+                                $(this).dialog('destroy');
                             }
-                            $(this).dialog('destroy');
                         }
                     },
                     Cancel: function() {
@@ -361,25 +368,18 @@ $(document).ready(function()
                     }
                 }
             });
-
+            var emptyDog = $('input#emptyDog');
+            dialogAddDogDiv.children().filter('input').change(function()
+            {
+                if(emptyDog.is(':checked'))
+                {
+                    dialogAddDogDiv.children().filter('input').not('input#emptyDog').removeAttr('checked')
+                }
+            });
             var oldDogsChecked = dialogAddDogDiv.children().filter(':checked');
             oldDogsChecked.each(function()
             {
                 oldDogs += $(this).next().text() + $(this).next().next().text() + ',';
-                var emptyDog = $('input#emptyDog');
-                if(emptyDog.prop('checked'))
-                {
-                    console.log('a')
-                }
-            });
-            newDogs = oldDogs;
-            dialogAddDogDiv.children().change(function()
-            {
-                var newDogsChecked = dialogAddDogDiv.children().filter(':checked');
-                newDogsChecked.each(function()
-                {
-                    newDogs += $(this).next().text() + $(this).next().next().text() + ',';
-                });
             });
 
             var addSn = $('button.addSn');

@@ -476,7 +476,6 @@ $(document).ready(function()
                     oldModify += $(this).attr('name') + ',';
                 });
             });
-            console.log(oldQuery);
             permItem.change(function()
             {
                 thisChecked = $(this);
