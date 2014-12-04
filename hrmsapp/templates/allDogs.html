@@ -1,6 +1,12 @@
+<input id='emptyDog' type="checkbox"/><span>-:</span><span>-</span><button class="addSn">sn</button><br/>
 {% for dog in dogs %}
-	<input type="checkbox" checked value="{{ dog.port }}:{{ dog.sn }}">{{ dog.port }}:{{ dog.sn }}</input><br/>
+	<input type="checkbox" checked/><span>{{ dog.port }}:</span><span>{{ dog.sn }}</span><button class="addSn">sn</button><br/>
 {% endfor %}
 {% for dog in freeDogs %}
-	<input type="checkbox" value="{{ dog }}:-">{{ dog }}:-</input><br/>
+	<input type="checkbox"/><span>{{ dog }}:</span><span>-</span><button class="addSn">sn</button><br/>
 {% endfor %}
+<div id="dialogAddSn" hidden>
+	<div id="dialogAddSnDiv">
+		<input id="dialogAddSnInput" type='text'></input>
+	</div>
+</div>

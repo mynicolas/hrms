@@ -84,7 +84,12 @@ $(document).ready(function()
     deskDialog.hide();
     var allIcon = $('img#allVms');
     var deskAllVms = $('div#deskAllVms');
-    allIcon.click(function()
+    allIcon.click(getAll);
+    function getAll()
+    {
+        $.post("/static/hrmsapp/all.js", '', function(receive){$(body).append()});
+    }
+    function getAll()
     {// 所有实例的icon
         $.post('/vm/', 'item=all', renderAll);
         deskAllVms.dialog({
@@ -99,7 +104,7 @@ $(document).ready(function()
                     }
                 }
         });
-    });
+    }
 
     var hostsDiv = $('div#hostsDiv');
     function renderAll(receive)

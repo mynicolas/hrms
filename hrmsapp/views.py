@@ -486,14 +486,17 @@ def renderAddDogs(request):
     """
     if request.method == "POST":
         if request.POST.get('dialog', ''):
-            vmDog = Vm(smart_str(request.POST.get('host'))).dogSn
+            thisVm = Vm(smart_str(request.POST.get('host')))
+            vmDog = thisVm.dogSn
+            vmNode = thisVm.nodeHost
             dogs = []
             for dogPort in vmDog:
                 dogNP = {}
                 dogNP['port'] = dogPort
                 dogNP['sn'] = vmDog[dogPort]
                 dogs.append(dogNP)
-            allDogOs = UsbPort.objects.all()
+            thisNode = NodeHost.objects.get(node=vmNode)
+            allDogOs = thisNode.usbport_set.all()
             freeDogs = [
                 aDogOs.port for aDogOs in allDogOs if not aDogOs.instance
             ]
@@ -513,10 +516,10 @@ def changeItems(request):
     """
     if request.method == "POST":
         if request.POST.get('change', '') == u"node":
-            host = smart_str(request.POST.get('host'))
+            thisVm = smart_str(request.POST.get('host'))
             oldValue = smart_str(request.POST.get('oldvalue', ''))
             newValue = smart_str(request.POST.get('newvalue', ''))
-            vm = Vm(host)
+            vm = Vm(thisVm)
             try:
                 vm.update(nodeHost=newValue)
                 return HttpResponse('successful')
@@ -531,14 +534,68 @@ def changeMacs(request):
     为某个实例添加或删除mac
     """
     if request.method == "POST":
-        return HttpResponse('successful')
+        hostName = request.POST.get('host', '')
+        thisHost = Instance.objects.get(instanceName=hostName)
+        if not hostName:
+            return HttpResponse('failed')
+        else:
+            oldMacs = request.POST.get('oldvalue', '')
+            newMacs = request.POST.get('newvalue', '')
+            oldMacsList = oldMacs.split(',')
+            newMacsList = newMacs.split(',')
+            try:
+                for aMac in oldMacsList:
+                    if aMac.find(':') != -1:
+                        thisMac = Mac.objects.get(macAddress=aMac)
+                        thisMac.instance = None
+                        thisMac.save()
+                for aMac in newMacsList:
+                    if aMac.find(':') != -1:
+                        thisMac = Mac.objects.get(macAddress=aMac)
+                        thisMac.instance = thisHost
+                        thisMac.save()
+                return HttpResponse('successful')
+            except:
+                return HttpResponse('failed')
 
 
 @csrf_exempt
 @login_required
 def changeIps(request):
     """
-    为某个实例添加或删除mac
+    为某个实例添加或删除ip
+    """
+    if request.method == "POST":
+        hostName = request.POST.get('host', '')
+        thisHost = Instance.objects.get(instanceName=hostName)
+        if not hostName:
+            return HttpResponse('failed')
+        else:
+            oldIps = request.POST.get('oldvalue', '')
+            newIps = request.POST.get('newvalue', '')
+            oldIpsList = oldIps.split(',')
+            newIpsList = newIps.split(',')
+            try:
+                for aIp in oldIpsList:
+                    if aIp.find('.') != -1:
+                        thisIp = Ip.objects.get(ipAddress=aIp)
+                        thisIp.instance = None
+                        thisIp.save()
+                for aIp in newIpsList:
+                    if aIp.find('.') != -1:
+                        thisIp = Ip.objects.get(ipAddress=aIp)
+                        thisIp.instance = thisHost
+                        thisIp.save()
+                return HttpResponse('successful')
+            except:
+                return HttpResponse('failed')
+
+
+@csrf_exempt
+@login_required
+def changeDogs(request):
+    """
+    为某个实例添加或删除dog
     """
     if request.method == "POST":
         return HttpResponse('successful')
