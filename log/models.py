@@ -2,6 +2,7 @@
 #-*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
+from control import *
 
 
 class Log(models.Model):
@@ -10,21 +11,18 @@ class Log(models.Model):
     user = models.ForeignKey(User)
 
 
-# class GetLog(object):
-#     """
-#     获取指定用户的日志内容
-#     param: users: 指定用户的列表
-#     """
-#     def __init__(self, users):
-#         self.users = users
+class LogRequest(object):
+    def __init__(self, user):
+        self.user = user
+        self.count = 20
+        self.content = []
+        _contentObjs = self.user.log_set.all()
+        _datetime = datetime2String
+        if _contentObjs:
+            for aContentO in _contentObjs:
+                content = ''
+                datetime = datetime2String(aContentO.logTime)
+                content = "%s/%s/%s-%s:%s:%s  %s  %s" %\
+                    (datetime['month'], )
 
-#     def logContent(self):
-#         """
-#         获取该用户或用户列表的所有日志内容
-#         return: 所有日志内容的列表
-#         """
-#         for user in self.users:
-#             logs = user.log_set.all()
-#             username = user.username
-#             for log in logs:
-#                 logData = "%s-%s--%s--%s" %\
+
