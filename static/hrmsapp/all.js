@@ -292,7 +292,7 @@ $(document).ready(function()
                 buttons: {
                     Submit: function() {
                         newValue = $('[name=nodeRadio]:checked').val();
-                        $.post('/vm/changeitems/', 'host=' + thisVm + '&change=node' + '&oldvalue=' + oldValue + '&newvalue=' + newValue, __isSaved);
+                        $.post('/vm/changenode/', 'host=' + thisVm + '&change=node' + '&oldvalue=' + oldValue + '&newvalue=' + newValue, __isSaved);
                         function __isSaved(receive)
                         {
                             if(receive == "successful")

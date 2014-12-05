@@ -8,6 +8,7 @@ from django.utils.encoding import smart_str
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from models import *
+from log.models import *
 
 
 @login_required
@@ -178,27 +179,47 @@ def addHost(request):
         if newVm.existed:
             return HttpResponse('failed')
         try:
+            owner = request.user.username
+            vcpus = request.POST.get('vcpus', '')
+            mem = request.POST.get('mem', '')
+            dataDisk = request.POST.get('datadisk', '')
+            nodeHost = request.POST.get('nodehost', '')
+            startTime = request.POST.get('starttime', '')
+            useInterval = request.POST.get('endtime', '')
+            bandwidth = request.POST.get('bandwidth', '')
+            company = request.POST.get('company', '')
+            mac = request.POST.get('mac', '')
+            dogSn = [
+                request.POST.get('dogsn', ''),
+                request.POST.get('dogport', '')
+            ]
+            ip = [request.POST.get('ip', '')]
+
             isSaved = newVm.update(
-                owner=request.user.username,
-                vcpus=request.POST.get('vcpus', ''),
-                mem=request.POST.get('mem', ''),
-                dataDisk=request.POST.get('datadisk', ''),
-                nodeHost=request.POST.get('nodehost', ''),
-                startTime=request.POST.get('starttime', ''),
-                useInterval=request.POST.get('endtime', ''),
-                bandwidth=request.POST.get('bandwidth', ''),
-                company=request.POST.get('company', ''),
-                mac=request.POST.get('mac', ''),
-                dogSn=[
-                    request.POST.get('dogsn', ''),
-                    request.POST.get('dogport', '')
-                ],
-                ip=[
-                    request.POST.get('ip', '')
-                ]
+                owner=owner,
+                vcpus=vcpus,
+                mem=mem,
+                dataDisk=dataDisk,
+                nodeHost=nodeHost,
+                startTime=startTime,
+                useInterval=useInterval,
+                bandwidth=bandwidth,
+                company=company,
+                mac=mac,
+                dogSn=dogSn,
+                ip=ip
             )
 
             if isSaved:
+                log = LogRequest(request.user)
+                logContent = "(create new host) vmName=%s, vcpus=%s, mem=%s, dataDisk=%s, nodeHost=%s, startTime=%s, useInterval=%s, bandwidth=%s, company=%s, mac=%s, ip=%s, dogPN=%s:%s" % \
+                    (
+                        vmName,
+                        vcpus, mem, dataDisk, nodeHost,
+                        startTime, useInterval, bandwidth,
+                        company, mac, ip[0], dogSn[1], dogSn[0]
+                    )
+                log.save(logContent)
                 return HttpResponse('successful')
             else:
                 return HttpResponse('failed')
@@ -281,6 +302,8 @@ def addNode(request):
     添加nodes
     """
     if request.method == "POST":
+        if not request.user.is_superuser:
+            return HttpResponse('failed')
         node = request.POST.get('newNode', '')
         if node:
             try:
@@ -289,6 +312,9 @@ def addNode(request):
             except:
                 newNode = NodeHost.objects.create(node=node)
                 newNode.save()
+                log = LogRequest(request.user)
+                logContent = '(add new node) %s' % node
+                log.save(logContent)
                 return HttpResponse('successful')
         else:
             return HttpResponse('failed')
@@ -303,6 +329,8 @@ def addIp(request):
     添加IP
     """
     if request.method == "POST":
+        if not request.user.is_superuser:
+            return HttpResponse('failed')
         ip = request.POST.get('newIp', '')
         if ip:
             try:
@@ -311,6 +339,9 @@ def addIp(request):
             except:
                 newIp = Ip.objects.create(ipAddress=ip)
                 newIp.save()
+                log = LogRequest(request.user)
+                logContent = '(add new ip) %s' % ip
+                log.save(logContent)
                 return HttpResponse('successful')
         else:
             return HttpResponse('failed')
@@ -325,6 +356,8 @@ def addDogPort(request):
     添加狗
     """
     if request.method == "POST":
+        if not request.user.is_superuser:
+            return HttpResponse('failed')
         newDogPort = request.POST.get('dogPort', '')
         thisNode = request.POST.get('node', '')
         if newDogPort and thisNode:
@@ -337,6 +370,9 @@ def addDogPort(request):
                 except:
                     return HttpResponse('faild')
                 else:
+                    log = LogRequest(request.user)
+                    logContent = '(add new dogPort) %s' % newDogPort
+                    log.save(logContent)
                     newPort.usbport_set.create(port=newDogPort)
                     newPort.save()
                     return HttpResponse('successful')
@@ -353,6 +389,8 @@ def addMac(request):
     添加mac
     """
     if request.method == "POST":
+        if not request.user.is_superuser:
+            return HttpResponse('failed')
         thisMac = request.POST.get('newMac', '')
         if thisMac:
             try:
@@ -361,52 +399,12 @@ def addMac(request):
             except:
                 newMac = Mac.objects.create(macAddress=thisMac)
                 newMac.save()
+                log = LogRequest(request.user)
+                logContent = '(add new mac) %s' % thisMac
+                log.save(logContent)
                 return HttpResponse('successful')
         else:
             return HttpResponse('failed')
-    else:
-        return HttpResponse('404 not found')
-
-
-@csrf_exempt
-@login_required
-def modify(request):
-    """
-    修改实例数据
-    """
-    if request.method == "POST":
-        thisHost = smart_str(request.POST.get('host', ''))
-        thisItem = smart_str(request.POST.get('item', ''))
-        # oldValue = smart_str(request.POST.get('oldvalue', ''))
-        newValue = smart_str(request.POST.get('newvalue', ''))
-
-        thisVm = Vm(thisHost)
-        if not thisVm.existed:
-            return HttpResponse('failed')
-        else:
-            try:
-                if thisItem == "hostName":
-                    thisVm.update(vmName=newValue)
-                elif thisItem == "vcpus":
-                    thisVm.update(vcpus=newValue)
-                elif thisItem == "mem":
-                    thisVm.update(mem=newValue)
-                elif thisItem == "disk":
-                    thisVm.update(dataDisk=newValue)
-                elif thisItem == "start":
-                    thisVm.update(startTime=newValue)
-                elif thisItem == "end":
-                    thisVm.update(useInterval=newValue)
-                elif thisItem == "company":
-                    thisVm.update(company=newValue)
-                elif thisItem == "bandwidth":
-                    thisVm.update(bandwidth=newValue)
-                elif thisItem == "node":
-                    thisVm.update(nodeHost=newValue)
-
-                return HttpResponse('successful')
-            except:
-                return HttpResponse('failed')
     else:
         return HttpResponse('404 not found')
 
@@ -510,7 +508,80 @@ def renderAddDogs(request):
 
 @csrf_exempt
 @login_required
-def changeItems(request):
+def modify(request):
+    """
+    修改实例数据
+    """
+    if request.method == "POST":
+        thisHost = smart_str(request.POST.get('host', ''))
+        thisItem = smart_str(request.POST.get('item', ''))
+        oldValue = smart_str(request.POST.get('oldvalue', ''))
+        newValue = smart_str(request.POST.get('newvalue', ''))
+
+        thisVm = Vm(thisHost)
+        if not thisVm.existed:
+            return HttpResponse('failed')
+        else:
+            try:
+                if thisItem == "hostName":
+                    thisVm.update(vmName=newValue)
+                    log = LogRequest(request.user)
+                    logContent = '(modify vmName) %s --> %s' %\
+                        (oldValue, newValue)
+                    log.save(logContent)
+                elif thisItem == "vcpus":
+                    thisVm.update(vcpus=newValue)
+                    log = LogRequest(request.user)
+                    logContent = '(modify vcpus) %s --> %s' %\
+                        (oldValue, newValue)
+                    log.save(logContent)
+                elif thisItem == "mem":
+                    thisVm.update(mem=newValue)
+                    log = LogRequest(request.user)
+                    logContent = '(modify mem) %s --> %s' %\
+                        (oldValue, newValue)
+                    log.save(logContent)
+                elif thisItem == "disk":
+                    thisVm.update(dataDisk=newValue)
+                    log = LogRequest(request.user)
+                    logContent = '(modify dataDisk) %s --> %s' %\
+                        (oldValue, newValue)
+                    log.save(logContent)
+                elif thisItem == "start":
+                    thisVm.update(startTime=newValue)
+                    log = LogRequest(request.user)
+                    logContent = '(modify startTime) %s --> %s' %\
+                        (oldValue, newValue)
+                    log.save(logContent)
+                elif thisItem == "end":
+                    thisVm.update(useInterval=newValue)
+                    log = LogRequest(request.user)
+                    logContent = '(modify useInterval) %s --> %s' %\
+                        (oldValue, newValue)
+                    log.save(logContent)
+                elif thisItem == "company":
+                    thisVm.update(company=newValue)
+                    log = LogRequest(request.user)
+                    logContent = '(modify company) %s --> %s' %\
+                        (oldValue, newValue)
+                    log.save(logContent)
+                elif thisItem == "bandwidth":
+                    thisVm.update(bandwidth=newValue)
+                    log = LogRequest(request.user)
+                    logContent = '(modify bandwidth) %s --> %s' %\
+                        (oldValue, newValue)
+                    log.save(logContent)
+
+                return HttpResponse('successful')
+            except:
+                return HttpResponse('failed')
+    else:
+        return HttpResponse('404 not found')
+
+
+@csrf_exempt
+@login_required
+def changeNode(request):
     """
     为某个实例修改node
     """
@@ -522,6 +593,10 @@ def changeItems(request):
             vm = Vm(thisVm)
             try:
                 vm.update(nodeHost=newValue)
+                log = LogRequest(request.user)
+                logContent = '(modify nodeHost) %s --> %s' %\
+                    (oldValue, newValue)
+                log.save(logContent)
                 return HttpResponse('successful')
             except:
                 return HttpResponse('failed')
@@ -538,10 +613,10 @@ def changeMacs(request):
         if not hostName:
             return HttpResponse('failed')
         else:
-            oldMacs = request.POST.get('oldvalue', '')
-            newMacs = request.POST.get('newvalue', '')
-            oldMacsList = oldMacs.split(',')
-            newMacsList = newMacs.split(',')
+            oldValue = request.POST.get('oldvalue', '')
+            newValue = request.POST.get('newvalue', '')
+            oldMacsList = oldValue.split(',')
+            newMacsList = newValue.split(',')
             try:
                 thisHost = Instance.objects.get(instanceName=hostName)
                 for aMac in oldMacsList:
@@ -554,6 +629,10 @@ def changeMacs(request):
                         thisMac = Mac.objects.get(macAddress=aMac)
                         thisMac.instance = thisHost
                         thisMac.save()
+                log = LogRequest(request.user)
+                logContent = '(modify mac) %s --> %s' %\
+                    (oldValue, newValue)
+                log.save(logContent)
                 return HttpResponse('successful')
             except:
                 return HttpResponse('failed')
@@ -570,10 +649,10 @@ def changeIps(request):
         if not hostName:
             return HttpResponse('failed')
         else:
-            oldIps = request.POST.get('oldvalue', '')
-            newIps = request.POST.get('newvalue', '')
-            oldIpsList = oldIps.split(',')
-            newIpsList = newIps.split(',')
+            oldValue = request.POST.get('oldvalue', '')
+            newValue = request.POST.get('newvalue', '')
+            oldIpsList = oldValue.split(',')
+            newIpsList = newValue.split(',')
             try:
                 thisHost = Instance.objects.get(instanceName=hostName)
                 for aIp in oldIpsList:
@@ -586,6 +665,10 @@ def changeIps(request):
                         thisIp = Ip.objects.get(ipAddress=aIp)
                         thisIp.instance = thisHost
                         thisIp.save()
+                log = LogRequest(request.user)
+                logContent = '(modify ips) %s --> %s' %\
+                    (oldValue, newValue)
+                log.save(logContent)
                 return HttpResponse('successful')
             except:
                 return HttpResponse('failed')
@@ -599,10 +682,10 @@ def changeDogs(request):
     """
     if request.method == "POST":
         hostName = request.POST.get('host', '')
-        oldDogs = request.POST.get('oldvalue', '')
-        newDogs = request.POST.get('newvalue', '')
-        oldDogsList = oldDogs.split(',')
-        newDogsList = newDogs.split(',')
+        oldValue = request.POST.get('oldvalue', '')
+        newValue = request.POST.get('newvalue', '')
+        oldDogsList = oldValue.split(',')
+        newDogsList = newValue.split(',')
 
         try:
             thisHost = Instance.objects.get(instanceName=hostName)
@@ -625,6 +708,10 @@ def changeDogs(request):
                     for aPort in thisPorts:     # 取消和instance的关联
                         aPort.instance = None
                         aPort.save()
+                    log = LogRequest(request.user)
+                    logContent = '(modify dog) %s --> %s' %\
+                        (oldValue, newValue)
+                    log.save(logContent)
                     return HttpResponse('successful')
                 else:
                     for dog in oldDogsList:
@@ -662,6 +749,10 @@ def changeDogs(request):
                                 return HttpResponse('failed')
                             thisPort.instance = thisHost
                             thisPort.save()
+                            log = LogRequest(request.user)
+                            logContent = '(modify dog) %s --> %s' %\
+                                (oldValue, newValue)
+                            log.save(logContent)
                     return HttpResponse('successful')
             except:
                 return HttpResponse('failed')

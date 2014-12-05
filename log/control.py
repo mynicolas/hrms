@@ -2,7 +2,7 @@
 #-*- coding: utf-8 -*-
 
 
-def datetime2String(self, datetimeObj):
+def datetime2String(datetimeObj):
     """
     将datetime对象转换为string对象
     """
