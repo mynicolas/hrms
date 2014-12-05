@@ -533,7 +533,7 @@ $(document).ready(function()
             title: "log",
             resizable: true,
             modal: false,
-            width: 500,
+            width: 800,
             height: 300,
             close: function(){$(this).dialog("destroy")},
         });
@@ -541,7 +541,7 @@ $(document).ready(function()
         $.post('/log/', '', renderLogs);
         function renderLogs(receive)
         {
-            deskLog.append(receive);
+            deskLog.prepend(receive);
         }
     });
 });

@@ -30,6 +30,6 @@ div#permissionUsername {
 }
 
 div#deskLog {
-	color: green;
-	background-color: rgb(0, 0, 0);
+	color: lime;
+	background-color: rgba(0, 0, 0, 0.9);
 }
