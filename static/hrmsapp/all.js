@@ -341,10 +341,18 @@ $(document).ready(function()
                     Submit: function() {
                         if(newDogs != oldDogs)
                         {
-                            dialogAddDogDiv.children().filter(':checked').each(function()
+                            var newDogsChecked = dialogAddDogDiv.children().filter(':checked')
+                            if(newDogsChecked.length >= 1)
                             {
-                                newDogs += $(this).next().text() + $(this).next().next().text() + ',';
-                            });
+                                newDogsChecked.each(function()
+                                {
+                                    newDogs += $(this).next().text() + $(this).next().next().text() + ',';
+                                });
+                            }
+                            else
+                            {
+                                newDogs = ',-:-,';
+                            }
                             if(newDogs != oldDogs)
                             {
                                 $.post('/vm/changedogs/', 'host=' + thisVm + '&oldvalue=' + oldDogs + '&newvalue=' + newDogs, __isSaved);
@@ -352,6 +360,7 @@ $(document).ready(function()
                                 {
                                     if(receive == "successful")
                                     {
+                                        getAll();
                                         thisDogSN.css('background-color', '#00dd00');
                                     }
                                     else
@@ -369,18 +378,38 @@ $(document).ready(function()
                 }
             });
             var emptyDog = $('input#emptyDog');
+            if(thisDogSN.children().length == 0)
+            {
+                emptyDog.attr('checked', true);
+            }
+            var dogNotEmpty = dialogAddDogDiv.children().filter('input').not('input#emptyDog');
             dialogAddDogDiv.children().filter('input').change(function()
             {
                 if(emptyDog.is(':checked'))
                 {
                     dialogAddDogDiv.children().filter('input').not('input#emptyDog').removeAttr('checked')
                 }
+                if(dogNotEmpty.is(':checked').length == 0)
+                {
+                    emptyDog.attr('checked', true);
+                }
+                dogNotEmpty.click(function()
+                {
+                    emptyDog.attr('checked', false);
+                });
             });
             var oldDogsChecked = dialogAddDogDiv.children().filter(':checked');
-            oldDogsChecked.each(function()
+            if(oldDogsChecked.length >= 1)
             {
-                oldDogs += $(this).next().text() + $(this).next().next().text() + ',';
-            });
+                oldDogsChecked.each(function()
+                {
+                    oldDogs += $(this).next().text() + $(this).next().next().text() + ',';
+                });
+            }
+            else
+            {
+                oldDogs = ',-:-,';
+            }
 
             var addSn = $('button.addSn');
             var dialogAddSn = $('div#dialogAddSn')

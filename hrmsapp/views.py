@@ -535,7 +535,6 @@ def changeMacs(request):
     """
     if request.method == "POST":
         hostName = request.POST.get('host', '')
-        thisHost = Instance.objects.get(instanceName=hostName)
         if not hostName:
             return HttpResponse('failed')
         else:
@@ -544,6 +543,7 @@ def changeMacs(request):
             oldMacsList = oldMacs.split(',')
             newMacsList = newMacs.split(',')
             try:
+                thisHost = Instance.objects.get(instanceName=hostName)
                 for aMac in oldMacsList:
                     if aMac.find(':') != -1:
                         thisMac = Mac.objects.get(macAddress=aMac)
@@ -567,7 +567,6 @@ def changeIps(request):
     """
     if request.method == "POST":
         hostName = request.POST.get('host', '')
-        thisHost = Instance.objects.get(instanceName=hostName)
         if not hostName:
             return HttpResponse('failed')
         else:
@@ -576,6 +575,7 @@ def changeIps(request):
             oldIpsList = oldIps.split(',')
             newIpsList = newIps.split(',')
             try:
+                thisHost = Instance.objects.get(instanceName=hostName)
                 for aIp in oldIpsList:
                     if aIp.find('.') != -1:
                         thisIp = Ip.objects.get(ipAddress=aIp)
@@ -598,4 +598,72 @@ def changeDogs(request):
     为某个实例添加或删除dog
     """
     if request.method == "POST":
-        return HttpResponse('successful')
+        hostName = request.POST.get('host', '')
+        oldDogs = request.POST.get('oldvalue', '')
+        newDogs = request.POST.get('newvalue', '')
+        oldDogsList = oldDogs.split(',')
+        newDogsList = newDogs.split(',')
+
+        try:
+            thisHost = Instance.objects.get(instanceName=hostName)
+        except:
+            return HttpResponse('failed')
+        if not hostName:
+            return HttpResponse('failed')
+        else:
+            try:
+                testDogNP = newDogsList[1].split(':')
+                testDogP = testDogNP[0]
+                if testDogP == '-':
+                    thisPorts = UsbPort.objects.filter(instance=thisHost)
+                    for aPort in thisPorts:     # 删除对应的sn
+                        try:
+                            aPort.dogsn.delete()
+                            aPort.save()
+                        except:
+                            pass
+                    for aPort in thisPorts:     # 取消和instance的关联
+                        aPort.instance = None
+                        aPort.save()
+                    return HttpResponse('successful')
+                else:
+                    for dog in oldDogsList:
+                        dogNP = dog.split(':')
+                        try:
+                            dogP = dogNP[0]
+                            dogN = dogNP[1]
+                        except:
+                            continue
+                        else:
+                            try:
+                                thisPort = UsbPort.objects.get(port=dogP)
+                            except:
+                                pass
+                            else:
+                                thisPort.instance = None
+                                thisPort.dogsn.delete()
+                                thisPort.save()
+                    for dog in newDogsList:
+                        dogNP = dog.split(':')
+                        try:
+                            dogP = dogNP[0]
+                            dogN = dogNP[1]
+                        except:
+                            continue
+                        else:
+                            thisPort = UsbPort.objects.get(port=dogP)
+                            try:
+                                thisSn = DogSN.objects.create(
+                                    sn=dogN,
+                                    port=thisPort
+                                )
+                                thisSn.save()
+                            except:
+                                return HttpResponse('failed')
+                            thisPort.instance = thisHost
+                            thisPort.save()
+                    return HttpResponse('successful')
+            except:
+                return HttpResponse('failed')
+    else:
+        return HttpResponse('404 not found')
