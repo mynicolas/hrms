@@ -525,23 +525,28 @@ $(document).ready(function()
 
     
     var logIcon = $('img#log');
-    var deskLog = $('div#deskLog');
-    deskLog.hide();
+    var deskLogDiv = $('div#deskLogDiv');
+    deskLogDiv.hide();
     logIcon.click(function()
     { // log 的icon
-        deskLog.dialog({
+        deskLogDiv.dialog({
             title: "log",
             resizable: true,
             modal: false,
             width: 800,
             height: 300,
-            close: function(){$(this).dialog("destroy")},
+            close: function(){$(this).dialog("close")},
+            buttons: {
+                Query: function() {
+                    
+                }
+            }
         });
 
         $.post('/log/', '', renderLogs);
         function renderLogs(receive)
         {
-            deskLog.prepend(receive);
+            deskLogDiv.append(receive);
         }
     });
 });
