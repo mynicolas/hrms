@@ -7,6 +7,7 @@ admin.autodiscover()
 
 from views import *
 from userprofile import urls as userprofileUrls
+from log import urls as logUrls
 
 
 urlpatterns = patterns(
@@ -14,4 +15,5 @@ urlpatterns = patterns(
     url(r'^$', renderDesk),
     url(r'^logout/$', logout),
     url(r'^user/',  include(userprofileUrls)),
+    url(r'^log/',  include(logUrls)),
 )
