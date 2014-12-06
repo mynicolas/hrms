@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'userprofile',
     'login',
     'desk',
+    'django_ssh',
 )
 
 MIDDLEWARE_CLASSES = (

@@ -322,7 +322,7 @@ $(document).ready(function()
     { // 添加ip的icon
         var newIpInput = $('input[name=newIp]');
         deskAddIp.dialog({
-            title: "add node",
+            title: "add ip",
             resizable: false,
             modal: false,
             buttons: {
