@@ -34,6 +34,7 @@ def register(request):
                 newUser.is_active = True
                 if username == u'admin':
                     newUser.is_superuser = True
+                    newUser.perm_set.create(query='all', modify='all')
                 else:
                     newUser.is_superuser = False
                 newUser.is_staff = True
