@@ -442,4 +442,6 @@ $(document).ready(function()
         }
     });
 
+    $('div#hosts').sortable();
+
 });

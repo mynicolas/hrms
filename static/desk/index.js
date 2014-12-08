@@ -538,7 +538,7 @@ $(document).ready(function()
             close: function(){$(this).dialog("close")},
             buttons: {
                 Query: function() {
-                    
+                    $.post('')
                 }
             }
         });

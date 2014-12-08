@@ -16,5 +16,28 @@ def renderLogs(request):
     渲染用户的日志
     """
     log = LogRequest(request.user)
-    sendContent = log.get()
+    sendContent = log.get().reverse()
     return render_to_response('allLogs.html', {'logs': sendContent})
+
+
+@csrf_exempt
+@login_required
+def conditionLog(request):
+    if request == "POST":
+        hostName = request.POST.get('hostname', '')
+        startTime = request.POST.get('starttime', None)
+        endTime = request.POST.get('endtime', None)
+
+        log = LogRequest(request.user)
+        if hostName and not startTime and not endTime:
+            logs = log.get(host=hostName)
+        elif not hostName and startTime and endTime:
+            logs = log.get(startTime=startTime, endTime=endTime)
+        elif hostName and startTime and endTime:
+            logs = log.get(
+                hostName=hostName,
+                startTime=startTime,
+                endTime=endTime
+                )
+        elif hostName and startTime and not endTime:
+            

@@ -12,18 +12,13 @@ class Log(models.Model):
 
 
 class LogRequest(object):
-    def __init__(self, user, count=20):
+    def __init__(self, user):
         self.user = user
-        self.count = count
         self.content = []
         self.__create()
 
     def __create(self):
         _contentObjs = self.user.log_set.all()
-        if len(_contentObjs) >= self.count:
-            _contentObjs = _contentObjs[0:self.count]
-        else:
-            _contentObjs = _contentObjs[:]
         if _contentObjs:
             for aContentO in _contentObjs:
                 _logContent = aContentO.content
@@ -55,14 +50,59 @@ class LogRequest(object):
         except:
             return self
 
-    def get(self, multiple=1):
+    def get(
+            self,
+            host='',
+            count=20,
+            multiple=0,
+            startTime=None,
+            endTime=None
+            ):
         """
         获取日志
-        multiple: 日志页数（每页 = self.count条）
+        host: 需要查询的实例名
+        count: 每页的日志条目数
+        multiple: 日志页数（每页 = self.count条），如果为 0 ，则获取所有日志
+        startTime: 需要查询的日志开始日期
+        endTime: 需要查询的日志结束日期
         """
-        logs = self.content
-        if len(logs) >= self.count * multiple:
-            logs = logs[0:self.count * multiple - 1]
+        if not multiple:
+            return self.content
+        elif not startTime and not endTime and multiple:
+            logs = self.content
+            if len(logs) >= count * multiple:
+                logs = logs[0:count * multiple - 1]
+            else:
+                logs = logs[0:]
+            return logs
+        elif startTime and endTime and not multiple:
+            _contentObjs = self.user.log_set.filter(
+                logTime__range=(startTime, endTime),
+                content__icontains=host
+                )
+        elif startTime and not endTime 
+        elif not startTime and not endTime and host:
+            _contentObjs = self.user.log_set.filter(
+                content__icontains=host
+                )
+
+        if _contentObjs:
+            logs = []
+            for aContentO in _contentObjs:
+                _logContent = aContentO.content
+                datetime = datetime2String(aContentO.logTime)
+                _content = "%s/%s/%s-%s:%s:%s  %s  %s" % (
+                    datetime['month'],
+                    datetime['day'],
+                    datetime['year'],
+                    datetime['hour'],
+                    datetime['minute'],
+                    datetime['second'],
+                    self.user.username,
+                    _logContent
+                    )
+                logs.append(_content)
         else:
-            logs = logs[0:]
+            logs = ['There is no log.']
+
         return logs
