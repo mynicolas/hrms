@@ -34,6 +34,7 @@ class LogRequest(object):
                     _logContent
                 )
                 self.content.append(_content)
+            self.content.reverse()
         else:
             self.content = ['This user has no log.']
 
@@ -67,16 +68,18 @@ class LogRequest(object):
         endTime: 需要查询的日志结束日期
         """
         if not multiple:
+            _contentObjs = None
             logs = self.content
             return logs
         elif not host and not startTime and not endTime and multiple:
+            _contentObjs = None
             logs = self.content
             if len(logs) >= count * multiple:
                 logs = logs[0:count * multiple]
             else:
                 logs = logs[0:]
             return logs
-        elif startTime and endTime and not multiple:
+        elif startTime and endTime:
             _contentObjs = self.user.log_set.filter(
                 logTime__range=(startTime, endTime),
                 content__icontains=host
@@ -85,6 +88,8 @@ class LogRequest(object):
             _contentObjs = self.user.log_set.filter(
                 content__icontains=host
                 )
+        else:
+            return ['query error']
 
         if _contentObjs:
             logs = []
@@ -102,6 +107,7 @@ class LogRequest(object):
                     _logContent
                     )
                 logs.append(_content)
+            logs.reverse()
         else:
             logs = ['There is no log.']
 

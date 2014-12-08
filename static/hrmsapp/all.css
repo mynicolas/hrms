@@ -89,6 +89,15 @@ div.aHostItem {
 	text-align: center;
 }
 
+div.headerHandler {
+	cursor: s-resize;
+}
+
+div#headerHandler, div.headerHandler {
+	text-align: center;
+	width: 50px;
+}
+
 div#headerHostName, div.hostNameDiv {
 	width: 80px;
 }
@@ -146,3 +155,4 @@ input#dialogAddSnInput {
 	width: 40%;
 	margin-left: 30%;
 }
+

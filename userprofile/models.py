@@ -8,3 +8,4 @@ class Perm(models.Model):
     user = models.ForeignKey(User, unique=True)
     query = models.TextField()
     modify = models.TextField()
+    sort = models.TextField(null=True)

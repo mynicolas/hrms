@@ -8,4 +8,5 @@ urlpatterns = patterns(
     '',
     url(r'^$', renderLogs),
     url(r'^conditionlog/$', conditionLog),
+    url(r'^vmnames/$', renderHosts),
 )

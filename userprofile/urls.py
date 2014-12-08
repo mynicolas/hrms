@@ -6,6 +6,7 @@ from views import *
 
 urlpatterns = patterns(
     '',
-    url('^$', renderAllUsers),
-    url('^changeperm/$', changePerm),
+    url(r'^$', renderAllUsers),
+    url(r'^changeperm/$', changePerm),
+    url(r'^changesort/$', changeSort),
 )

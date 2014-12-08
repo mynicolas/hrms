@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.encoding import smart_str
+from django.http import Http404
 
 
 def renderLogin(request):
@@ -44,6 +45,8 @@ def register(request):
                 return HttpResponse('failed')
         else:
             return HttpResponse('failed')
+    else:
+        raise Http404
 
 
 @csrf_exempt
@@ -62,6 +65,8 @@ def checkUser(request):
                 return HttpResponse('successful')
         else:
             return HttpResponse('failed')
+    else:
+        raise Http404
 
 
 @csrf_exempt
@@ -79,7 +84,8 @@ def checkLogin(request):
                 auth.login(request, user)
                 return HttpResponseRedirect('/')
             else:
-                return HttpResponse('failed')
+                return HttpResponseRedirect('/login/')
         else:
             return HttpResponse('failed')
-
+    else:
+        raise Http404

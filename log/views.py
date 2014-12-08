@@ -3,11 +3,11 @@
 from django.http.response import HttpResponse
 from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_exempt
-from django.utils.encoding import smart_str
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.http import Http404
 from models import *
 import datetime
+from hrmsapp.models import *
 
 
 @csrf_exempt
@@ -23,8 +23,28 @@ def renderLogs(request):
 
 @csrf_exempt
 @login_required
+def renderHosts(request):
+    """
+    为log条件查询渲染所有该用户的实例名
+    """
+    if request.method == "POST":
+        thisUser = request.user
+        if thisUser.is_superuser:
+            hostNames = getVms()
+        else:
+            hostNames = getVms(user=thisUser)
+        return render_to_response(
+            'allHostNames.html',
+            {'hostNames': hostNames}
+            )
+    else:
+        raise Http404
+
+
+@csrf_exempt
+@login_required
 def conditionLog(request):
-    if request == "POST":
+    if request.method == "POST":
         hostName = request.POST.get('hostname', '')
         startTime = request.POST.get('starttime', None)
         endTime = request.POST.get('endtime', None)
@@ -35,11 +55,11 @@ def conditionLog(request):
         elif not hostName and startTime and endTime:
             logs = log.get(
                 startTime=string2Date(startTime),
-                endTime=date2String(endTime) + datetime.timedelta(1)
+                endTime=string2Date(endTime) + datetime.timedelta(1)
                 )
         elif hostName and startTime and endTime:
             logs = log.get(
-                hostName=hostName,
+                host=hostName,
                 startTime=string2Date(startTime),
                 endTime=string2Date(endTime) + datetime.timedelta(1)
                 )
@@ -47,3 +67,5 @@ def conditionLog(request):
             return HttpResponse('query error')
 
         return render_to_response('allLogs.html', {'logs': logs})
+    else:
+        raise Http404

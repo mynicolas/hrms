@@ -148,6 +148,11 @@ $(document).ready(function()
                 thisSelector.append(receive);
             }
         }
+
+        $('div#hosts').children().filter(':odd').each(function()
+        {
+            $(this).css('background-color', '#1681B8');
+        });
         
     }
 
@@ -548,7 +553,7 @@ $(document).ready(function()
                         close: function(){$(this).dialog("destroy")},
                         buttons: {
                             Submit: function() {
-                                var hostName = $('input#logQueryHostName').val();
+                                var hostName = $('select#logQueryHostName').val();
                                 var startTime = $('input#logQueryStartTime').val();
                                 var endTime = $('input#logQueryEndTime').val();
                                 $.post(
@@ -567,13 +572,21 @@ $(document).ready(function()
                         }   
                     });
                     
+                    var vmNameSelector = $('select#logQueryHostName');
+                    $.post('/log/vmnames/', '', renderVmNames);
+                    function renderVmNames(receive)
+                    {
+                        vmNameSelector.empty();
+                        vmNameSelector.append(receive);
+                    }
+                    
                     function getDate()
                     {
                         var date = new Date();
                         var year = date.getFullYear()
                         var month = date.getMonth() + 1
                         var day = date.getDate()
-                        return month + "/" + year + "/" + day;
+                        return month + "/" + day + "/" + year;
                     }
 
                     var logQueryStartTime = $('input#logQueryStartTime');
@@ -581,6 +594,7 @@ $(document).ready(function()
                     logQueryStartTime.val(getDate);
                     logQueryEndTime.val(getDate);
                     logQueryStartTime.datepicker({
+                        altFormat: "mm/dd/yy",
                         defaultDate: +0,
                         defaultDate: "+1w",
                         changeMonth: true,
@@ -591,6 +605,7 @@ $(document).ready(function()
                             }
                     });
                     logQueryEndTime.datepicker({
+                        altFormat: "mm/dd/yy",
                         defaultDate: +0,
                         defaultDate: "+1w",
                         changeMonth: true,

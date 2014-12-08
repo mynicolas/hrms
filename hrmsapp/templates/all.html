@@ -1,6 +1,7 @@
 <script type="text/javascript" src="/static/hrmsapp/all.js"></script>
 
 <div id="hostsHeaderDiv">
+	<div class="headerItem" id="headerHandler">sort</div>
 {% if header.name.query %}
 	<div class="headerItem" id="headerHostName">name</div>
 {% endif %}
@@ -42,6 +43,7 @@
 <div id="hosts">
 {% for aHost in all %}
 	<div class="aHostItem" id="{{ aHost.name.value }}">
+		<div class="hostItemDiv headerHandler">↑↓</div>
 	{% if aHost.name.query %}
 		<div class="hostItemDiv hostNameDiv">
 			<input {{ aHost.name.modify }} type="text" class="hostItem hostName" value="{{ aHost.name.value }}"></input>

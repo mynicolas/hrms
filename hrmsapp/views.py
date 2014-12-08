@@ -6,9 +6,10 @@ from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.encoding import smart_str
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.http import Http404
 from models import *
 from log.models import *
+from control import *
 
 
 @login_required
@@ -20,7 +21,6 @@ def renderVms(request):
             vms = getVms()
         else:
             vms = getVms(user=request.user)
-        vms = getVms()
 
         try:
             permission = thisUser.perm_set.all()[0]
@@ -164,6 +164,8 @@ def renderVms(request):
             }           # list
             ins.append(aIn)
         return render_to_response('all.html', {'all': ins, 'header': ins[0]})
+    else:
+        raise Http404
 
 
 @login_required
@@ -225,6 +227,8 @@ def addHost(request):
                 return HttpResponse('failed')
         except:
             return HttpResponse('failed')
+    else:
+        raise Http404
 
 
 @csrf_exempt
@@ -237,6 +241,8 @@ def renderNodes(request):
         nodes = NodeHost.objects.all()
         allNodes = [i.node for i in nodes]
         return render_to_response('nodes.html', {'nodes': allNodes})
+    else:
+        raise Http404
 
 
 @csrf_exempt
@@ -258,7 +264,7 @@ def renderDogPorts(request):
                 sendContent.append(dogPort.port)
         return render_to_response('ports.html', {'ports': sendContent})
     else:
-        return HttpResponse('404 not found')
+        raise Http404
 
 
 @csrf_exempt
@@ -275,7 +281,7 @@ def renderIps(request):
                 sendContent.append(ip.ipAddress)
         return render_to_response('ips.html', {'ips': sendContent})
     else:
-        return HttpResponse('404 not found')
+        raise Http404
 
 
 @csrf_exempt
@@ -292,14 +298,14 @@ def renderMacs(request):
                 sendContent.append(mac.macAddress)
         return render_to_response('macs.html', {'macs': sendContent})
     else:
-        return HttpResponse('404 not found')
+        raise Http404
 
 
 @csrf_exempt
 @login_required
 def addNode(request):
     """
-    添加nodes
+    添加node
     """
     if request.method == "POST":
         if not request.user.is_superuser:
@@ -319,7 +325,7 @@ def addNode(request):
         else:
             return HttpResponse('failed')
     else:
-        return HttpResponse('404 not found')
+        raise Http404
 
 
 @csrf_exempt
@@ -346,14 +352,14 @@ def addIp(request):
         else:
             return HttpResponse('failed')
     else:
-        return HttpResponse('404 not found')
+        raise Http404
 
 
 @csrf_exempt
 @login_required
 def addDogPort(request):
     """
-    添加狗
+    添加dog
     """
     if request.method == "POST":
         if not request.user.is_superuser:
@@ -379,7 +385,7 @@ def addDogPort(request):
         else:
             return HttpResponse('failed')
     else:
-        return HttpResponse('404 not found')
+        raise Http404
 
 
 @csrf_exempt
@@ -406,7 +412,7 @@ def addMac(request):
         else:
             return HttpResponse('failed')
     else:
-        return HttpResponse('404 not found')
+        raise Http404
 
 
 @csrf_exempt
@@ -429,13 +435,15 @@ def renderAddMacs(request):
             )
         else:
             return HttpResponse('failed')
+    else:
+        raise Http404
 
 
 @csrf_exempt
 @login_required
 def renderAddIps(request):
     """
-    渲染添加mac的对话框
+    渲染添加ip的对话框
     """
     if request.method == "POST":
         if request.POST.get('dialog', ''):
@@ -451,13 +459,15 @@ def renderAddIps(request):
             )
         else:
             return HttpResponse('failed')
+    else:
+        raise Http404
 
 
 @csrf_exempt
 @login_required
 def renderChangeNode(request):
     """
-    渲染添加mac的对话框
+    渲染添加node的对话框
     """
     if request.method == "POST":
         if request.POST.get('dialog', ''):
@@ -474,13 +484,15 @@ def renderChangeNode(request):
             )
         else:
             return HttpResponse('failed')
+    else:
+        raise Http404
 
 
 @csrf_exempt
 @login_required
 def renderAddDogs(request):
     """
-    渲染添加mac的对话框
+    渲染添加dog的对话框
     """
     if request.method == "POST":
         if request.POST.get('dialog', ''):
@@ -504,6 +516,8 @@ def renderAddDogs(request):
             )
         else:
             return HttpResponse('failed')
+    else:
+        raise Http404
 
 
 @csrf_exempt
@@ -513,6 +527,7 @@ def modify(request):
     修改实例数据
     """
     if request.method == "POST":
+        thisUser = request.user
         thisHost = smart_str(request.POST.get('host', ''))
         thisItem = smart_str(request.POST.get('item', ''))
         oldValue = smart_str(request.POST.get('oldvalue', ''))
@@ -524,48 +539,64 @@ def modify(request):
         else:
             try:
                 if thisItem == "hostName":
+                    if not checkPerm(thisUser, 'instanceName'):
+                        return HttpResponse('failed')
                     thisVm.update(vmName=newValue)
                     log = LogRequest(request.user)
                     logContent = '(modify vmName) %s --> %s' %\
                         (oldValue, newValue)
                     log.save(logContent)
                 elif thisItem == "vcpus":
+                    if not checkPerm(thisUser, 'vcpus'):
+                        return HttpResponse('failed')
                     thisVm.update(vcpus=newValue)
                     log = LogRequest(request.user)
                     logContent = '(modify vcpus) %s --> %s' %\
                         (oldValue, newValue)
                     log.save(logContent)
                 elif thisItem == "mem":
+                    if not checkPerm(thisUser, 'mem'):
+                        return HttpResponse('failed')
                     thisVm.update(mem=newValue)
                     log = LogRequest(request.user)
                     logContent = '(modify mem) %s --> %s' %\
                         (oldValue, newValue)
                     log.save(logContent)
                 elif thisItem == "disk":
+                    if not checkPerm(thisUser, 'dataDisk'):
+                        return HttpResponse('failed')
                     thisVm.update(dataDisk=newValue)
                     log = LogRequest(request.user)
                     logContent = '(modify dataDisk) %s --> %s' %\
                         (oldValue, newValue)
                     log.save(logContent)
                 elif thisItem == "start":
+                    if not checkPerm(thisUser, 'startTime'):
+                        return HttpResponse('failed')
                     thisVm.update(startTime=newValue)
                     log = LogRequest(request.user)
                     logContent = '(modify startTime) %s --> %s' %\
                         (oldValue, newValue)
                     log.save(logContent)
                 elif thisItem == "end":
+                    if not checkPerm(thisUser, 'useInterval'):
+                        return HttpResponse('failed')
                     thisVm.update(useInterval=newValue)
                     log = LogRequest(request.user)
                     logContent = '(modify useInterval) %s --> %s' %\
                         (oldValue, newValue)
                     log.save(logContent)
                 elif thisItem == "company":
+                    if not checkPerm(thisUser, 'company'):
+                        return HttpResponse('failed')
                     thisVm.update(company=newValue)
                     log = LogRequest(request.user)
                     logContent = '(modify company) %s --> %s' %\
                         (oldValue, newValue)
                     log.save(logContent)
                 elif thisItem == "bandwidth":
+                    if not checkPerm(thisUser, 'bandwidth'):
+                        return HttpResponse('failed')
                     thisVm.update(bandwidth=newValue)
                     log = LogRequest(request.user)
                     logContent = '(modify bandwidth) %s --> %s' %\
@@ -576,7 +607,7 @@ def modify(request):
             except:
                 return HttpResponse('failed')
     else:
-        return HttpResponse('404 not found')
+        raise Http404
 
 
 @csrf_exempt
@@ -587,6 +618,9 @@ def changeNode(request):
     """
     if request.method == "POST":
         if request.POST.get('change', '') == u"node":
+            thisUser = request.user
+            if not checkPerm(thisUser, 'nodeHost'):
+                return HttpResponse('failed')
             thisVm = smart_str(request.POST.get('host'))
             oldValue = smart_str(request.POST.get('oldvalue', ''))
             newValue = smart_str(request.POST.get('newvalue', ''))
@@ -600,6 +634,8 @@ def changeNode(request):
                 return HttpResponse('successful')
             except:
                 return HttpResponse('failed')
+    else:
+        raise Http404
 
 
 @csrf_exempt
@@ -613,6 +649,9 @@ def changeMacs(request):
         if not hostName:
             return HttpResponse('failed')
         else:
+            thisUser = request.user
+            if not checkPerm(thisUser, 'macAddress'):
+                return HttpResponse('failed')
             oldValue = request.POST.get('oldvalue', '')
             newValue = request.POST.get('newvalue', '')
             oldMacsList = oldValue.split(',')
@@ -636,6 +675,8 @@ def changeMacs(request):
                 return HttpResponse('successful')
             except:
                 return HttpResponse('failed')
+    else:
+        raise Http404
 
 
 @csrf_exempt
@@ -649,6 +690,9 @@ def changeIps(request):
         if not hostName:
             return HttpResponse('failed')
         else:
+            thisUser = request.user
+            if not checkPerm(thisUser, 'ipAddress'):
+                return HttpResponse('failed')
             oldValue = request.POST.get('oldvalue', '')
             newValue = request.POST.get('newvalue', '')
             oldIpsList = oldValue.split(',')
@@ -672,6 +716,8 @@ def changeIps(request):
                 return HttpResponse('successful')
             except:
                 return HttpResponse('failed')
+    else:
+        raise Http404
 
 
 @csrf_exempt
@@ -694,6 +740,9 @@ def changeDogs(request):
         if not hostName:
             return HttpResponse('failed')
         else:
+            thisUser = request.user
+            if not checkPerm(thisUser, 'dogNP'):
+                return HttpResponse('failed')
             try:
                 testDogNP = newDogsList[1].split(':')
                 testDogP = testDogNP[0]
@@ -757,4 +806,4 @@ def changeDogs(request):
             except:
                 return HttpResponse('failed')
     else:
-        return HttpResponse('404 not found')
+        raise Http404

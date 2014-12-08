@@ -3,10 +3,11 @@
 from django.http.response import HttpResponse
 from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_exempt
-from django.utils.encoding import smart_str
 from django.contrib.auth.decorators import login_required
+from django.http import Http404
 from django.contrib.auth.models import User
 from models import *
+from log.models import *
 
 
 @csrf_exempt
@@ -131,7 +132,7 @@ def renderAllUsers(request):
 
         return render_to_response('allUsers.html', {'allUsers': allUsers})
     else:
-        return HttpResponse('404 not found')
+        raise Http404
 
 
 @csrf_exempt
@@ -161,6 +162,42 @@ def changePerm(request):
                     thisUser.save()
                 except:
                     return HttpResponse('failed')
+            log = LogRequest(request.user)
+            log.save(
+                '(change %s query permission) %s --> %s' %
+                (username, oldQuery, newQuery)
+                )
+            log.save(
+                '(change %s modify permission) %s --> %s' %
+                (username, oldModify, newModify)
+                )
             return HttpResponse('successful')
     else:
-        return HttpResponse('404 not found')
+        raise Http404
+
+
+@csrf_exempt
+@login_required
+def changeSort(request):
+    """
+    改变该用户的实例排序
+    """
+    if request.method == "POST":
+        vmSort = request.POST.get('vmsort', '')[1:-1]
+        if vmSort:
+            thisPerm = request.user.perm_set.all()
+            if thisPerm:
+                thisPerm[0].sort = vmSort
+                thisPerm[0].save()
+            else:
+                newPerm = request.user.perm_set.create(
+                    query=',vmName,vcpus,mem,dataDisk,startTime,useInterval,company,bandwidth,ipAddress,dogNP,',
+                    modify=',',
+                    sort=vmSort
+                    )
+                newPerm.save()
+            return HttpResponse('successful')
+        else:
+            return HttpResponse('failed')
+    else:
+        raise Http404

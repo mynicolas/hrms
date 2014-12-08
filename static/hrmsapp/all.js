@@ -100,6 +100,11 @@ $(document).ready(function()
                 thisSelector.append(receive);
             }
         }
+
+        $('div#hosts').children().filter(':even').each(function()
+        {
+            $(this).css('background-color', '#1681B8');
+        });
         
     }
 
@@ -442,6 +447,17 @@ $(document).ready(function()
         }
     });
 
-    $('div#hosts').sortable();
+    $('div#hosts').sortable({
+        opacity: 0.5,
+        stop: function() {
+            var vmSorts = ',';
+            var hosts = $('div#hosts').children();
+            hosts.each(function()
+            {
+                vmSorts += $(this).attr('id') + ',';
+            });
+            $.post('/user/changesort/', 'vmsort=' + vmSorts);
+        }
+    });
 
 });
