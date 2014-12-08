@@ -7,6 +7,7 @@ from django.utils.encoding import smart_str
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from models import *
+import datetime
 
 
 @csrf_exempt
@@ -16,8 +17,8 @@ def renderLogs(request):
     渲染用户的日志
     """
     log = LogRequest(request.user)
-    sendContent = log.get().reverse()
-    return render_to_response('allLogs.html', {'logs': sendContent})
+    logs = log.get()
+    return render_to_response('allLogs.html', {'logs': logs})
 
 
 @csrf_exempt
@@ -32,12 +33,17 @@ def conditionLog(request):
         if hostName and not startTime and not endTime:
             logs = log.get(host=hostName)
         elif not hostName and startTime and endTime:
-            logs = log.get(startTime=startTime, endTime=endTime)
+            logs = log.get(
+                startTime=string2Date(startTime),
+                endTime=date2String(endTime) + datetime.timedelta(1)
+                )
         elif hostName and startTime and endTime:
             logs = log.get(
                 hostName=hostName,
-                startTime=startTime,
-                endTime=endTime
+                startTime=string2Date(startTime),
+                endTime=string2Date(endTime) + datetime.timedelta(1)
                 )
-        elif hostName and startTime and not endTime:
-            
+        else:
+            return HttpResponse('query error')
+
+        return render_to_response('allLogs.html', {'logs': logs})

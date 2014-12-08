@@ -54,7 +54,7 @@ class LogRequest(object):
             self,
             host='',
             count=20,
-            multiple=0,
+            multiple=1,
             startTime=None,
             endTime=None
             ):
@@ -67,11 +67,12 @@ class LogRequest(object):
         endTime: 需要查询的日志结束日期
         """
         if not multiple:
-            return self.content
-        elif not startTime and not endTime and multiple:
+            logs = self.content
+            return logs
+        elif not host and not startTime and not endTime and multiple:
             logs = self.content
             if len(logs) >= count * multiple:
-                logs = logs[0:count * multiple - 1]
+                logs = logs[0:count * multiple]
             else:
                 logs = logs[0:]
             return logs
@@ -80,7 +81,6 @@ class LogRequest(object):
                 logTime__range=(startTime, endTime),
                 content__icontains=host
                 )
-        elif startTime and not endTime 
         elif not startTime and not endTime and host:
             _contentObjs = self.user.log_set.filter(
                 content__icontains=host

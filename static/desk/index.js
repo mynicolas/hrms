@@ -538,7 +538,68 @@ $(document).ready(function()
             close: function(){$(this).dialog("close")},
             buttons: {
                 Query: function() {
-                    $.post('')
+                    var conditionLogDiv = $('div#conditionLogDiv');
+                    conditionLogDiv.dialog({
+                        title: "log query",
+                        resizable: true,
+                        modal: true,
+                        width: 230,
+                        height: 230,
+                        close: function(){$(this).dialog("destroy")},
+                        buttons: {
+                            Submit: function() {
+                                var hostName = $('input#logQueryHostName').val();
+                                var startTime = $('input#logQueryStartTime').val();
+                                var endTime = $('input#logQueryEndTime').val();
+                                $.post(
+                                    'log/conditionlog/',
+                                    'hostname=' + hostName +
+                                    '&starttime=' + startTime +
+                                    '&endtime=' + endTime,
+                                    __query
+                                    )
+                                function __query(receive)
+                                {
+                                    deskLogDiv.empty();
+                                    deskLogDiv.append(receive); 
+                                }
+                            }
+                        }   
+                    });
+                    
+                    function getDate()
+                    {
+                        var date = new Date();
+                        var year = date.getFullYear()
+                        var month = date.getMonth() + 1
+                        var day = date.getDate()
+                        return month + "/" + year + "/" + day;
+                    }
+
+                    var logQueryStartTime = $('input#logQueryStartTime');
+                    var logQueryEndTime = $('input#logQueryEndTime');
+                    logQueryStartTime.val(getDate);
+                    logQueryEndTime.val(getDate);
+                    logQueryStartTime.datepicker({
+                        defaultDate: +0,
+                        defaultDate: "+1w",
+                        changeMonth: true,
+                        numberOfMonths: 1,
+                        onClose: function(selectedDate)
+                            {
+                                logQueryEndTime.datepicker("option", "minDate", selectedDate)
+                            }
+                    });
+                    logQueryEndTime.datepicker({
+                        defaultDate: +0,
+                        defaultDate: "+1w",
+                        changeMonth: true,
+                        numberOfMonths: 1,
+                        onClose: function(selectedDate)
+                            {
+                                logQueryStartTime.datepicker("option", "maxDate", selectedDate)
+                            }
+                    });
                 }
             }
         });
@@ -546,6 +607,7 @@ $(document).ready(function()
         $.post('/log/', '', renderLogs);
         function renderLogs(receive)
         {
+            deskLogDiv.empty();
             deskLogDiv.append(receive);
         }
     });
