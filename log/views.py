@@ -8,6 +8,7 @@ from django.http import Http404
 from models import *
 import datetime
 from hrmsapp.models import *
+from hrmsapp.control import *
 
 
 @csrf_exempt

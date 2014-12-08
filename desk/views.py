@@ -14,7 +14,10 @@ def renderDesk(request):
     渲染桌面
     """
     isAdmin = request.user.is_superuser
-    return render_to_response('index.html', {'admin': isAdmin})
+    return render_to_response(
+        'index.html',
+        {'admin': isAdmin, 'username': request.user.username}
+        )
 
 
 @login_required

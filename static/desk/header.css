@@ -16,3 +16,18 @@ ul#startMenu {
 a {
 	text-decoration: none;
 }
+
+div#header:after {
+	content: '';
+	clear: both;
+	height: 0;
+	display: block;
+}
+
+button#start {
+	float: left;
+}
+
+div#username {
+	float: right;
+}

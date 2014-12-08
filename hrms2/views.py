@@ -7,8 +7,3 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.encoding import smart_str
-
-
-@login_required
-def renderIndex(request):
-	return HttpResponse('this is index')
