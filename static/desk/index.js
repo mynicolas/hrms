@@ -538,8 +538,8 @@ $(document).ready(function()
             title: "log",
             resizable: true,
             modal: false,
-            width: 800,
-            height: 300,
+            width: 1000,
+            height: 500,
             close: function(){$(this).dialog("close")},
             buttons: {
                 Query: function() {
