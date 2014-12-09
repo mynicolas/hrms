@@ -42,7 +42,6 @@ INSTALLED_APPS = (
     'userprofile',
     'login',
     'desk',
-    'django_ssh',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -95,10 +94,10 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     # 'C:/Users/Nicolas-PC/pyproj/hrms2/static',
     os.path.join(
-    os.path.dirname(__file__),
-    '..',
-    'static'
-    ).replace('\\', '/'),
+        os.path.dirname(__file__),
+        '..',
+        'static'
+        ).replace('\\', '/'),
 )
 
 # List of finder classes that know how to find static files in
