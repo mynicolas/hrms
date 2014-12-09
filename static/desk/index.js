@@ -77,8 +77,9 @@ $(document).ready(function()
     addIcon('addIp', '/static/desk/icons/test.png', 'add ip');
     addIcon('addPort', '/static/desk/icons/test.png', 'add dog port');
     addIcon('addMac', '/static/desk/icons/test.png', 'add mac');
-    addIcon('log', '/static/desk/icons/test.png', 'log');
     addIcon('user', '/static/desk/icons/test.png', 'user');
+    addIcon('log', '/static/desk/icons/test.png', 'log');
+
 
     var deskDialog = $('.ui-dialog');
     deskDialog.hide();
