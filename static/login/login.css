@@ -38,9 +38,7 @@ div#leftArea {
 	position: absolute;
 	left: 20%;
 	top: 30%;
-/*	width: 40%;
-	height: 40%*/
-	width: 768px;
+	width: 40%;
 	height: 254px;
 }
 
@@ -48,9 +46,7 @@ div#rightArea {
 	position: absolute;
 	right: 20%;
 	top: 30%;
-/*	width: 15%;
-	height: 40%;*/
-	width: 288px;
+	width: 15%;
 	height: 254px;
 }
 
