@@ -92,7 +92,7 @@
 	{% endif %}
 	{% if aHost.macs.query %}
 		<div class="hostItemDiv macDiv">
-			<select {{ aHost.macs.modify }} class="hostItem mac hostItemHasButton">
+			<select class="hostItem mac hostItemHasButton">
 			{% for mac in aHost.macs.value %}
 				<option value="{{ mac }}">{{ mac }}</option>
 			{% endfor %}
@@ -102,7 +102,7 @@
 	{% endif %}	
 	{% if aHost.ips.query %}
 		<div class="hostItemDiv ipsDiv">
-			<select {{ aHost.ips.modify }} class="hostItem ips hostItemHasButton">
+			<select class="hostItem ips hostItemHasButton">
 			{% for ip in aHost.ips.value %}
 				<option value="{{ ip }}">{{ ip }}</option>
 			{% endfor %}
@@ -112,7 +112,7 @@
 	{% endif %}
 	{% if aHost.dogNP.query %}
 		<div class="hostItemDiv dogNPDiv">
-			<select {{ aHost.dogNP.modify }} class="hostItem dogNP hostItemHasButton">
+			<select class="hostItem dogNP hostItemHasButton">
 			{% for dog in aHost.dogNP.value %}
 				<option value="{{ dog }}">{{ dog }}</option>
 			{% endfor %}
