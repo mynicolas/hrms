@@ -163,14 +163,16 @@ def changePerm(request):
                 except:
                     return HttpResponse('failed')
             log = LogRequest(request.user)
-            log.save(
-                '(change %s query permission) %s --> %s' %
-                (username, oldQuery, newQuery)
-                )
-            log.save(
-                '(change %s modify permission) %s --> %s' %
-                (username, oldModify, newModify)
-                )
+            if not oldQuery == newQuery:
+                log.save(
+                    '(change %s query permission) %s --> %s' %
+                    (username, oldQuery, newQuery)
+                    )
+            if not oldModify == newModify:
+                log.save(
+                    '(change %s modify permission) %s --> %s' %
+                    (username, oldModify, newModify)
+                    )
             return HttpResponse('successful')
     else:
         raise Http404
