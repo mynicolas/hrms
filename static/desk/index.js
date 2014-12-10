@@ -454,6 +454,17 @@ $(document).ready(function()
                     $(this).dialog("destroy");
                 },
                 Register: function() {
+                    $('form[name=register]').css('background-color', '#ffffff');
+                    $('input#usernameInput').removeClass().addClass('notRegistered').val('');
+                    $('input#passwordInput').css({
+                        'border': '1px solid #A9A8A8',
+                        'width': '100%'
+                    }).val('');
+                    $('input#pswdConfirmInput').css({
+                        'border': '1px solid #A9A8A8',
+                        'width': '100%'
+                    }).val('');
+
                     var registerDialog = $('div#registerDialogDiv');
                     registerDialog.dialog({
                         title: "register",
@@ -462,26 +473,72 @@ $(document).ready(function()
                         focus: function() {
                             $(this).css('background-color', '#ffffff');
                         },
+                        close: function(){$(this).dialog("destroy")},
                         buttons: {
                             Submit: function() {
-                                var usernameInput = $('input#usernameInput').val();
-                                var passwordInput = $('input#passwordInput').val();
-                                var pswdConfirmInput = $('input#pswdConfirmInput').val();
-                                if(passwordInput == pswdConfirmInput)
+                                var usernameInput = $('input#usernameInput');
+                                var passwordInput = $('input#passwordInput');
+                                var pswdConfirmInput = $('input#pswdConfirmInput');
+                                if(usernameInput.val() != '')
                                 {
-                                    $.post('/login/register/', 'username=' + usernameInput + '&password=' + passwordInput);
-                                    $(this).dialog("destroy");
+                                    if (passwordInput.val() == pswdConfirmInput.val())
+                                    {
+                                        if(passwordInput.val() == '' || pswdConfirmInput == '')
+                                        {
+                                            passwordInput.css('border', '1px solid rgb(255, 0, 0)');
+                                            pswdConfirmInput.css('border', '1px solid rgb(255, 0, 0)');
+                                        }
+                                        else
+                                        {
+                                            $.post('/login/register/', 'username=' + usernameInput.val() + '&password=' + passwordInput.val(), __isSaved);
+                                            function __isSaved(receive)
+                                            {
+                                                if(receive == 'successful')
+                                                {
+                                                    $('form[name=register]').css('background-color', '#00ff00');
+                                                }
+                                                else
+                                                {
+                                                    $('form[name=register').css('background-color', '#ff00ff');
+                                                }
+                                            }
+                                            
+                                        }
+                                    }
+                                    else
+                                    {
+                                        pswdConfirmInput.css('border', '1px solid rgb(255, 0, 0)');
+                                    }
                                 }
-                                else
-                                {
-                                    
-                                }
+                            },
+                            Close: function() {
+                                $(this).dialog('destroy');
                             }
                         }
                     });
 
                     // 注册对话框中的用户名输入框失焦时，向服务器判断该用户名是否已被注册
                     var usernameInput = $('input#usernameInput');
+                    var passwordInput = $('input#passwordInput');
+                    var pswdConfirmInput = $('input#pswdConfirmInput');
+                    usernameInput.focus(function()
+                        {
+                            $(this).css('width', '100%');
+                    });
+                    passwordInput.focus(function()
+                    {
+                        $(this).css({
+                            'width': '100%',
+                            'border': '1px solid #A9A8A8'
+                        });
+                    });
+                    pswdConfirmInput.focus(function()
+                    {
+                        $(this).css({
+                            'width': '100%',
+                            'border': '1px solid #A9A8A8'
+                        });
+                    });
                     usernameInput.blur(checkUser);
                     function checkUser() 
                     {

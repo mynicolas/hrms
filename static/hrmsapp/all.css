@@ -156,3 +156,6 @@ input#dialogAddSnInput {
 	margin-left: 30%;
 }
 
+div.aUserPermissionDiv:hover {
+	background-color: #ffffff;
+}
