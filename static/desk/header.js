@@ -59,9 +59,9 @@ $(document).ready(function()
         var newPassword = $('input#changeNewPassword');
         var pswdConfirm = $('input#changePswdConfirm');  
         var changePasswordDiv = $('div#changePasswordDiv');      
-        oldPassword.removeClass().val('');
-        newPassword.removeClass().val('');
-        pswdConfirm.removeClass().val('');
+        oldPassword.removeClass().addClass('changePasswordInput').val('');
+        newPassword.removeClass().addClass('changePasswordInput').val('');
+        pswdConfirm.removeClass().addClass('changePasswordInput').val('');
         changePasswordDiv.removeClass();
         $("input.changePasswordInput").focus(function()
         {
