@@ -452,6 +452,60 @@ $(document).ready(function()
             buttons: {
                 Submit: function() {
                     $(this).dialog("destroy");
+                },
+                Register: function() {
+                    var registerDialog = $('div#registerDialogDiv');
+                    registerDialog.dialog({
+                        title: "register",
+                        modal: true,
+                        resizable: false,
+                        focus: function() {
+                            $(this).css('background-color', '#ffffff');
+                        },
+                        buttons: {
+                            Submit: function() {
+                                var usernameInput = $('input#usernameInput').val();
+                                var passwordInput = $('input#passwordInput').val();
+                                var pswdConfirmInput = $('input#pswdConfirmInput').val();
+                                if(passwordInput == pswdConfirmInput)
+                                {
+                                    $.post('/login/register/', 'username=' + usernameInput + '&password=' + passwordInput);
+                                    $(this).dialog("destroy");
+                                }
+                                else
+                                {
+                                    
+                                }
+                            }
+                        }
+                    });
+
+                    // 注册对话框中的用户名输入框失焦时，向服务器判断该用户名是否已被注册
+                    var usernameInput = $('input#usernameInput');
+                    usernameInput.blur(checkUser);
+                    function checkUser() 
+                    {
+                        if (usernameInput.val() != '')
+                        {
+                            $.post('/login/checkuser/', 'username=' + usernameInput.val(), __isRegister);
+                        }
+                        else
+                        {
+                            usernameInput.removeClass('isRegistered notRegistered');
+                        }
+                        // 如果该用户名已被注册，将注册对话框的边框设置为红色, 如果未被注册，设置为绿色
+                        function __isRegister(receive)
+                        {
+                            if (receive == 'failed')
+                            {
+                                usernameInput.removeClass().addClass('isRegistered');
+                            }
+                            else if (receive == 'successful')
+                            {
+                                usernameInput.removeClass().addClass('notRegistered')
+                            }
+                        }
+                    }
                 }
             }
         });

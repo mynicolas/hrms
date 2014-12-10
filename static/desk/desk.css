@@ -33,3 +33,28 @@ div#deskLogDiv {
 	color: lime;
 	background-color: rgba(0, 0, 0, 0.9);
 }
+
+div#RegisterDialogDiv {
+	width: 60%;
+	margin-left: 20%;
+	margin-right: 20%;
+}
+
+div.reUserItemDiv {
+	width: 100%;
+	margin: 5% 0;
+}
+
+input.reUserItemInput {
+	width: 100%;
+}
+
+input.isRegistered {
+	width: 100%;
+	border: 1px solid rgb(255, 0, 0);
+}
+
+input.notRegistered {
+	width: 100%;
+	border: 1px solid rgb(0, 255, 0);	
+}
