@@ -9,6 +9,7 @@ from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.encoding import smart_str
 from django.http import Http404
+from django.contrib.auth.hashers import make_password, check_password
 
 
 def renderLogin(request):
@@ -87,5 +88,36 @@ def checkLogin(request):
                 return HttpResponseRedirect('/login/')
         else:
             return HttpResponse('failed')
+    else:
+        raise Http404
+
+
+@csrf_exempt
+@login_required
+def changePassword(request):
+    """
+    用户修改个人登陆密码
+    """
+    if request.method == "POST":
+        thisUser = request.user
+        oldPswd = request.POST.get('oldpassword', '')
+        newPswd = request.POST.get('newpassword', '')
+        if oldPswd and newPswd:
+            user = auth.authenticate(
+                username=thisUser.username,
+                password=oldPswd
+                )
+            if not user:
+                return HttpResponse('notmatch')
+            else:
+                try:
+                    thisUser.set_password(newPswd)
+                    thisUser.save()
+                    return HttpResponse('successful')
+                except:
+                    return HttpResponse('failed')
+        else:
+            return HttpResponse('error')
+
     else:
         raise Http404

@@ -10,4 +10,5 @@ urlpatterns = patterns(
     url(r'^register/$', register),
     url(r'checkuser/$', checkUser),
     url(r'^check/$', checkLogin),
+    url(r'^changepassword/$', changePassword),
 )

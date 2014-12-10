@@ -52,4 +52,60 @@ $(document).ready(function()
         startMenu.toggle();
     });
 
+    var username = $('div#username');
+    username.click(function()
+    {
+        var oldPassword = $('input#changeOldPassword');
+        var newPassword = $('input#changeNewPassword');
+        var pswdConfirm = $('input#changePswdConfirm');  
+        var changePasswordDiv = $('div#changePasswordDiv');      
+        oldPassword.removeClass().val('');
+        newPassword.removeClass().val('');
+        pswdConfirm.removeClass().val('');
+        changePasswordDiv.removeClass();
+        $("input.changePasswordInput").focus(function()
+        {
+            $(this).removeClass();
+            changePasswordDiv.removeClass();
+        });
+        var changePasswordDialog = $('div#changePasswordDialog');
+        changePasswordDialog.dialog({
+            title: 'change password',
+            width: 240,
+            resizable: false,
+            focus: function() {$(this).css('background-color', '#ffffff')},
+            buttons: {
+                Submit: function() {
+                    if (oldPassword.val() != '' && newPassword.val() != '' && pswdConfirm.val() != '')
+                    {
+                        if (newPassword.val() == pswdConfirm.val())
+                        {
+                            $.post('/login/changepassword/', '&oldpassword=' + oldPassword.val() + '&newpassword=' + newPassword.val(), __isChanged);
+                            function __isChanged(receive)
+                            {
+                                if (receive == 'successful')
+                                {
+                                    // location.href = '/logout/';
+                                    changePasswordDiv.addClass('isChanged');
+                                }
+                                else if(receive == 'failed')
+                                {
+                                    changePasswordDiv.addClass('notChanged');
+                                }
+                                else if(receive == 'notmatch')
+                                {
+                                    oldPassword.addClass('pswdNotMatch');
+                                }
+                            }
+                        }
+                        else 
+                        {
+                            pswdConfirm.removeClass().addClass('pswdNotMatch');
+                        }
+                    }
+                }
+            }
+        });
+    });
+
 });

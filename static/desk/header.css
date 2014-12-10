@@ -29,5 +29,35 @@ button#start {
 }
 
 div#username {
+	padding: 0 10px;
 	float: right;
+	font-size: 22px;
+	text-align: center;
+	background-color: #91B2B5;
+	border-top-left-radius: 2px;
+	border-bottom-left-radius: 2px;
+}
+
+div#username:hover {
+	padding: 0 10px;
+	float: right;
+	font-size: 22px;
+	text-align: center;
+	cursor: pointer;
+	background-color: #fff;
+	border-top-left-radius: 2px;
+	border-bottom-left-radius: 2px;
+}
+
+input.pswdNotMatch {
+	width: 100%;
+	border: 1px solid #ff0000;	
+}
+
+div.isChanged {
+	background-color: #00ff00;
+}
+
+div.notChanged {
+	background-color: #ff0000;
 }
