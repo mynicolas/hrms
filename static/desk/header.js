@@ -68,6 +68,10 @@ $(document).ready(function()
             $(this).removeClass();
             changePasswordDiv.removeClass();
         });
+        newPassword.blur(function()
+        {
+            var reg = /^$/;
+        });
         var changePasswordDialog = $('div#changePasswordDialog');
         changePasswordDialog.dialog({
             title: 'change password',
@@ -85,7 +89,6 @@ $(document).ready(function()
                             {
                                 if (receive == 'successful')
                                 {
-                                    // location.href = '/logout/';
                                     changePasswordDiv.addClass('isChanged');
                                 }
                                 else if(receive == 'failed')
