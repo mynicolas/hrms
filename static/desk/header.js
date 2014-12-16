@@ -84,21 +84,28 @@ $(document).ready(function()
                     {
                         if (newPassword.val() == pswdConfirm.val())
                         {
-                            $.post('/login/changepassword/', '&oldpassword=' + oldPassword.val() + '&newpassword=' + newPassword.val(), __isChanged);
-                            function __isChanged(receive)
+                            if (matchType('password', newPassword.val()))
                             {
-                                if (receive == 'successful')
+                                $.post('/login/changepassword/', '&oldpassword=' + oldPassword.val() + '&newpassword=' + newPassword.val(), __isChanged);
+                                function __isChanged(receive)
                                 {
-                                    changePasswordDiv.addClass('isChanged');
+                                    if (receive == 'successful')
+                                    {
+                                        changePasswordDiv.addClass('isChanged');
+                                    }
+                                    else if(receive == 'failed')
+                                    {
+                                        changePasswordDiv.addClass('notChanged');
+                                    }
+                                    else if(receive == 'notmatch')
+                                    {
+                                        oldPassword.addClass('pswdNotMatch');
+                                    }
                                 }
-                                else if(receive == 'failed')
-                                {
-                                    changePasswordDiv.addClass('notChanged');
-                                }
-                                else if(receive == 'notmatch')
-                                {
-                                    oldPassword.addClass('pswdNotMatch');
-                                }
+                            }
+                            else
+                            {
+                                alert('password must contain @#$%^&*...')
                             }
                         }
                         else 
@@ -110,5 +117,42 @@ $(document).ready(function()
             }
         });
     });
+
+    function matchType(type, value)
+    {// 判断用户输入的数据类型
+        var reg;
+        if(type == 'password')
+        {
+            reg = /[~!@#$%^&*()_+`\-=]+/;
+            if(value.search(reg) < 0)
+            {
+                return false;
+            }
+            else
+            {
+                reg = /[a-z0-9]+/
+                if(value.search(reg) < 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    reg = /.{8,14}/
+                    if(reg.test(value))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+        else
+        {
+            return true;
+        }
+    }
 
 });

@@ -78,3 +78,13 @@ img.iconBody:hover {
 	box-shadow: 0 0 10px #ffffff;
 	cursor: pointer;
 }
+
+input[name='macHeader'] {
+	width: 30%;
+	border: none;
+}
+
+input[name='newMac'] {
+	width: 50%;
+	border: none;
+}
