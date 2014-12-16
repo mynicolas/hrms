@@ -397,7 +397,7 @@ def addMac(request):
     if request.method == "POST":
         if not request.user.is_superuser:
             return HttpResponse('failed')
-        thisMac = request.POST.get('newMac', '')
+        thisMac = "52:54:00:" + request.POST.get('newMac', '')
         if thisMac:
             try:
                 Mac.objects.get(macAddress=thisMac)
