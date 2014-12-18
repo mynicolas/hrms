@@ -51,4 +51,23 @@ $(document).ready(function () {
         introductionItem.hide();
         introductionItem.eq(thisIndex).fadeIn();
     });
+
+    var loginButton = $('button#loginButton');
+    loginButton.click(function()
+    {
+        var username = $('input#loginUsernameInput').val();
+        var password = $('input#loginPasswordInput').val();
+        $.post('/login/check/', 'username=' + username + '&password=' + $.md5(password), __isLogin);
+        function __isLogin(receive)
+        {
+            location.href = receive;
+        }
+    });
+    $(document).keypress(function(e)
+    {
+        if(e.which == 13)
+        {
+            loginButton.click();
+        }
+    });
 });

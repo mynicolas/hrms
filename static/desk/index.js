@@ -443,8 +443,8 @@ $(document).ready(function()
     { // user的icon
         $('div#usersDiv').empty();
         deskUser.dialog({
-            title: "user",
-            resizable: false,
+            title: "users",
+            resizable: true,
             modal: false,
             width: 1140,
             height: 300,
@@ -540,7 +540,7 @@ $(document).ready(function()
                         });
                     });
                     usernameInput.blur(checkUser);
-                    function checkUser() 
+                    function checkUser()
                     {
                         if (usernameInput.val() != '')
                         {

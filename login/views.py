@@ -83,9 +83,9 @@ def checkLogin(request):
             user = auth.authenticate(username=username, password=password)
             if user and user.is_active:
                 auth.login(request, user)
-                return HttpResponseRedirect('/')
+                return HttpResponse('/')
             else:
-                return HttpResponseRedirect('/login/')
+                return HttpResponse('/login/')
         else:
             return HttpResponse('failed')
     else:

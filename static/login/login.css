@@ -133,7 +133,7 @@ div.loginUserItem {
 	padding-right: 15%;
 }
 
-input.loginUserItemInput {
+.loginUserItemInput {
 	width: 70%;
 	padding: 3%;
 	border-radius: 2px;
@@ -141,7 +141,7 @@ input.loginUserItemInput {
 	border: none;
 }
 
-input#loginButton {
+button#loginButton {
 	width: 76%;
 }
 
