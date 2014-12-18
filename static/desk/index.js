@@ -41,6 +41,42 @@ jQuery(document).ajaxSend(function(event, xhr, settings) {
 
 $(document).ready(function()
 {
+
+    // 检测输入的内容是否符合所需内容
+    // type： 原始类型
+    // value： 需要检测的值
+    // return: boolean
+    function checkInputType(type, value)
+    {
+        var reg;
+        if(type == 'mac')
+        {
+            reg = /^[A-Fa-f\d]{2}:[A-Fa-f\d]{2}:[A-Fa-f\d]{2}$/;
+        }
+        else if(type == 'dogport')
+        {
+            reg = /^\d{0,3}[^&]?\d{0,3}$/;
+        }
+        else if(type == 'dogsn')
+        {
+            reg = /^[0-9a-zA-Z]{0,20}[^&]?[0-9a-zA-Z]{0,20}$/;
+        }
+        else if(type == 'ip')
+        {
+            reg = /^((25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])$/;
+        }
+        else if(type == 'date')
+        {
+            reg = /^[0-1]?[0-9]\/[0-3]?[0-9]\/2[0-1][0-9][0-9]$/;
+        }
+        else
+        {
+            reg = /^.*$/;
+        }
+        return reg.test(value);
+    }
+
+
     var container = $('div#container');
 
     $(window).resize(function()
@@ -97,8 +133,8 @@ $(document).ready(function()
                 title: "all instances",
                 resizable: true,
                 modal: false,
-                width: 1200,
-                height: 300,
+                width: 1300,
+                height: 500,
                 buttons: {
                     Cancel: function() {
                         $(this).dialog("close");
@@ -172,45 +208,60 @@ $(document).ready(function()
         thisNode.change(function()
         {
             renderPorts($(this).val());
+        }); 
+        $('select#dogPort').change(function()
+        {
+            if($('select#dogPort').val() == '')
+            {
+                $('input#dogSn').attr('disabled', 'true');
+                $('input#dogSn').val() = '';
+            }
+            else
+            {
+                $('input#dogSn').removeAttr('disabled');
+            }
         });
 
         deskAddVm.dialog({
             title: "add instance",
             resizable: false,
             modal: false,
+            width: 350,
             buttons: {
-                Submit: __addHost
+                Submit:  __addHost
             }
         });
         function __addHost()
         {
-            var vmName = $('input#vmName').val();
-            var vcpus = $('input#vcpus').val();
-            var mem = $('input#mem').val();
-            var disk = $('input#disk').val();
-            var startTime = $('input#startTime').val();
-            var endTime = $('input#endTime').val();
-            var bandwidth = $('input#bandwidth').val();
-            var company = $('input#company').val();
-            var dogSn = $('input#dogSn').val();
-            var dogPort = $('select#dogPort').val();
-            var node = $('select#node').val();
-            var ip = $('select#ip').val();
-            var mac = $('select#mac').val();
+            var vmName = $('input#vmName');
+            var vcpus = $('input#vcpus');
+            var mem = $('input#mem');
+            var disk = $('input#disk');
+            var startTime = $('input#startTime');
+            var endTime = $('input#endTime');
+            var bandwidth = $('input#bandwidth');
+            var company = $('input#company');
+            var dogSn = $('input#dogSn');
+            var dogPort = $('select#dogPort');
+            var node = $('select#node');
+            var ip = $('select#ip');
+            var mac = $('select#mac');
+
+            
             $.post('/vm/add/',
-                'vmname=' + vmName +
-                '&vcpus=' + vcpus +
-                '&mem=' + mem +
-                '&datadisk=' + disk +
-                '&nodehost=' + node +
-                '&starttime=' + startTime +
-                '&endtime=' + endTime +
-                '&bandwidth=' + bandwidth +
-                '&company=' + company +
-                '&dogsn=' + dogSn +
-                '&dogport=' + dogPort +
-                '&ip=' + ip +
-                '&mac=' + mac,
+                'vmname=' + vmName.val() +
+                '&vcpus=' + vcpus.val() +
+                '&mem=' + mem.val() +
+                '&datadisk=' + disk.val() +
+                '&nodehost=' + node.val() +
+                '&starttime=' + startTime.val() +
+                '&endtime=' + endTime.val() +
+                '&bandwidth=' + bandwidth.val() +
+                '&company=' + company.val() +
+                '&dogsn=' + dogSn.val() +
+                '&dogport=' + dogPort.val() +
+                '&ip=' + ip.val() +
+                '&mac=' + mac.val(),
                 isSaved
             );
             function isSaved(receive)
@@ -302,7 +353,14 @@ $(document).ready(function()
             modal: false,
             buttons: {
                 Submit: function() {
-                    $.post('/vm/addnode/', 'newNode=' + newNodeInput.val(), isSaved)
+                    if(checkInputType('ip', newNodeInput.val()))
+                    {
+                        $.post('/vm/addnode/', 'newNode=' + newNodeInput.val(), isSaved)
+                    }
+                    else
+                    {
+                        isSaved('failed');
+                    }
                 }
             }
         });
@@ -333,7 +391,14 @@ $(document).ready(function()
             modal: false,
             buttons: {
                 Submit: function() {
-                    $.post('/vm/addip/', 'newIp=' + newIpInput.val(), isSaved)
+                    if(checkInputType('ip', newIpInput.val()))
+                    {
+                        $.post('/vm/addip/', 'newIp=' + newIpInput.val(), isSaved)
+                    }
+                    else
+                    {
+                        isSaved('failed');
+                    }
                 }
             }
         });
@@ -363,7 +428,14 @@ $(document).ready(function()
             modal: false,
             buttons: {
                 Submit: function() {
-                    $.post('/vm/addmac/', 'newMac=' + newMacInput.val(), isSaved)
+                    if(checkInputType('mac', newMacInput.val()))
+                    {
+                        $.post('/vm/addmac/', 'newMac=' + newMacInput.val(), isSaved)
+                    }
+                    else
+                    {
+                        isSaved('failed');
+                    }
                 }
             }
         });
