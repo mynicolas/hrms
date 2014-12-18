@@ -86,7 +86,7 @@ $(document).ready(function()
                         {
                             if (matchType('password', newPassword.val()))
                             {
-                                $.post('/login/changepassword/', '&oldpassword=' + oldPassword.val() + '&newpassword=' + newPassword.val(), __isChanged);
+                                $.post('/login/changepassword/', '&oldpassword=' + $.md5(oldPassword.val()) + '&newpassword=' + $.md5(newPassword.val()), __isChanged);
                                 function __isChanged(receive)
                                 {
                                     if (receive == 'successful')
