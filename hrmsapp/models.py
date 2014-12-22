@@ -13,6 +13,10 @@ class NodeHost(models.Model):
     node = models.CharField(max_length=17, null=False, unique=True)
 
 
+class BusinessMan(models.Model):
+    name = models.CharField(max_length=10)
+
+
 class Instance(models.Model):
     instanceName = models.CharField(max_length=10, null=False, unique=True)
     vcpus = models.CharField(max_length=10, null=False)
@@ -24,6 +28,7 @@ class Instance(models.Model):
     user = models.ForeignKey(User, null=False)
     nodeHost = models.ForeignKey(NodeHost, null=False)
     company = models.ForeignKey(Company, null=True)
+    businessMan = models.ForeignKey(BusinessMan, null=True)
 
 
 class Ip(models.Model):
@@ -118,6 +123,7 @@ class Vm(object):
         #格式:['52:54:00:00:00:00', '52:54:00:00:00:01', ...]
         self.mac = []
         self.owner = None
+        self.businessMan = None
         self.existed = False
 
         try:
@@ -148,6 +154,11 @@ class Vm(object):
             self.ip = thisInstance.ip_set.all()
             self.owner = thisInstance.user.username
 
+            try:
+                self.businessMan = thisInstance.businessMan.name
+            except:
+                pass
+
             usbPorts = thisInstance.usbport_set.all()
             for i in usbPorts:
                 self.dogPort.append(i.port)
@@ -176,7 +187,8 @@ class Vm(object):
         dogSn=None,
         ip=None,
         mac=None,
-        owner=None
+        owner=None,
+        businessMan=None
     ):
         """
         如果该实例存在，则更新该实例，如果该实例不存在则创建该实例
@@ -196,7 +208,8 @@ class Vm(object):
                 company=company,
                 dogSn=dogSn,
                 ip=ip,
-                mac=mac
+                mac=mac,
+                businessMan=businessMan
             )
         else:
             isSaved = self.__update(
@@ -212,7 +225,8 @@ class Vm(object):
                 company=company,
                 dogSn=dogSn,
                 ip=ip,
-                mac=mac
+                mac=mac,
+                businessMan=businessMan
             )
 
         return isSaved
@@ -232,7 +246,8 @@ class Vm(object):
         dogSn=None,
         dogPort=None,
         ip=None,
-        mac=None
+        mac=None,
+        businessMan=None
     ):
         thisInstance = Instance.objects.get(instanceName=self.instanceName)
 
@@ -338,6 +353,17 @@ class Vm(object):
                     thisIp.instance = thisInstance
                     thisIp.save()
             thisInstance.save()
+
+        if businessMan:
+            try:
+                thisBusinessMan = BusinessMan.objects.get(name=businessMan)
+                thisInstance.businessMan = thisBusinessMan
+                thisInstance.save()
+            except:
+                thisBusinessMan = thisInstance.businessMan
+                thisBusinessMan.create(name=businessMan)
+                thisBusinessMan.save()
+
         return True
 
     def __create(
@@ -354,6 +380,7 @@ class Vm(object):
         dogSn=None,     #
         dogPort=None,   #
         ip=None,    #
+        businessMan=None,   #
         mac=None,   #
         owner=None
     ):
@@ -396,7 +423,8 @@ class Vm(object):
                 company=company,
                 dogSn=dogSn,
                 ip=ip,
-                mac=mac
+                mac=mac,
+                businessMan=businessMan
             )
             if isSaved:
                 self.existed = True
