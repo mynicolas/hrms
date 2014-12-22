@@ -41,7 +41,8 @@ def renderVms(request):
                     'nodeHost': True,
                     'macAddress': True,
                     'ipAddress': True,
-                    'dogNP': True
+                    'dogNP': True,
+                    'businessMan': True
                 }
                 modify = {
                     'instanceName': 'enabled',
@@ -55,7 +56,8 @@ def renderVms(request):
                     'nodeHost': 'enabled',
                     'macAddress': 'enabled',
                     'ipAddress': 'enabled',
-                    'dogNP': 'enabled'
+                    'dogNP': 'enabled',
+                    'businessMan': 'enabled'
                 }
             else:
                 for q in queryList:
@@ -76,7 +78,8 @@ def renderVms(request):
                 'nodeHost': 'disabled',
                 'macAddress': 'disabled',
                 'ipAddress': 'disabled',
-                'dogNP': 'disabled'
+                'dogNP': 'disabled',
+                'businessMan': 'disabled'
             }
             query = {
                 'instanceName': True,
@@ -90,7 +93,8 @@ def renderVms(request):
                 'nodeHost': False,
                 'macAddress': False,
                 'ipAddress': True,
-                'dogNP': True
+                'dogNP': True,
+                'businessMan': True
             }
 
         ins = []
@@ -162,6 +166,11 @@ def renderVms(request):
                 'modify': modify.get('dogNP', 'disabled'),
                 'query': query.get('dogNP', False)
             }           # list
+            aIn['businessMan'] = {
+                'value': vm.businessMan,
+                'modify': modify.get('businessMan', 'disabled'),
+                'query': query.get('businessMan', False)
+            }
             ins.append(aIn)
         return render_to_response('all.html', {'all': ins, 'header': ins[0]})
     else:

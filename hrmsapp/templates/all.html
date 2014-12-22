@@ -38,6 +38,9 @@
 {% if header.dogNP.query %}
 	<div class="headerItem" id="headerdogNP">dog<br/>(Port:SN)</div>
 {% endif %}
+{% if header.businessMan.query %}
+	<div class="headerItem" id="headerBusinessMan">businessMan</div>
+{% endif %}
 </div>
 
 <div id="hosts">
@@ -47,6 +50,11 @@
 	{% if aHost.name.query %}
 		<div class="hostItemDiv hostNameDiv">
 			<input {{ aHost.name.modify }} type="text" class="hostItem hostName" value="{{ aHost.name.value }}"></input>
+		</div>
+	{% endif %}
+	{% if aHost.businessMan.query %}
+		<div class="hostItemDiv diskDiv">
+			<input {{ aHost.businessMan.modify }} type="text" class="hostItem businessMan" value="{{ aHost.businessMan.value }}"></input>
 		</div>
 	{% endif %}
 	{% if aHost.vcpus.query %}
