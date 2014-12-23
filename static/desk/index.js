@@ -109,6 +109,7 @@ $(document).ready(function()
 
     addIcon('allVms', '/static/desk/icons/test.png', 'all instances');
     addIcon('addVm', '/static/desk/icons/test.png', 'add instance');
+    addIcon('addBusinessMan', '/static/desk/icons/test.png', 'add owner');
     addIcon('addNode', '/static/desk/icons/test.png', 'add node');
     addIcon('addIp', '/static/desk/icons/test.png', 'add ip');
     addIcon('addPort', '/static/desk/icons/test.png', 'add dog port');
@@ -204,6 +205,7 @@ $(document).ready(function()
         renderNodes();
         renderIps();
         renderMacs();
+        renderOwners();
         var thisNode = $('select#node');
         thisNode.change(function()
         {
@@ -296,6 +298,17 @@ $(document).ready(function()
         });        
     }
 
+    var ownerSelector = $('select#businessMan');
+    function renderOwners()
+    { // 渲染所有businessMan
+        $.post('/vm/owners/', 'item=owners', __renderOnwers);
+        function __renderOnwers(receive)
+        {
+            ownerSelector.empty();
+            ownerSelector.append(receive);
+        }
+    }
+
     var nodeSelector = $('select#node');
     function renderNodes()
     { // 渲染所有node
@@ -374,6 +387,44 @@ $(document).ready(function()
             else
             {
                 newNodeInput.css('border', '1px solid rgb(255, 0, 0)')
+            }
+        }        
+
+    });
+
+    var addOwnerIcon = $('img#addBusinessMan');
+    var deskAddOwner = $('div#deskAddOwner');
+    deskAddOwner.hide();
+    addOwnerIcon.click(function()
+    { // 添加node的icon
+        var newOwnerInput = $('input[name=newOwner]');
+        deskAddOwner.dialog({
+            title: "add owner",
+            resizable: false,
+            modal: false,
+            buttons: {
+                Submit: function() {
+                    if(checkInputType('ip', newOwnerInput.val()))
+                    {
+                        $.post('/vm/addowner/', 'newOwner=' + newOwnerInput.val(), __isSaved)
+                    }
+                    else
+                    {
+                        __isSaved('failed');
+                    }
+                }
+            }
+        });
+
+        function __isSaved(receive)
+        {
+            if (receive == 'successful')
+            {
+                newOwnerInput.css('border', '1px solid rgb(0, 255, 0)');
+            }
+            else
+            {
+                newOwnerInput.css('border', '1px solid rgb(255, 0, 0)')
             }
         }        
 

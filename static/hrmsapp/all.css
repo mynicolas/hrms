@@ -102,6 +102,10 @@ div#headerHostName, div.hostNameDiv {
 	width: 80px;
 }
 
+div#headerBusinessMan, div.businessManDiv {
+	width: 140px;
+}
+
 div#headerVcpus, div.vcpusDiv {
 	width: 50px;
 }

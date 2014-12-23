@@ -256,6 +256,20 @@ def renderNodes(request):
 
 @csrf_exempt
 @login_required
+def renderOwners(request):
+    """
+    渲染所有nodes
+    """
+    if request.method == "POST":
+        owners = BusinessMan.objects.all()
+        allOwners = [i.name for i in owners]
+        return render_to_response('owners.html', {'owners': allOwners})
+    else:
+        raise Http404
+
+
+@csrf_exempt
+@login_required
 def renderDogPorts(request):
     """
     渲染所有未被使用的dogports
@@ -329,6 +343,33 @@ def addNode(request):
                 newNode.save()
                 log = LogRequest(request.user)
                 logContent = '(add new node) %s' % node
+                log.save(logContent)
+                return HttpResponse('successful')
+        else:
+            return HttpResponse('failed')
+    else:
+        raise Http404
+
+
+@csrf_exempt
+@login_required
+def addOwner(request):
+    """
+    添加owner
+    """
+    if request.method == "POST":
+        if not request.user.is_superuser:
+            return HttpResponse('failed')
+        owner = request.POST.get('newOwner', '')
+        if owner:
+            try:
+                BusinessMan.objects.get(name=owner)
+                return HttpResponse('failed')
+            except:
+                newOwner = BusinessMan.objects.create(name=owner)
+                newOwner.save()
+                log = LogRequest(request.user)
+                logContent = '(add new owner) %s' % owner
                 log.save(logContent)
                 return HttpResponse('successful')
         else:

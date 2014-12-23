@@ -52,11 +52,7 @@
 			<input {{ aHost.name.modify }} type="text" class="hostItem hostName" value="{{ aHost.name.value }}"></input>
 		</div>
 	{% endif %}
-	{% if aHost.businessMan.query %}
-		<div class="hostItemDiv diskDiv">
-			<input {{ aHost.businessMan.modify }} type="text" class="hostItem businessMan" value="{{ aHost.businessMan.value }}"></input>
-		</div>
-	{% endif %}
+
 	{% if aHost.vcpus.query %}
 		<div class="hostItemDiv vcpusDiv">
 			<input {{ aHost.vcpus.modify }} type="text" class="hostItem vcpus" value="{{ aHost.vcpus.value }}"></input>
@@ -126,6 +122,11 @@
 			{% endfor %}
 			</select>
 			<button {{ aHost.dogNP.modify }} class="hostItemButton addDogs">+</button>
+		</div>
+	{% endif %}
+	{% if aHost.businessMan.query %}
+		<div class="hostItemDiv businessManDiv">
+			<div {{ aHost.businessMan.modify }} type="text" class="hostItem businessMan">{{ aHost.businessMan.value }}</div>
 		</div>
 	{% endif %}
 	</div>

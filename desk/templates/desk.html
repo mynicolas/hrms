@@ -17,10 +17,18 @@
 			<div class="vmItem">port<select name="dogport" id="dogPort"></select></div>			
 			<div class="vmItem">ip<select name="ip" id="ip"></select></div>
 			<div class="vmItem">mac<select name="mac" id="mac"></select></div>
+			<div class="vmItem">owner<select name="businessMan" id="businessMan"></select></div>
 		</form>
 	</div>
 </div>
 {% if admin %}
+	<div id="deskAddOwner">
+		<div id="addOwnerDiv">
+			<form id="addOwnerForm">
+				<div id="addOwnerInputDiv"><input type="text" name="newOwner"></div>
+			</form>
+		</div>
+	</div>
 	<div id="deskAddNode">
 		<div id="addNodeDiv">
 			<form id="addNodeForm">
