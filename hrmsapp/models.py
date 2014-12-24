@@ -244,7 +244,6 @@ class Vm(object):
         bandwidth=None,
         company=None,
         dogSn=None,
-        dogPort=None,
         ip=None,
         mac=None,
         businessMan=None

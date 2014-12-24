@@ -248,6 +248,7 @@ $(document).ready(function()
             var node = $('select#node');
             var ip = $('select#ip');
             var mac = $('select#mac');
+            var businessMan = $('select#businessMan');
 
             
             $.post('/vm/add/',
@@ -263,10 +264,11 @@ $(document).ready(function()
                 '&dogsn=' + dogSn.val() +
                 '&dogport=' + dogPort.val() +
                 '&ip=' + ip.val() +
-                '&mac=' + mac.val(),
-                isSaved
+                '&mac=' + mac.val() +
+                '&businessman=' + businessMan.val(),
+                __isSaved
             );
-            function isSaved(receive)
+            function __isSaved(receive)
             {
                 var vmItemDiv = $('div#vmItemDiv');
                 if (receive == 'successful')

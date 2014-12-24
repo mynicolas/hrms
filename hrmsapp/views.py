@@ -205,6 +205,7 @@ def addHost(request):
                 request.POST.get('dogport', '')
             ]
             ip = [request.POST.get('ip', '')]
+            businessMan = request.POST.get('businessman', '')
 
             isSaved = newVm.update(
                 owner=owner,
@@ -218,7 +219,8 @@ def addHost(request):
                 company=company,
                 mac=mac,
                 dogSn=dogSn,
-                ip=ip
+                ip=ip,
+                businessMan=businessMan
             )
 
             if isSaved:
