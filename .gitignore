@@ -1,4 +1,4 @@
 *.pyc
-index.wsgi
+*.wsgi
 .idea/
 settings.py
