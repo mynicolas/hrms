@@ -248,35 +248,35 @@ class Vm(object):
         mac=None,
         businessMan=None
     ):
+        return True
         thisInstance = Instance.objects.get(instanceName=self.instanceName)
 
         if dogSn:
-            try:
-                self.dogSn = dogSn[0]
-                self.dogPort = dogSn[1]
-                # for i in dogSn:
-                testPort = UsbPort.objects.filter(port=self.dogPort)
-                for p in testPort:
-                    if p.nodeHost == NodeHost.objects.get(node=nodeHost):
-                        thisPort = p
-                        break
-                thisPort.instance = thisInstance
-                thisPort.save()
-                try:
-                    thisPort.dogsn.sn = self.dogSn
-                except:
-                    try:
-                        DogSN.objects.get(sn=self.dogSn)
-                        return False
-                    except:
-                        DogSN.objects.create(
-                            sn=self.dogSn,
-                            port=thisPort
-                        ).save()
-                thisPort.save()
-                thisInstance.save()
-            except:
-                pass
+            # try:
+            self.dogSn = dogSn[0]
+            self.dogPort = dogSn[1]
+            # for i in dogSn:
+            testPort = UsbPort.objects.filter(port=self.dogPort)
+            for p in testPort:
+                if p.nodeHost == NodeHost.objects.get(node=nodeHost):
+                    thisPort = p
+            thisPort.instance = thisInstance
+            # try:
+            #     thisPort.dogsn.sn = self.dogSn
+            # except:
+            #     try:
+            #         DogSN.objects.get(sn=self.dogSn)
+            #         return False
+            #     except:
+            #         DogSN.objects.create(
+            #             sn=self.dogSn,
+            #             port=thisPort
+            #         ).save()
+            thisPort.save()
+            thisInstance.save()
+
+            # except:
+            #     pass
 
         if vmName:
             thisInstance.instanceName = vmName

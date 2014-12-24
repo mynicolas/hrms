@@ -222,6 +222,7 @@ def addHost(request):
                 ip=ip,
                 businessMan=businessMan
             )
+            return HttpResponse(isSaved)
 
             if isSaved:
                 addVmName(request.user, vmName)
@@ -236,7 +237,7 @@ def addHost(request):
                 log.save(logContent)
                 return HttpResponse('successful')
             else:
-                return HttpResponse('failed')
+                return HttpResponse('error')
         except:
             return HttpResponse('failed')
     else:
