@@ -418,13 +418,21 @@ def addDogPort(request):
         thisNode = request.POST.get('node', '')
         if newDogPort and thisNode:
             try:
-                UsbPort.objects.get(port=newDogPort)
-                return HttpResponse('faild')
+                portTest = UsbPort.objects.filter(port=newDogPort)
+                oldNode = NodeHost.objects.get(node=thisNode)
+                for aPort in portTest:
+                    if aPort.nodeHost == oldNode:
+                        return HttpResponse('failed')
+
+                newPort = UsbPort.objects.create(port=newDogPort)
+                newPort.nodeHost = oldNode
+                newPort.save()
+                return HttpResponse('successful')
             except:
                 try:
                     newPort = NodeHost.objects.get(node=thisNode)
                 except:
-                    return HttpResponse('faild')
+                    return HttpResponse('failed')
                 else:
                     log = LogRequest(request.user)
                     logContent = '(add new dogPort) %s' % newDogPort
