@@ -254,22 +254,26 @@ class Vm(object):
             try:
                 self.dogSn = dogSn[0]
                 self.dogPort = dogSn[1]
-                for i in dogSn:
-                    thisPort = UsbPort.objects.get(port=self.dogPort)
-                    thisPort.instance = thisInstance
+                # for i in dogSn:
+                testPort = UsbPort.objects.filter(port=self.dogPort)
+                for p in testPort:
+                    if p.nodeHost == NodeHost.objects.get(node=nodeHost):
+                        thisPort = p
+                        break
+                thisPort.instance = thisInstance
+                thisPort.save()
+                try:
+                    thisPort.dogsn.sn = self.dogSn
+                except:
                     try:
-                        thisPort.dogsn.sn = self.dogSn
+                        DogSN.objects.get(sn=self.dogSn)
+                        return False
                     except:
-                        try:
-                            DogSN.objects.get(sn=self.dogSn)
-                            thisInstance.delete()
-                            return False
-                        except:
-                            DogSN.objects.create(
-                                sn=self.dogSn,
-                                port=thisPort
-                            ).save()
-                    thisPort.save()
+                        DogSN.objects.create(
+                            sn=self.dogSn,
+                            port=thisPort
+                        ).save()
+                thisPort.save()
                 thisInstance.save()
             except:
                 pass
@@ -417,6 +421,14 @@ class Vm(object):
                 nodeHost=NodeHost.objects.get(node=nodeHost)
             )
             thisOwner.save()
+            self.instanceName = vmName
+            self.vcpus = vcpus
+            self.mem = mem
+            self.dataDisk = dataDisk
+            self.bandwidth = bandwidth
+            self.startTime = string2Date(startTime)
+            self.useInterval = date2Days(string2Date(startTime), string2Date(useInterval))
+            self.nodeHost = nodeHost
 
             isSaved = self.__update(
                 company=company,

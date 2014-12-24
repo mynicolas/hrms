@@ -198,7 +198,7 @@ def addHost(request):
             startTime = request.POST.get('starttime', '')
             useInterval = request.POST.get('endtime', '')
             bandwidth = request.POST.get('bandwidth', '')
-            company = request.POST.get('company', '')
+            company = request.POST.get('company', ' ')
             mac = request.POST.get('mac', '')
             dogSn = [
                 request.POST.get('dogsn', ''),
@@ -224,6 +224,7 @@ def addHost(request):
             )
 
             if isSaved:
+                addVmName(request.user, vmName)
                 log = LogRequest(request.user)
                 logContent = "(create new host) vmName=%s, vcpus=%s, mem=%s, dataDisk=%s, nodeHost=%s, startTime=%s, useInterval=%s, bandwidth=%s, company=%s, mac=%s, ip=%s, dogPN=%s:%s" % \
                     (

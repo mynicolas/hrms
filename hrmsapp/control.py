@@ -46,3 +46,14 @@ def getVms(start=0, end=None, user=None):
         for i in instanceOs[start:end]:
             vms.append(i.instanceName)
     return vms
+
+def addVmName(user, vmName):
+    """
+    添加实例的时候向sort中追加一个instanceName
+    param:  user: 该登陆用户
+            vmName: 需要追加的instanceName
+    return: None
+    """
+    thisPerm = user.perm_set.all()[0]
+    thisPerm.sort += ',%s' % vmName
+    thisPerm.save()
