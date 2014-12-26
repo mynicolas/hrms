@@ -248,7 +248,6 @@ class Vm(object):
         mac=None,
         businessMan=None
     ):
-        return True
         thisInstance = Instance.objects.get(instanceName=self.instanceName)
 
         if dogSn:
@@ -258,7 +257,7 @@ class Vm(object):
             # for i in dogSn:
             testPort = UsbPort.objects.filter(port=self.dogPort)
             for p in testPort:
-                if p.nodeHost == NodeHost.objects.get(node=nodeHost):
+                if p.nodeHost == NodeHost.objects.get(node=self.nodeHost):
                     thisPort = p
             thisPort.instance = thisInstance
             # try:
