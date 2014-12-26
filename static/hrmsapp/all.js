@@ -48,8 +48,8 @@ $(document).ready(function()
                 title: "all instances",
                 resizable: true,
                 modal: false,
-                width: 1200,
-                height: 300,
+                width: 1300,
+                height: 500,
                 buttons: {
                     Cancel: function() {
                         $(this).dialog("close");
