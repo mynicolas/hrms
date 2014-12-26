@@ -801,6 +801,7 @@ def changeDogs(request):
         if not hostName:
             return HttpResponse('failed')
         else:
+            thisNode = Vm(hostName).nodeHost
             thisUser = request.user
             if not checkPerm(thisUser, 'dogNP'):
                 return HttpResponse('failed')
@@ -833,13 +834,14 @@ def changeDogs(request):
                             continue
                         else:
                             try:
-                                thisPort = UsbPort.objects.get(port=dogP)
+                                thisPort = UsbPort.objects.get(port=dogP, nodeHost=NodeHost.objects.get(node=thisNode))
                             except:
                                 pass
                             else:
                                 thisPort.instance = None
                                 thisPort.dogsn.delete()
                                 thisPort.save()
+
                     for dog in newDogsList:
                         dogNP = dog.split(':')
                         try:
@@ -848,7 +850,7 @@ def changeDogs(request):
                         except:
                             continue
                         else:
-                            thisPort = UsbPort.objects.get(port=dogP)
+                            thisPort = UsbPort.objects.get(port=dogP, nodeHost=NodeHost.objects.get(node=thisNode))
                             try:
                                 thisSn = DogSN.objects.create(
                                     sn=dogN,
@@ -865,6 +867,6 @@ def changeDogs(request):
                             log.save(logContent)
                     return HttpResponse('successful')
             except:
-                return HttpResponse('failed')
+                return HttpResponse('error')
     else:
         raise Http404

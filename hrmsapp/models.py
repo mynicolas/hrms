@@ -260,17 +260,17 @@ class Vm(object):
                 if p.nodeHost == NodeHost.objects.get(node=self.nodeHost):
                     thisPort = p
             thisPort.instance = thisInstance
-            # try:
-            #     thisPort.dogsn.sn = self.dogSn
-            # except:
-            #     try:
-            #         DogSN.objects.get(sn=self.dogSn)
-            #         return False
-            #     except:
-            #         DogSN.objects.create(
-            #             sn=self.dogSn,
-            #             port=thisPort
-            #         ).save()
+            try:
+                thisPort.dogsn.sn = self.dogSn
+            except:
+                try:
+                    DogSN.objects.get(sn=self.dogSn)
+                    return False
+                except:
+                    DogSN.objects.create(
+                        sn=self.dogSn,
+                        port=thisPort
+                    ).save()
             thisPort.save()
             thisInstance.save()
 
