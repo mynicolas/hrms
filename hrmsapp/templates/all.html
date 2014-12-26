@@ -126,7 +126,7 @@
 	{% endif %}
 	{% if aHost.businessMan.query %}
 		<div class="hostItemDiv businessManDiv">
-			<div {{ aHost.businessMan.modify }} type="text" class="hostItem businessMan">{{ aHost.businessMan.value }}</div>
+			<input {{ aHost.businessMan.modify }} type="text" class="hostItem businessMan" value="{{ aHost.businessMan.value }}"/>
 		</div>
 	{% endif %}
 	</div>
