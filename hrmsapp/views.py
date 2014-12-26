@@ -555,6 +555,31 @@ def renderChangeNode(request):
 
 @csrf_exempt
 @login_required
+def renderChangeOwner(request):
+    """
+    渲染添加node的对话框
+    """
+    if request.method == "POST":
+        if request.POST.get('dialog', ''):
+            node = Vm(smart_str(request.POST.get('host'))).nodeHost
+            allNodeOs = NodeHost.objects.all()
+            allNodes = [
+                aNodeOs.node
+                for aNodeOs in allNodeOs
+                if not aNodeOs.node == node
+            ]
+            return render_to_response(
+                'allNodes.html',
+                {'node': node, 'allNodes': allNodes}
+            )
+        else:
+            return HttpResponse('failed')
+    else:
+        raise Http404
+
+
+@csrf_exempt
+@login_required
 def renderAddDogs(request):
     """
     渲染添加dog的对话框

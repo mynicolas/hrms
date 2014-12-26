@@ -320,6 +320,53 @@ $(document).ready(function()
     });
 
 
+    var changeOwner = $('button.changeOwner');
+    changeOwner.click(function()
+    {
+        var thisOwnerInput = $(this).prev();
+        var thisVm = $(this).parent().parent().attr('id');
+        $.post('/vm/changeownerdialog/', 'dialog=nodes&host=' + thisVm, renderChangeOwner);
+        function renderChangeOwner(receive)
+        {
+            oldValue = thisOwnerInput.val();
+            var dialogChangeOwnerDiv = $('div#dialogChangeOwnerDiv');
+            var dialogChangeOwner = $('div#dialogChangeOwner');
+            dialogChangeOwner.hide();
+            dialogChangeOwnerDiv.empty();
+            dialogChangeOwnerDiv.append(receive);
+            dialogChangeOwner.dialog({
+                title: "change owner",
+                resizable: false,
+                modal: true,
+                width: 210,
+                height: 300,
+                close: function(){$(this).dialog("destroy")},
+                buttons: {
+                    Submit: function() {
+                        newValue = $('[name=ownerRadio]:checked').val();
+                        $.post('/vm/changeowner/', 'host=' + thisVm + '&change=owner' + '&oldvalue=' + oldValue + '&newvalue=' + newValue, __isSaved);
+                        function __isSaved(receive)
+                        {
+                            if(receive == "successful")
+                            {
+                                thisOwnerInput.css('background-color', '#00dd00');
+                                thisOwnerInput.val(newValue);
+                            }
+                            else
+                            {
+                                thisOwnerInput.css('background-color', '#ff0000');
+                            }
+                        }
+                    },
+                    Cancel: function() {
+                        $(this).dialog("destroy");
+                    }
+                }
+            });
+        }
+    });
+
+
     var addDogs = $('button.addDogs');
     addDogs.click(function()
     {  
