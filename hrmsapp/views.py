@@ -134,8 +134,12 @@ def renderVms(request):
                 'modify': modify.get('useInterval', 'disabled'),
                 'query': query.get('useInterval', False)
             }
+            if not vm.company:
+                company = ''
+            else:
+                company = vm.company
             aIn['company'] = {
-                'value': vm.company,
+                'value': company,
                 'modify': modify.get('company', 'disabled'),
                 'query': query.get('company', False)
             }
