@@ -439,9 +439,8 @@ $(document).ready(function()
                 close: function(){$(this).dialog("destroy")},
                 buttons: {
                     Submit: function() {
-                        if(newDogs != oldDogs)
+                        if (newDogs != oldDogs)
                         {
-                            $.post('/vm/changedogs/', 'host=' + thisVm + '&oldvalue=' + oldDogs + '&newvalue=' + newDogs, __isSaved);
                             function __isSaved(receive)
                             {
                                 if(receive == "successful")
@@ -454,6 +453,7 @@ $(document).ready(function()
                                     thisDogSN.css('background-color', '#ff0000');
                                 }
                             }
+                            $.post('/vm/changedogs/', 'host=' + thisVm + '&oldvalue=' + oldDogs + '&newvalue=' + newDogs, __isSaved);
                             $(this).dialog('destroy');
                         }
                     },
@@ -472,7 +472,7 @@ $(document).ready(function()
             {
                 if(emptyDog.is(':checked'))
                 {
-                    dialogAddDogDiv.children().filter('input').not('input#emptyDog').removeAttr('checked')
+                    dialogAddDogDiv.children().filter('input').not('input#emptyDog').removeAttr('checked');
                 }
                 if(dogNotEmpty.is(':checked').length == 0)
                 {
