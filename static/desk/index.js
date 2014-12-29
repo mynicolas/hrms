@@ -571,7 +571,7 @@ $(document).ready(function()
             title: "users",
             resizable: true,
             modal: false,
-            width: 1140,
+            width: 1190,
             height: 300,
             close: function(){$(this).dialog("destroy")},
             buttons: {

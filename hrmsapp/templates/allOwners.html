@@ -1,0 +1,6 @@
+<form>
+	<input type="radio" checked name="businessManRadio" value="{{ businessMan }}"/>{{ businessMan }}<br/>
+{% for aBusinessMan in allBusinessMan %}
+	<input type="radio" name="businessManRadio" value="{{ aBusinessMan }}"/>{{ aBusinessMan }}<br/>
+{% endfor %}<br/>
+</form>

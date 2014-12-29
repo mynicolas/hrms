@@ -345,7 +345,7 @@ $(document).ready(function()
                 buttons: {
                     Submit: function() {
                         newValue = $('[name=businessManRadio]:checked').val();
-                        $.post('/vm/changebusinessman/', 'host=' + thisVm + '&change=businessMan' + '&oldvalue=' + oldValue + '&newvalue=' + newValue, __isSaved);
+                        $.post('/vm/changeowner/', 'host=' + thisVm + '&change=businessMan' + '&oldvalue=' + oldValue + '&newvalue=' + newValue, __isSaved);
                         function __isSaved(receive)
                         {
                             if(receive == "successful")

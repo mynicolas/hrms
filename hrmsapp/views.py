@@ -566,6 +566,7 @@ def renderChangeBusinessMan(request):
             allBusinessMan = [
                 aBusinessManO.name
                 for aBusinessManO in allBusinessManOs
+                if not aBusinessManO.name == businessMan
             ]
             return render_to_response(
                 'allOwners.html',
@@ -723,6 +724,37 @@ def changeNode(request):
                 return HttpResponse('successful')
             except:
                 return HttpResponse('failed')
+    else:
+        raise Http404
+
+
+
+@csrf_exempt
+@login_required
+def changeBusinessMan(request):
+    """
+    为某个实例修改businessMan
+    """
+    if request.method == "POST":
+        if request.POST.get('change', '') == u"businessMan":
+            thisUser = request.user
+            if not checkPerm(thisUser, 'businessMan'):
+                return HttpResponse('failed')
+            thisVm = smart_str(request.POST.get('host'))
+            oldValue = smart_str(request.POST.get('oldvalue', ''))
+            newValue = smart_str(request.POST.get('newvalue', ''))
+            vm = Vm(thisVm)
+            try:
+                vm.update(businessMan=newValue)
+                log = LogRequest(request.user)
+                logContent = '(modify businessMan) %s --> %s' %\
+                    (oldValue, newValue)
+                log.save(logContent)
+                return HttpResponse('successful')
+            except:
+                return HttpResponse('failed')
+        else:
+            raise Http404
     else:
         raise Http404
 

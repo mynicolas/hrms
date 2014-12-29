@@ -38,7 +38,8 @@ def renderAllUsers(request):
                         'nodeHost': 'checked',
                         'macAddress': 'checked',
                         'ipAddress': 'checked',
-                        'dogNP': 'checked'
+                        'dogNP': 'checked',
+                        'businessMan': 'checked'
                     }
                 else:
                     for q in queryList:
@@ -70,6 +71,8 @@ def renderAllUsers(request):
                         query['ipAddress'] = ''
                     if not query.get('dogNP', ''):
                         query['dogNP'] = ''
+                    if not query.get('businessMan', ''):
+                        query['businessMan'] = ''
 
                     if not modify.get('instanceName', ''):
                         modify['instanceName'] = ''
@@ -95,6 +98,8 @@ def renderAllUsers(request):
                         modify['ipAddress'] = ''
                     if not modify.get('dogNP', ''):
                         modify['dogNP'] = ''
+                    if not modify.get('businessMan', ''):
+                        modify['businessMan'] = ''
             except:
                 modify = {
                     'instanceName': '',
@@ -108,7 +113,8 @@ def renderAllUsers(request):
                     'nodeHost': '',
                     'macAddress': '',
                     'ipAddress': '',
-                    'dogNP': ''
+                    'dogNP': '',
+                    'businessMan': ''
                 }
                 query = {
                     'instanceName': 'checked',
@@ -122,7 +128,8 @@ def renderAllUsers(request):
                     'nodeHost': '',
                     'macAddress': '',
                     'ipAddress': 'checked',
-                    'dogNP': 'checked'
+                    'dogNP': 'checked',
+                    'businessMan': 'checked'
                 }
 
             aUser['username'] = thisUsername

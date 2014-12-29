@@ -3,7 +3,7 @@
 {% for aUser in allUsers %}
 	<div class="aUserPermissionDiv" id="{{ aUser.username }}">
 		<div class="permissionUserDiv permissionItem">
-			<div id="permissionUsername">{{ aUser.username }}</div>
+			<div class="permissionUsername">{{ aUser.username }}</div>
 		</div>
 		<div class="permissionVmNameDiv permissionItem">
 			<div class="permissionInputItem"><input class="aUserPermissionItem queryItem" name="instanceName" {{ aUser.query.instanceName }} type="checkbox"/></div>
@@ -52,6 +52,10 @@
 		<div class="permissionDogNPDiv permissionItem">
 			<div class="permissionInputItem"><input class="aUserPermissionItem queryItem" name="dogNP" {{ aUser.query.dogNP }} type="checkbox"/></div>
 			<div class="permissionInputItem"><input class="aUserPermissionItem modifyItem" name="dogNP" {{ aUser.modify.dogNP }} type="checkbox"/></div>
+		</div>
+		<div class="permissionBusinessManDiv permissionItem">
+			<div class="permissionInputItem"><input class="aUserPermissionItem queryItem" name="businessMan" {{ aUser.query.businessMan }} type="checkbox"/></div>
+			<div class="permissionInputItem"><input class="aUserPermissionItem modifyItem" name="businessMan" {{ aUser.modify.businessMan }} type="checkbox"/></div>
 		</div>
 	</div>
 {% endfor %}
