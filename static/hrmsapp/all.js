@@ -441,35 +441,20 @@ $(document).ready(function()
                     Submit: function() {
                         if(newDogs != oldDogs)
                         {
-                            var newDogsChecked = dialogAddDogDiv.children().filter(':checked')
-                            if(newDogsChecked.length >= 1)
+                            $.post('/vm/changedogs/', 'host=' + thisVm + '&oldvalue=' + oldDogs + '&newvalue=' + newDogs, __isSaved);
+                            function __isSaved(receive)
                             {
-                                newDogsChecked.each(function()
+                                if(receive == "successful")
                                 {
-                                    newDogs += $(this).next().text() + $(this).next().next().text() + ',';
-                                });
-                            }
-                            else
-                            {
-                                newDogs = ',-:-,';
-                            }
-                            if(newDogs != oldDogs)
-                            {
-                                $.post('/vm/changedogs/', 'host=' + thisVm + '&oldvalue=' + oldDogs + '&newvalue=' + newDogs, __isSaved);
-                                function __isSaved(receive)
-                                {
-                                    if(receive == "successful")
-                                    {
-                                        getAll();
-                                        thisDogSN.css('background-color', '#00dd00');
-                                    }
-                                    else
-                                    {
-                                        thisDogSN.css('background-color', '#ff0000');
-                                    }
+                                    getAll();
+                                    thisDogSN.css('background-color', '#00dd00');
                                 }
-                                $(this).dialog('destroy');
+                                else
+                                {
+                                    thisDogSN.css('background-color', '#ff0000');
+                                }
                             }
+                            $(this).dialog('destroy');
                         }
                     },
                     Cancel: function() {
@@ -498,6 +483,7 @@ $(document).ready(function()
                     emptyDog.attr('checked', false);
                 });
             });
+
             var oldDogsChecked = dialogAddDogDiv.children().filter(':checked');
             if(oldDogsChecked.length >= 1)
             {
@@ -510,6 +496,35 @@ $(document).ready(function()
             {
                 oldDogs = ',-:-,';
             }
+
+            var newDogsChecked = dialogAddDogDiv.children().filter(':checked');
+            if(newDogsChecked.length >= 1)
+            {
+                newDogsChecked.each(function()
+                {
+                    newDogs += $(this).next().text() + $(this).next().next().text() + ',';
+                });
+            }
+            else
+            {
+                newDogs = ',-:-,';
+            }
+            dialogAddDogDiv.children().change(function()
+            {
+                var newDogsCheckedChanged = dialogAddDogDiv.children().filter(':checked');
+                if(newDogsCheckedChanged.length >= 1)
+                {
+                    newDogs = ',';
+                    newDogsCheckedChanged.each(function()
+                    {
+                        newDogs += $(this).next().text() + $(this).next().next().text() + ',';
+                    });
+                }
+                else
+                {
+                    newDogs = ',-:-,';
+                }
+            });
 
             var addSn = $('button.addSn');
             var dialogAddSn = $('div#dialogAddSn')
