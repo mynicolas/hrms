@@ -126,7 +126,8 @@
 	{% endif %}
 	{% if aHost.businessMan.query %}
 		<div class="hostItemDiv businessManDiv">
-			<input {{ aHost.businessMan.modify }} type="text" class="hostItem businessMan" value="{{ aHost.businessMan.value }}"/>
+			<input disabled type="text" class="hostItem businessMan hostItemHasButton" value="{{ aHost.businessMan.value }}"/>
+			<button {{ aHost.businessMan.modify }} class="hostItemButton changeBusinessMan">@</button>
 		</div>
 	{% endif %}
 	</div>
@@ -147,4 +148,8 @@
 
 <div id="dialogAddDog">
 	<div id="dialogAddDogDiv"></div>
+</div>
+
+<div id="dialogChangeBusinessMan">
+	<div id="dialogChangeBusinessManDiv"></div>
 </div>

@@ -23,9 +23,10 @@ urlpatterns = patterns(
     url(r'^addipdialog/$', renderAddIps),
     url(r'^adddogdialog/$', renderAddDogs),
     url(r'^changenodedialog/$', renderChangeNode),
-    url(r'^changeownerdialog/$', renderChangeOnwer),
+    url(r'^changeownerdialog/$', renderChangeBusinessMan),
     url(r'^changenode/$', changeNode),
     url(r'^changemacs/$', changeMacs),
     url(r'^changeips/$', changeIps),
     url(r'^changedogs/$', changeDogs),
+    url(r'^changeowner/$', changeBusinessMan),
 )

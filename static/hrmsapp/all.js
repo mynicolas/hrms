@@ -160,7 +160,7 @@ $(document).ready(function()
                 title: "add mac",
                 resizable: false,
                 modal: true,
-                width: 210,
+                width: 240,
                 height: 300,
                 close: function(){$(this).dialog("destroy")},
                 buttons: {
@@ -227,7 +227,7 @@ $(document).ready(function()
                 title: "add ip",
                 resizable: false,
                 modal: true,
-                width: 210,
+                width: 240,
                 height: 300,
                 close: function(){$(this).dialog("destroy")},
                 buttons: {
@@ -282,12 +282,12 @@ $(document).ready(function()
         function renderChangeNodeDialog(receive)
         {
             oldValue = thisNodeInput.val();
-            var dialogAddDogDiv = $('div#dialogAddDogDiv');
-            var dialogAddDog = $('div#dialogAddDog');
-            dialogAddDog.hide();
-            dialogAddDogDiv.empty();
-            dialogAddDogDiv.append(receive);
-            dialogAddDog.dialog({
+            var dialogChangeNodeDiv = $('div#dialogChangeNodeDiv');
+            var dialogChangeNode = $('div#dialogChangeNode');
+            dialogChangeNode.hide();
+            dialogChangeNodeDiv.empty();
+            dialogChangeNodeDiv.append(receive);
+            dialogChangeNode.dialog({
                 title: "add node",
                 resizable: false,
                 modal: true,
@@ -308,6 +308,54 @@ $(document).ready(function()
                             else
                             {
                                 thisNodeInput.css('background-color', '#ff0000');
+                            }
+                        }
+                    },
+                    Cancel: function() {
+                        $(this).dialog("destroy");
+                    }
+                }
+            });
+        }
+    });
+
+
+
+    var changeBusinessMan = $('button.changeBusinessMan');
+    changeBusinessMan.click(function()
+    {
+        var thisBusinessManInput = $(this).prev();
+        var thisVm = $(this).parent().parent().attr('id');
+        $.post('/vm/changeownerdialog/', 'dialog=businessMan&host=' + thisVm, renderChangeBusinessManDialog);
+        function renderChangeBusinessManDialog(receive)
+        {
+            oldValue = thisBusinessManInput.val();
+            var dialogChangeBusinessManDiv = $('div#dialogChangeBusinessManDiv');
+            var dialogChangeBusinessMan = $('div#dialogChangeBusinessMan');
+            dialogChangeBusinessMan.hide();
+            dialogChangeBusinessManDiv.empty();
+            dialogChangeBusinessManDiv.append(receive);
+            dialogChangeBusinessMan.dialog({
+                title: "add node",
+                resizable: false,
+                modal: true,
+                width: 210,
+                height: 300,
+                close: function(){$(this).dialog("destroy")},
+                buttons: {
+                    Submit: function() {
+                        newValue = $('[name=businessManRadio]:checked').val();
+                        $.post('/vm/changebusinessman/', 'host=' + thisVm + '&change=businessMan' + '&oldvalue=' + oldValue + '&newvalue=' + newValue, __isSaved);
+                        function __isSaved(receive)
+                        {
+                            if(receive == "successful")
+                            {
+                                thisBusinessManInput.css('background-color', '#00dd00');
+                                thisBusinessManInput.val(newValue);
+                            }
+                            else
+                            {
+                                thisBusinessManInput.css('background-color', '#ff0000');
                             }
                         }
                     },

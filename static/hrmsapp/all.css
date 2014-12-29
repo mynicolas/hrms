@@ -75,7 +75,7 @@ div.aHostItem {
 
 .hostItemButton:hover {
 	text-align: center;
-	width: 30%;
+	width: 25%;
 	border: 1px solid #00dd00;
 }
 
@@ -85,7 +85,7 @@ div.aHostItem {
 }
 
 .hostItemButton {
-	width: 30%;
+	width: 25%;
 	text-align: center;
 }
 
@@ -139,11 +139,11 @@ div#headerNode, div.nodeDiv {
 }
 
 div#headerMac, div.macDiv {
-	width: 250px;
+	width: 270px;
 }
 
 div#headerIp, div.ipsDiv {
-	width: 200px;
+	width: 230px;
 }
 
 div#headerdogNP, div.dogNPDiv {
@@ -151,7 +151,7 @@ div#headerdogNP, div.dogNPDiv {
 }
 
 div#dialogAddIpDiv{
-	width: 120px;
+	width: 200px;
 	margin: 0 20px;
 }
 

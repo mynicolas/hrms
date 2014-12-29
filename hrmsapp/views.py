@@ -555,22 +555,21 @@ def renderChangeNode(request):
 
 @csrf_exempt
 @login_required
-def renderChangeOwner(request):
+def renderChangeBusinessMan(request):
     """
-    渲染添加node的对话框
+    渲染添加businessMan的对话框
     """
     if request.method == "POST":
         if request.POST.get('dialog', ''):
-            node = Vm(smart_str(request.POST.get('host'))).nodeHost
-            allNodeOs = NodeHost.objects.all()
-            allNodes = [
-                aNodeOs.node
-                for aNodeOs in allNodeOs
-                if not aNodeOs.node == node
+            businessMan = Vm(smart_str(request.POST.get('host'))).businessMan
+            allBusinessManOs = BusinessMan.objects.all()
+            allBusinessMan = [
+                aBusinessManO.name
+                for aBusinessManO in allBusinessManOs
             ]
             return render_to_response(
-                'allNodes.html',
-                {'node': node, 'allNodes': allNodes}
+                'allOwners.html',
+                {'businessMan': businessMan, 'allBusinessMan': allBusinessMan}
             )
         else:
             return HttpResponse('failed')
