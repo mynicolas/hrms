@@ -193,56 +193,58 @@ def addHost(request):
         newVm = Vm(vmName)
         if newVm.existed:
             return HttpResponse('failed')
-        try:
-            owner = request.user.username
-            vcpus = request.POST.get('vcpus', '')
-            mem = request.POST.get('mem', '')
-            dataDisk = request.POST.get('datadisk', '')
-            nodeHost = request.POST.get('nodehost', '')
-            startTime = request.POST.get('starttime', '')
-            useInterval = request.POST.get('endtime', '')
-            bandwidth = request.POST.get('bandwidth', '')
-            company = request.POST.get('company', '')
-            mac = request.POST.get('mac', '')
-            dogSn = [
-                request.POST.get('dogsn', ''),
-                request.POST.get('dogport', '')
-            ]
-            ip = [request.POST.get('ip', '')]
-            businessMan = request.POST.get('businessman', '')
+        # try:
+        owner = request.user.username
+        vcpus = request.POST.get('vcpus', None)
+        mem = request.POST.get('mem', None)
+        dataDisk = request.POST.get('datadisk', None)
+        nodeHost = request.POST.get('nodehost', None)
+        startTime = request.POST.get('starttime', None)
+        useInterval = request.POST.get('endtime', None)
+        bandwidth = request.POST.get('bandwidth', None)
+        company = request.POST.get('company', None)
+        mac = request.POST.get('mac', None)
+        dogSn = [
+            request.POST.get('dogsn', None),
+            request.POST.get('dogport', None)
+        ]
+        ip = [request.POST.get('ip', None)]
+        businessMan = request.POST.get('businessman', None)
 
-            isSaved = newVm.update(
-                owner=owner,
-                vcpus=vcpus,
-                mem=mem,
-                dataDisk=dataDisk,
-                nodeHost=nodeHost,
-                startTime=startTime,
-                useInterval=useInterval,
-                bandwidth=bandwidth,
-                company=company,
-                mac=mac,
-                dogSn=dogSn,
-                ip=ip,
-                businessMan=businessMan
-            )
-
-            if isSaved == True:
-                addVmName(request.user, vmName)
-                log = LogRequest(request.user)
-                logContent = "(create new host) vmName=%s, vcpus=%s, mem=%s, dataDisk=%s, nodeHost=%s, startTime=%s, useInterval=%s, bandwidth=%s, company=%s, mac=%s, ip=%s, dogPN=%s:%s" % \
-                    (
-                        vmName,
-                        vcpus, mem, dataDisk, nodeHost,
-                        startTime, useInterval, bandwidth,
-                        company, mac, ip[0], dogSn[1], dogSn[0]
-                    )
-                log.save(logContent)
-                return HttpResponse('successful')
-            elif isSaved == False:
-                return HttpResponse('error')
-        except:
+        isSaved = newVm.update(
+            owner=owner,
+            vcpus=vcpus,
+            mem=mem,
+            dataDisk=dataDisk,
+            nodeHost=nodeHost,
+            startTime=startTime,
+            useInterval=useInterval,
+            bandwidth=bandwidth,
+            company=company,
+            mac=mac,
+            dogSn=dogSn,
+            ip=ip,
+            businessMan=businessMan
+        )
+        if isSaved:
+            addVmName(request.user, vmName)
+            log = LogRequest(request.user)
+            logContent = "(create new host) vmName=%s, vcpus=%s, mem=%s, dataDisk=%s, nodeHost=%s, startTime=%s, useInterval=%s, bandwidth=%s, company=%s, mac=%s, ip=%s, dogPN=%s:%s" % \
+                (
+                    vmName,
+                    vcpus, mem, dataDisk, nodeHost,
+                    startTime, useInterval, bandwidth,
+                    company, mac, ip[0], dogSn[1], dogSn[0]
+                )
+            log.save(logContent)
+            return HttpResponse('successful')
+        else:
+            thisVm = Instance.objects.get(instanceName=vmName)
+            thisVm.delete()
+            thisVm.save()
             return HttpResponse('failed')
+        # except:
+            # return HttpResponse('failed')
     else:
         raise Http404
 

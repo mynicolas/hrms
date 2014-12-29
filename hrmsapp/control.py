@@ -55,5 +55,8 @@ def addVmName(user, vmName):
     return: None
     """
     thisPerm = user.perm_set.all()[0]
-    thisPerm.sort += ',%s' % vmName
+    if thisPerm.sort:
+        thisPerm.sort += ',%s' % vmName
+    else:
+        thisPerm.sort = None
     thisPerm.save()

@@ -251,31 +251,31 @@ class Vm(object):
         thisInstance = Instance.objects.get(instanceName=self.instanceName)
 
         if dogSn:
-            # try:
             self.dogSn = dogSn[0]
             self.dogPort = dogSn[1]
-            # for i in dogSn:
-            testPort = UsbPort.objects.filter(port=self.dogPort)
-            for p in testPort:
-                if p.nodeHost == NodeHost.objects.get(node=self.nodeHost):
-                    thisPort = p
-            thisPort.instance = thisInstance
-            try:
-                thisPort.dogsn.sn = self.dogSn
-            except:
-                try:
-                    DogSN.objects.get(sn=self.dogSn)
-                    return False
-                except:
+            if self.dogPort:
+                thisPort = UsbPort.objects.get(port=self.dogPort, nodeHost=NodeHost.objects.get(node=self.nodeHost))
+                # for p in testPort:
+                #     if p.nodeHost == NodeHost.objects.get(node=self.nodeHost):
+                #         thisPort = p
+                thisPort.instance = thisInstance
+                if self.dogSn:
+                    # try:
+                        # thisPort.dogsn.sn = self.dogSn
+                    # except:
+                        # try:
+                    # DogSN.objects.get(sn=self.dogSn)
+                # except:
                     DogSN.objects.create(
                         sn=self.dogSn,
                         port=thisPort
                     ).save()
-            thisPort.save()
-            thisInstance.save()
-
-            # except:
-            #     pass
+                else:
+                    pass
+                thisPort.save()
+                thisInstance.save()
+            else:
+                pass
 
         if vmName:
             thisInstance.instanceName = vmName
@@ -336,8 +336,8 @@ class Vm(object):
                 thisInstance.company = Company.objects.get(
                     companyName=company
                 )
-            self.company = company
-            thisInstance.save()
+                self.company = company
+                thisInstance.save()
 
         if mac:
             thisMac = Mac.objects.get(macAddress=mac)
