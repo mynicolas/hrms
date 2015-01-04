@@ -1,6 +1,7 @@
+{% load i18n %}
 <button id="start">start</button>
 <ul id="startMenu">
-	<li><a href="/logout/" id="logout">logout</a></li>
+	<li><a href="/logout/" id="logout">{% trans "logout" %}</a></li>
 </ul>
 <div id="username">{{ username }}</div>
 <div id="changePasswordDialog" hidden>

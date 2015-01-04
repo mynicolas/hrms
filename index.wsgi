@@ -12,7 +12,7 @@ sys.path.append("C:/Users/Nicolas-PC/pyproj/hrms2/hrms2")
 os.environ['DJANGO_SETTINGS_MODULE'] = 'hrms2.settings'
 os.environ['PYTHON_EGG_CACHE'] = '/tmp'
 
-# import django
-# django.setup()
+import django
+django.setup()
 import django.core.handlers.wsgi
 application = django.core.handlers.wsgi.WSGIHandler() 

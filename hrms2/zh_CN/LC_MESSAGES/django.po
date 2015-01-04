@@ -1,0 +1,106 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-01-04 16:30+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: .\desk\templates\desk.html:8
+msgid "name"
+msgstr "名称"
+
+#: .\desk\templates\desk.html:9 .\desk\templates\desk.html.py:69
+msgid "vcpus"
+msgstr "核心数"
+
+#: .\desk\templates\desk.html:10 .\desk\templates\desk.html.py:70
+msgid "mem"
+msgstr "内存"
+
+#: .\desk\templates\desk.html:11 .\desk\templates\desk.html.py:71
+msgid "disk"
+msgstr "磁盘"
+
+#: .\desk\templates\desk.html:12 .\desk\templates\desk.html.py:72
+msgid "start"
+msgstr "创建时间"
+
+#: .\desk\templates\desk.html:13 .\desk\templates\desk.html.py:73
+msgid "end"
+msgstr "结束时间"
+
+#: .\desk\templates\desk.html:14 .\desk\templates\desk.html.py:75
+msgid "bandwidth"
+msgstr "带宽"
+
+#: .\desk\templates\desk.html:15 .\desk\templates\desk.html.py:74
+msgid "company"
+msgstr "公司名称"
+
+#: .\desk\templates\desk.html:16
+msgid "dogsn"
+msgstr "狗号"
+
+#: .\desk\templates\desk.html:17 .\desk\templates\desk.html.py:76
+msgid "node"
+msgstr "节点"
+
+#: .\desk\templates\desk.html:18
+msgid "port"
+msgstr "狗端口"
+
+#: .\desk\templates\desk.html:19 .\desk\templates\desk.html.py:78
+msgid "ip"
+msgstr "ip地址"
+
+#: .\desk\templates\desk.html:20 .\desk\templates\desk.html.py:77
+msgid "mac"
+msgstr "物理地址"
+
+#: .\desk\templates\desk.html:21
+msgid "owner"
+msgstr "销售人员"
+
+#: .\desk\templates\desk.html:67
+msgid "user"
+msgstr "用户"
+
+#: .\desk\templates\desk.html:68
+msgid "vmName"
+msgstr "名称"
+
+#: .\desk\templates\desk.html:79
+msgid "dogNP"
+msgstr "狗"
+
+#: .\desk\templates\desk.html:80
+msgid "saler"
+msgstr "销售人员"
+
+#: .\desk\templates\header.html:4
+msgid "logout"
+msgstr "登出"
+
+#: .\desk\templates\index.html:6
+msgid "Host Resource Manage System"
+msgstr "主机资源管理系统"
+
+#: .\hrms2\settings.py:129
+msgid "English"
+msgstr "英语"
+
+#: .\hrms2\settings.py:130
+msgid "Chinese"
+msgstr "中文"
