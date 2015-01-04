@@ -1,8 +1,9 @@
+{% load i18n %}
 <!DOCTYPE html>
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>Host Resource Manage System</title>
+    <title>{% trans "VM Manager System" %}</title>
     <script type="text/javascript" src="/static/jquery.js"></script>
     <script type="text/javascript" src="/static/jquery.md5.js"></script>
     <script type="text/javascript" src="/static/login/login.js"></script>
@@ -31,13 +32,13 @@
                 <div id="loginFormDiv">
                     <form action="/login/check/" method="post">
                         <div id="loginHeadDiv" class='loginItem'>
-                            <div id="loginHeadContent">VM Manager System</div>
+                            <div id="loginHeadContent">{% trans "VM Manager System" %}</div>
                         </div>
-                        <div class="loginUserItem loginItem"><input type="text" name="username" class="loginUserItemInput" id="loginUsernameInput" value placeholder="username"></div>
-                        <div class="loginUserItem loginItem"><input type="password" name="password" class="loginUserItemInput" id="loginPasswordInput" value placeholder="password"></div>
-                        <div class="loginUserItem loginItem"><button type="button" class="loginUserItemInput" id='loginButton'>login</button></div>
+                        <div class="loginUserItem loginItem"><input type="text" name="username" class="loginUserItemInput" id="loginUsernameInput" value placeholder={% trans "username" %}></div>
+                        <div class="loginUserItem loginItem"><input type="password" name="password" class="loginUserItemInput" id="loginPasswordInput" value placeholder={% trans "password" %}></div>
+                        <div class="loginUserItem loginItem"><button type="button" class="loginUserItemInput" id='loginButton'>{% trans "login" %}</button></div>
                         <div id="registerButtonDiv" class="registerItem">
-                            <div id="loginHelpDiv" class='registerAndHelpButton'>help</div>
+                            <div id="loginHelpDiv" class='registerAndHelpButton'>{% trans "help" %}</div>
                         </div>
                     </form>
                 </div>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-04 16:30+0800\n"
+"POT-Creation-Date: 2015-01-04 17:22+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,90 +17,90 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: .\desk\templates\desk.html:8
-msgid "name"
-msgstr "名称"
-
-#: .\desk\templates\desk.html:9 .\desk\templates\desk.html.py:69
-msgid "vcpus"
-msgstr "核心数"
-
-#: .\desk\templates\desk.html:10 .\desk\templates\desk.html.py:70
-msgid "mem"
-msgstr "内存"
-
-#: .\desk\templates\desk.html:11 .\desk\templates\desk.html.py:71
-msgid "disk"
-msgstr "磁盘"
-
-#: .\desk\templates\desk.html:12 .\desk\templates\desk.html.py:72
-msgid "start"
-msgstr "创建时间"
-
-#: .\desk\templates\desk.html:13 .\desk\templates\desk.html.py:73
-msgid "end"
-msgstr "结束时间"
-
-#: .\desk\templates\desk.html:14 .\desk\templates\desk.html.py:75
-msgid "bandwidth"
-msgstr "带宽"
-
-#: .\desk\templates\desk.html:15 .\desk\templates\desk.html.py:74
-msgid "company"
-msgstr "公司名称"
-
-#: .\desk\templates\desk.html:16
-msgid "dogsn"
-msgstr "狗号"
-
-#: .\desk\templates\desk.html:17 .\desk\templates\desk.html.py:76
-msgid "node"
-msgstr "节点"
-
-#: .\desk\templates\desk.html:18
-msgid "port"
-msgstr "狗端口"
-
-#: .\desk\templates\desk.html:19 .\desk\templates\desk.html.py:78
-msgid "ip"
-msgstr "ip地址"
-
-#: .\desk\templates\desk.html:20 .\desk\templates\desk.html.py:77
-msgid "mac"
-msgstr "物理地址"
-
-#: .\desk\templates\desk.html:21
-msgid "owner"
-msgstr "销售人员"
-
-#: .\desk\templates\desk.html:67
-msgid "user"
-msgstr "用户"
-
-#: .\desk\templates\desk.html:68
-msgid "vmName"
-msgstr "名称"
-
-#: .\desk\templates\desk.html:79
-msgid "dogNP"
-msgstr "狗"
-
-#: .\desk\templates\desk.html:80
-msgid "saler"
-msgstr "销售人员"
-
-#: .\desk\templates\header.html:4
-msgid "logout"
-msgstr "登出"
-
-#: .\desk\templates\index.html:6
-msgid "Host Resource Manage System"
-msgstr "主机资源管理系统"
-
-#: .\hrms2\settings.py:129
+#: .\hrms2\settings.py:134
 msgid "English"
 msgstr "英语"
 
-#: .\hrms2\settings.py:130
+#: .\hrms2\settings.py:135
 msgid "Chinese"
 msgstr "中文"
+
+#: .\templates\desk\desk.html:8
+#, fuzzy
+#| msgid "username"
+msgid "name"
+msgstr "用户名"
+
+#: .\templates\desk\desk.html:9
+msgid "vcpus"
+msgstr "核心数"
+
+#: .\templates\desk\desk.html:10
+msgid "mem"
+msgstr "内存"
+
+#: .\templates\desk\desk.html:11
+msgid "disk"
+msgstr "磁盘"
+
+#: .\templates\desk\desk.html:12
+msgid "start"
+msgstr "破壳日"
+
+#: .\templates\desk\desk.html:13
+msgid "end"
+msgstr "入棺日"
+
+#: .\templates\desk\desk.html:14
+msgid "bandwidth"
+msgstr "带宽"
+
+#: .\templates\desk\desk.html:15
+msgid "company"
+msgstr "公司"
+
+#: .\templates\desk\desk.html:16
+#, fuzzy
+#| msgid "login"
+msgid "dogsn"
+msgstr "狗号"
+
+#: .\templates\desk\desk.html:17
+msgid "node"
+msgstr "节点"
+
+#: .\templates\desk\desk.html:18
+msgid "port"
+msgstr "端口"
+
+#: .\templates\desk\desk.html:19
+msgid "ip"
+msgstr "IP地址"
+
+#: .\templates\desk\desk.html:20
+msgid "mac"
+msgstr "MAC地址"
+
+#: .\templates\desk\desk.html:21
+msgid "owner"
+msgstr "销售人员"
+
+#: .\templates\login\login.html:6 .\templates\login\login.html.py:35
+msgid "VM Manager System"
+msgstr "虚拟机资源管理系统"
+
+#: .\templates\login\login.html:37
+msgid "username"
+msgstr "用户名"
+
+#: .\templates\login\login.html:38
+msgid "password"
+msgstr "密码"
+
+#: .\templates\login\login.html:39
+msgid "login"
+msgstr "登陆"
+
+#: .\templates\login\login.html:41
+msgid "help"
+msgstr "帮我"
