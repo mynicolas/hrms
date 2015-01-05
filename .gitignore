@@ -1,4 +1,3 @@
 *.pyc
 *.wsgi
 .idea/
-settings.py

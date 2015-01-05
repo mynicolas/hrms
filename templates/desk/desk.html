@@ -5,20 +5,20 @@
 <div id="deskAddVm">
 	<div id="vmItemDiv">
 		<form id='addHost'>
-			<div class="vmItem">{% trans "name" %}<input type="text" name="vmname" id="vmName"></div>
-			<div class="vmItem">{% trans "vcpus" %}<input type="text" name="vcpus" id="vcpus"></div>
-			<div class="vmItem">{% trans "mem" %}<input type="text" name="mem" id="mem"></div>
-			<div class="vmItem">{% trans "disk" %}<input type="text" name="datadisk" id="disk"></div>
-			<div class="vmItem">{% trans "start" %}<input type="text" name="starttime" id="startTime"></div>
-			<div class="vmItem">{% trans "end" %}<input type="text" name="endtime" id="endTime"></div>
-			<div class="vmItem">{% trans "bandwidth" %}<input type="text" name="bandwidth" id="bandwidth"></div>
-			<div class="vmItem">{% trans "company" %}<input type="text" name="company" id="company"></div>
-			<div class="vmItem">{% trans "dogsn" %}<input type="text" name="dogsn" disabled id="dogSn"></div>
-			<div class="vmItem">{% trans "node" %}<select name="nodehost" id="node"></select></div>			
-			<div class="vmItem">{% trans "port" %}<select name="dogport" id="dogPort"></select></div>			
-			<div class="vmItem">{% trans "ip" %}<select name="ip" id="ip"></select></div>
-			<div class="vmItem">{% trans "mac" %}<select name="mac" id="mac"></select></div>
-			<div class="vmItem">{% trans "owner" %}<select name="businessMan" id="businessMan"></select></div>
+			<div class="vmItem"><span>{% trans "name" %}</span><input type="text" name="vmname" id="vmName"></div>
+			<div class="vmItem"><span>{% trans "vcpus" %}</span><input type="text" name="vcpus" id="vcpus"></div>
+			<div class="vmItem"><span>{% trans "mem" %}</span><input type="text" name="mem" id="mem"></div>
+			<div class="vmItem"><span>{% trans "disk" %}</span><input type="text" name="datadisk" id="disk"></div>
+			<div class="vmItem"><span>{% trans "start" %}</span><input type="text" name="starttime" id="startTime"></div>
+			<div class="vmItem"><span>{% trans "end" %}</span><input type="text" name="endtime" id="endTime"></div>
+			<div class="vmItem"><span>{% trans "bandwidth" %}</span><input type="text" name="bandwidth" id="bandwidth"></div>
+			<div class="vmItem"><span>{% trans "company" %}</span><input type="text" name="company" id="company"></div>
+			<div class="vmItem"><span>{% trans "dogsn" %}</span><input type="text" name="dogsn" disabled id="dogSn"></div>
+			<div class="vmItem"><span>{% trans "node" %}</span><select name="nodehost" id="node"></select></div>			
+			<div class="vmItem"><span>{% trans "port" %}</span><select name="dogport" id="dogPort"></select></div>			
+			<div class="vmItem"><span>{% trans "ip" %}</span><select name="ip" id="ip"></select></div>
+			<div class="vmItem"><span>{% trans "mac" %}</span><select name="mac" id="mac"></select></div>
+			<div class="vmItem"><span>{% trans "owner" %}</span><select name="businessMan" id="businessMan"></select></div>
 		</form>
 	</div>
 </div>
@@ -54,9 +54,9 @@
 	<div id="deskAddPort">
 		<div id="addPortDiv">
 			<form id="addPortForm"> 
-				node:<select id="allNodes"></select>
+				<span>{% trans "node" %}:</span><select id="allNodes"></select>
 				<div id="addPortInputdiv">
-					<input type="text" name="newPort" value placeholder="dog port">
+					<input type="text" name="newPort" value placeholder={% trans "dog port" %}>
 				</div>
 			</form>
 		</div>
@@ -64,20 +64,20 @@
 	<div id="deskUser">
 		<div id="deskUserDiv">
 			<div class="userHeader">
-				<div class="userHeaderItem" id="userHeaderUsername">user</div>
-				<div class="userHeaderItem" id="userHeaderVmName">vmName</div>
-				<div class="userHeaderItem" id="userHeaderVcpus">vcpus</div>
-				<div class="userHeaderItem" id="userHeaderMem">mem</div>
-				<div class="userHeaderItem" id="userHeaderDisk">disk</div>
-				<div class="userHeaderItem" id="userHeaderStart">start</div>
-				<div class="userHeaderItem" id="userHeaderEnd">end</div>
-				<div class="userHeaderItem" id="userHeaderCompany">company</div>
-				<div class="userHeaderItem" id="userHeaderBandwidth">bandwidth</div>
-				<div class="userHeaderItem" id="userHeaderNode">node</div>
-				<div class="userHeaderItem" id="userHeaderMac">mac</div>
-				<div class="userHeaderItem" id="userHeaderIp">ip</div>
-				<div class="userHeaderItem" id="userHeaderDogNP">dogNP</div>
-				<div class="userHeaderItem" id="userHeaderBusinessMan">saler</div>
+				<div class="userHeaderItem" id="userHeaderUsername">{% trans "user" %}</div>
+				<div class="userHeaderItem" id="userHeaderVmName">{% trans "vmName" %}</div>
+				<div class="userHeaderItem" id="userHeaderVcpus">{% trans "vcpus" %}</div>
+				<div class="userHeaderItem" id="userHeaderMem">{% trans "mem" %}</div>
+				<div class="userHeaderItem" id="userHeaderDisk">{% trans "disk" %}</div>
+				<div class="userHeaderItem" id="userHeaderStart">{% trans "start" %}</div>
+				<div class="userHeaderItem" id="userHeaderEnd">{% trans "end" %}</div>
+				<div class="userHeaderItem" id="userHeaderCompany">{% trans "company" %}</div>
+				<div class="userHeaderItem" id="userHeaderBandwidth">{% trans "bandwidth" %}</div>
+				<div class="userHeaderItem" id="userHeaderNode">{% trans "node" %}</div>
+				<div class="userHeaderItem" id="userHeaderMac">{% trans "mac" %}</div>
+				<div class="userHeaderItem" id="userHeaderIp">{% trans "ip" %}</div>
+				<div class="userHeaderItem" id="userHeaderDogNP">{% trans "dogNP" %}</div>
+				<div class="userHeaderItem" id="userHeaderBusinessMan">{% trans "saler" %}</div>
 			</div>
 			<div class="userHeader">
 				<div class="userHeaderItem userHeaderPermissionItem"><div class="queryPermission permissionHeaderItem">-</div><div class="modifyPermission permissionHeaderItem">-</div></div>
@@ -103,13 +103,13 @@
 			<div id="registerDialogDiv">
 				<form name="register">
 					<div id="reUsernameDiv" class="reUserItemDiv">
-						<input type="text" name="username" id="usernameInput" class="reUserItemInput" placeholder="username">
+						<input type="text" name="username" id="usernameInput" class="reUserItemInput" placeholder={% trans "username" %}>
 					</div>
 					<div id="rePasswordDiv" class="reUserItemDiv">
-						<input type="password" name="password" id="passwordInput" class="reUserItemInput" placeholder="password">
+						<input type="password" name="password" id="passwordInput" class="reUserItemInput" placeholder={% trans "password" %}>
 					</div>
 					<div id="rePswdConfirmDiv" class="reUserItemDiv">
-						<input type="password" id="pswdConfirmInput" class="reUserItemInput" placeholder="confirm">
+						<input type="password" id="pswdConfirmInput" class="reUserItemInput" placeholder={% trans "confirm" %}>
 					</div>
 				</form>
 			</div>

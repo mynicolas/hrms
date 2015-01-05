@@ -1,45 +1,46 @@
+{% load i18n %}
 <script type="text/javascript" src="/static/hrmsapp/all.js"></script>
 
 <div id="hostsHeaderDiv">
-	<div class="headerItem" id="headerHandler">sort</div>
+	<div class="headerItem" id="headerHandler">{% trans "sort" %}</div>
 {% if header.name.query %}
-	<div class="headerItem" id="headerHostName">name</div>
+	<div class="headerItem" id="headerHostName">{% trans "name" %}</div>
 {% endif %}
 {% if header.vcpus.query %}
-	<div class="headerItem" id="headerVcpus">vcpus</div>
+	<div class="headerItem" id="headerVcpus">{% trans "vcpus" %}</div>
 {% endif %}
 {% if header.mem.query %}
-	<div class="headerItem" id="headerMem">mem<br/>(G)</div>
+	<div class="headerItem" id="headerMem">{% trans "mem" %}<br/>(G)</div>
 {% endif %}
 {% if header.disk.query %}
-	<div class="headerItem" id="headerDisk">disk<br/>(G)</div>
+	<div class="headerItem" id="headerDisk">{% trans "disk" %}<br/>(G)</div>
 {% endif %}
 {% if header.start.query %}
-	<div class="headerItem" id="headerStart">start<br/>(m/d/y)</div>
+	<div class="headerItem" id="headerStart">{% trans "start" %}<br/>(m/d/y)</div>
 {% endif %}
 {% if header.end.query %}
-	<div class="headerItem" id="headerEnd">end<br/>(m/d/y)</div>
+	<div class="headerItem" id="headerEnd">{% trans "end" %}<br/>(m/d/y)</div>
 {% endif %}
 {% if header.company.query %}
-	<div class="headerItem" id="headerCompany">company</div>
+	<div class="headerItem" id="headerCompany">{% trans "company" %}</div>
 {% endif %}
 {% if header.bandwidth.query %}
-	<div class="headerItem" id="headerBandwidth">bandwidth<br/>(Mbps)</div>
+	<div class="headerItem" id="headerBandwidth">{% trans "bandwidth" %}<br/>(Mbps)</div>
 {% endif %}
 {% if header.node.query %}
-	<div class="headerItem" id="headerNode">node</div>
+	<div class="headerItem" id="headerNode">{% trans "node" %}</div>
 {% endif %}
 {% if header.macs.query %}
-	<div class="headerItem" id="headerMac">mac</div>
+	<div class="headerItem" id="headerMac">{% trans "mac" %}</div>
 {% endif %}
 {% if header.ips.query %}
-	<div class="headerItem" id="headerIp">IP</div>
+	<div class="headerItem" id="headerIp">{% trans "IP" %}</div>
 {% endif %}
 {% if header.dogNP.query %}
-	<div class="headerItem" id="headerdogNP">dog<br/>(Port:SN)</div>
+	<div class="headerItem" id="headerdogNP">{% trans "dog" %}<br/>({% trans "Port" %}:{% trans "SN" %})</div>
 {% endif %}
 {% if header.businessMan.query %}
-	<div class="headerItem" id="headerBusinessMan">businessMan</div>
+	<div class="headerItem" id="headerBusinessMan">{% trans "businessMan" %}</div>
 {% endif %}
 </div>
 

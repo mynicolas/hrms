@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-04 17:22+0800\n"
+"POT-Creation-Date: 2015-01-05 11:35+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,59 +25,68 @@ msgstr "英语"
 msgid "Chinese"
 msgstr "中文"
 
-#: .\templates\desk\desk.html:8
-#, fuzzy
-#| msgid "username"
-msgid "name"
-msgstr "用户名"
+#: .\templates\404.html:16
+msgid "This site was lost......"
+msgstr "此页挥了挥衣袖，随云飘远......"
 
-#: .\templates\desk\desk.html:9
+#: .\templates\desk\desk.html:8 .\templates\hrmsapp\all.html:7
+msgid "name"
+msgstr "实例名"
+
+#: .\templates\desk\desk.html:9 .\templates\desk\desk.html.py:69
+#: .\templates\hrmsapp\all.html:10
 msgid "vcpus"
 msgstr "核心数"
 
-#: .\templates\desk\desk.html:10
+#: .\templates\desk\desk.html:10 .\templates\desk\desk.html.py:70
+#: .\templates\hrmsapp\all.html:13
 msgid "mem"
 msgstr "内存"
 
-#: .\templates\desk\desk.html:11
+#: .\templates\desk\desk.html:11 .\templates\desk\desk.html.py:71
+#: .\templates\hrmsapp\all.html:16
 msgid "disk"
 msgstr "磁盘"
 
-#: .\templates\desk\desk.html:12
+#: .\templates\desk\desk.html:12 .\templates\desk\desk.html.py:72
+#: .\templates\hrmsapp\all.html:19
 msgid "start"
 msgstr "破壳日"
 
-#: .\templates\desk\desk.html:13
+#: .\templates\desk\desk.html:13 .\templates\desk\desk.html.py:73
+#: .\templates\hrmsapp\all.html:22
 msgid "end"
 msgstr "入棺日"
 
-#: .\templates\desk\desk.html:14
+#: .\templates\desk\desk.html:14 .\templates\desk\desk.html.py:75
+#: .\templates\hrmsapp\all.html:28
 msgid "bandwidth"
 msgstr "带宽"
 
-#: .\templates\desk\desk.html:15
+#: .\templates\desk\desk.html:15 .\templates\desk\desk.html.py:74
+#: .\templates\hrmsapp\all.html:25
 msgid "company"
 msgstr "公司"
 
 #: .\templates\desk\desk.html:16
-#, fuzzy
-#| msgid "login"
 msgid "dogsn"
 msgstr "狗号"
 
-#: .\templates\desk\desk.html:17
+#: .\templates\desk\desk.html:17 .\templates\desk\desk.html.py:57
+#: .\templates\desk\desk.html:76 .\templates\hrmsapp\all.html:31
 msgid "node"
 msgstr "节点"
 
 #: .\templates\desk\desk.html:18
 msgid "port"
-msgstr "端口"
+msgstr "狗端口"
 
-#: .\templates\desk\desk.html:19
+#: .\templates\desk\desk.html:19 .\templates\desk\desk.html.py:78
 msgid "ip"
 msgstr "IP地址"
 
-#: .\templates\desk\desk.html:20
+#: .\templates\desk\desk.html:20 .\templates\desk\desk.html.py:77
+#: .\templates\hrmsapp\all.html:34
 msgid "mac"
 msgstr "MAC地址"
 
@@ -85,17 +94,85 @@ msgstr "MAC地址"
 msgid "owner"
 msgstr "销售人员"
 
-#: .\templates\login\login.html:6 .\templates\login\login.html.py:35
-msgid "VM Manager System"
-msgstr "虚拟机资源管理系统"
+#: .\templates\desk\desk.html:59
+msgid "dog port"
+msgstr "狗端口"
 
-#: .\templates\login\login.html:37
+#: .\templates\desk\desk.html:67
+msgid "user"
+msgstr "用户"
+
+#: .\templates\desk\desk.html:68
+msgid "vmName"
+msgstr "实例名"
+
+#: .\templates\desk\desk.html:79
+msgid "dogNP"
+msgstr "狗"
+
+#: .\templates\desk\desk.html:80
+msgid "saler"
+msgstr "销售人员"
+
+#: .\templates\desk\desk.html:106 .\templates\login\login.html:37
 msgid "username"
 msgstr "用户名"
 
-#: .\templates\login\login.html:38
+#: .\templates\desk\desk.html:109 .\templates\login\login.html:38
 msgid "password"
 msgstr "密码"
+
+#: .\templates\desk\desk.html:112 .\templates\desk\header.html:16
+msgid "confirm"
+msgstr "确认"
+
+#: .\templates\desk\header.html:2
+msgid "menu"
+msgstr "菜单"
+
+#: .\templates\desk\header.html:4
+msgid "logout"
+msgstr "登出"
+
+#: .\templates\desk\header.html:10
+#, fuzzy
+#| msgid "password"
+msgid "old password"
+msgstr "旧密码"
+
+#: .\templates\desk\header.html:13
+#, fuzzy
+#| msgid "password"
+msgid "new password"
+msgstr "新密码"
+
+#: .\templates\hrmsapp\all.html:5
+msgid "sort"
+msgstr "排序"
+
+#: .\templates\hrmsapp\all.html:37
+msgid "IP"
+msgstr "IP地址"
+
+#: .\templates\hrmsapp\all.html:40
+msgid "dog"
+msgstr "狗"
+
+#: .\templates\hrmsapp\all.html:40
+msgid "Port"
+msgstr "端口"
+
+#: .\templates\hrmsapp\all.html:40
+msgid "SN"
+msgstr "号"
+
+#: .\templates\hrmsapp\all.html:43
+msgid "businessMan"
+msgstr "商务人员"
+
+#: .\templates\login\login.html:6 .\templates\login\login.html.py:35
+msgid "VM Manager System"
+msgstr "虚拟机资源管理系统"
 
 #: .\templates\login\login.html:39
 msgid "login"

@@ -5,7 +5,6 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 admin.autodiscover()
 
-import views
 from hrmsapp import urls as dataUrls
 from userprofile import urls as profileUrls
 from login import urls as loginUrls
@@ -19,4 +18,5 @@ urlpatterns = patterns(
     url(r'^vm/', include(dataUrls)),
     url(r'^user/', include(profileUrls)),
     url(r'^i18n/', include('django.conf.urls.i18n')),
+    url(r'^jsi18n/(?P<packages>\S+?)/$', 'django.views.i18n.javascript_catalog'),
 )
