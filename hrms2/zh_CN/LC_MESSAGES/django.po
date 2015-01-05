@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-05 11:35+0800\n"
+"POT-Creation-Date: 2015-01-05 15:13+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 #: .\hrms2\settings.py:134
 msgid "English"
-msgstr "英语"
+msgstr "英文"
 
 #: .\hrms2\settings.py:135
 msgid "Chinese"
@@ -27,7 +27,7 @@ msgstr "中文"
 
 #: .\templates\404.html:16
 msgid "This site was lost......"
-msgstr "此页挥了挥衣袖，随云飘远......"
+msgstr "此页，挥了挥衣袖，啥也没留下......"
 
 #: .\templates\desk\desk.html:8 .\templates\hrmsapp\all.html:7
 msgid "name"
@@ -56,7 +56,7 @@ msgstr "破壳日"
 #: .\templates\desk\desk.html:13 .\templates\desk\desk.html.py:73
 #: .\templates\hrmsapp\all.html:22
 msgid "end"
-msgstr "入棺日"
+msgstr "入棺时"
 
 #: .\templates\desk\desk.html:14 .\templates\desk\desk.html.py:75
 #: .\templates\hrmsapp\all.html:28
@@ -108,7 +108,7 @@ msgstr "实例名"
 
 #: .\templates\desk\desk.html:79
 msgid "dogNP"
-msgstr "狗"
+msgstr "加密狗"
 
 #: .\templates\desk\desk.html:80
 msgid "saler"
@@ -135,14 +135,10 @@ msgid "logout"
 msgstr "登出"
 
 #: .\templates\desk\header.html:10
-#, fuzzy
-#| msgid "password"
 msgid "old password"
 msgstr "旧密码"
 
 #: .\templates\desk\header.html:13
-#, fuzzy
-#| msgid "password"
 msgid "new password"
 msgstr "新密码"
 
@@ -156,7 +152,7 @@ msgstr "IP地址"
 
 #: .\templates\hrmsapp\all.html:40
 msgid "dog"
-msgstr "狗"
+msgstr "加密狗"
 
 #: .\templates\hrmsapp\all.html:40
 msgid "Port"
@@ -164,11 +160,11 @@ msgstr "端口"
 
 #: .\templates\hrmsapp\all.html:40
 msgid "SN"
-msgstr "号"
+msgstr "狗号"
 
 #: .\templates\hrmsapp\all.html:43
 msgid "businessMan"
-msgstr "商务人员"
+msgstr "销售人员"
 
 #: .\templates\login\login.html:6 .\templates\login\login.html.py:35
 msgid "VM Manager System"

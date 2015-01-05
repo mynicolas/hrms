@@ -107,15 +107,15 @@ $(document).ready(function()
         desk.append(iconHtml);
     }
 
-    addIcon('allVms', '/static/desk/icons/test.png', 'all instances');
-    addIcon('addVm', '/static/desk/icons/test.png', 'add instance');
-    addIcon('addBusinessMan', '/static/desk/icons/test.png', 'add owner');
-    addIcon('addNode', '/static/desk/icons/test.png', 'add node');
-    addIcon('addIp', '/static/desk/icons/test.png', 'add ip');
-    addIcon('addPort', '/static/desk/icons/test.png', 'add dog port');
-    addIcon('addMac', '/static/desk/icons/test.png', 'add mac');
-    addIcon('user', '/static/desk/icons/test.png', 'user');
-    addIcon('log', '/static/desk/icons/test.png', 'log');
+    addIcon('allVms', '/static/desk/icons/test.png', gettext('all instances'));
+    addIcon('addVm', '/static/desk/icons/test.png', gettext('add instance'));
+    addIcon('addBusinessMan', '/static/desk/icons/test.png', gettext('add owner'));
+    addIcon('addNode', '/static/desk/icons/test.png', gettext('add node'));
+    addIcon('addIp', '/static/desk/icons/test.png', gettext('add ip'));
+    addIcon('addPort', '/static/desk/icons/test.png', gettext('add dog port'));
+    addIcon('addMac', '/static/desk/icons/test.png', gettext('add mac'));
+    addIcon('user', '/static/desk/icons/test.png', gettext('user'));
+    addIcon('log', '/static/desk/icons/test.png', gettext('log'));
 
 
     var deskDialog = $('.ui-dialog');
@@ -130,18 +130,19 @@ $(document).ready(function()
     function getAll()
     {// 所有实例的icon
         $.post('/vm/', 'item=all', renderAll);
-        deskAllVms.dialog({
-                title: "all instances",
-                resizable: true,
-                modal: false,
-                width: 1300,
-                height: 500,
-                buttons: {
-                    Cancel: function() {
-                        $(this).dialog("close");
-                    }
-                }
-        });
+        
+        var _dialog = {
+            title: gettext("all instances"),
+            resizable: true,
+            modal: false,
+            width: 1300,
+            height: 500,
+            buttons: {}
+        };
+        _dialog.buttons[gettext("Cancel")] = function() {
+            $(this).dialog("close");
+        }
+        deskAllVms.dialog(_dialog);
     }
 
     var hostsDiv = $('div#hostsDiv');
@@ -224,15 +225,16 @@ $(document).ready(function()
             }
         });
 
-        deskAddVm.dialog({
-            title: "add instance",
+        var _dialog  = {
+            title: gettext("add instance"),
             resizable: false,
             modal: false,
             width: 350,
-            buttons: {
-                Submit:  __addHost
-            }
-        });
+            buttons: {}
+        };
+        _dialog.buttons[gettext("Submit")] = __addHost
+        deskAddVm.dialog(_dialog);
+
         function __addHost()
         {
             var vmName = $('input#vmName');
@@ -362,23 +364,24 @@ $(document).ready(function()
     addNodeIcon.click(function()
     { // 添加node的icon
         var newNodeInput = $('input[name=newNode]');
-        deskAddNode.dialog({
-            title: "add node",
+        
+        var _dialog = {
+            title: gettext("add node"),
             resizable: false,
             modal: false,
-            buttons: {
-                Submit: function() {
-                    if(checkInputType('ip', newNodeInput.val()))
-                    {
-                        $.post('/vm/addnode/', 'newNode=' + newNodeInput.val(), isSaved)
-                    }
-                    else
-                    {
-                        isSaved('failed');
-                    }
-                }
+            buttons: {}
+        };
+        _dialog.buttons[gettext("Submit")] = function() {
+            if(checkInputType('ip', newNodeInput.val()))
+            {
+                $.post('/vm/addnode/', 'newNode=' + newNodeInput.val(), isSaved)
             }
-        });
+            else
+            {
+                isSaved('failed');
+            }
+        };
+        deskAddNode.dialog(_dialog);
 
         function isSaved(receive)
         {
@@ -400,23 +403,24 @@ $(document).ready(function()
     addOwnerIcon.click(function()
     { // 添加node的icon
         var newOwnerInput = $('input[name=newOwner]');
-        deskAddOwner.dialog({
-            title: "add owner",
+        
+        var _dialog = {
+            title: gettext("add owner"),
             resizable: false,
             modal: false,
-            buttons: {
-                Submit: function() {
-                    if(checkInputType('ip', newOwnerInput.val()))
-                    {
-                        $.post('/vm/addowner/', 'newOwner=' + newOwnerInput.val(), __isSaved)
-                    }
-                    else
-                    {
-                        __isSaved('failed');
-                    }
-                }
+            buttons: {}
+        };
+        _dialog.buttons[gettext('Submit')] = function() {
+            if(checkInputType('ip', newOwnerInput.val()))
+            {
+                $.post('/vm/addowner/', 'newOwner=' + newOwnerInput.val(), __isSaved)
             }
-        });
+            else
+            {
+                __isSaved('failed');
+            }
+        }
+        deskAddOwner.dialog(_dialog);
 
         function __isSaved(receive)
         {
@@ -438,23 +442,24 @@ $(document).ready(function()
     addIpIcon.click(function()
     { // 添加ip的icon
         var newIpInput = $('input[name=newIp]');
-        deskAddIp.dialog({
-            title: "add ip",
+        
+        var _dialog = {
+            title: gettext("add ip"),
             resizable: false,
             modal: false,
-            buttons: {
-                Submit: function() {
-                    if(checkInputType('ip', newIpInput.val()))
-                    {
-                        $.post('/vm/addip/', 'newIp=' + newIpInput.val(), isSaved)
-                    }
-                    else
-                    {
-                        isSaved('failed');
-                    }
-                }
+            buttons: {}
+        };
+        _dialog.buttons[gettext('Submit')] = function() {
+            if(checkInputType('ip', newIpInput.val()))
+            {
+                $.post('/vm/addip/', 'newIp=' + newIpInput.val(), isSaved)
             }
-        });
+            else
+            {
+                isSaved('failed');
+            }
+        };
+        deskAddIp.dialog(_dialog);
 
         function isSaved(receive)
         {
@@ -475,23 +480,24 @@ $(document).ready(function()
     addMacIcon.click(function()
     { // 添加mac的icon
         var newMacInput = $('input[name=newMac]');
-        deskAddMac.dialog({
-            title: "add mac",
+        
+        var _dialog = {
+            title: gettext("add mac"),
             resizable: false,
             modal: false,
-            buttons: {
-                Submit: function() {
-                    if(checkInputType('mac', newMacInput.val()))
-                    {
-                        $.post('/vm/addmac/', 'newMac=' + newMacInput.val(), isSaved)
-                    }
-                    else
-                    {
-                        isSaved('failed');
-                    }
-                }
+            buttons: {}
+        };
+        _dialog.buttons[gettext('Submit')] = function() {
+            if(checkInputType('mac', newMacInput.val()))
+            {
+                $.post('/vm/addmac/', 'newMac=' + newMacInput.val(), isSaved)
             }
-        });
+            else
+            {
+                isSaved('failed');
+            }
+        }
+        deskAddMac.dialog(_dialog);
 
         function isSaved(receive)
         {
@@ -515,37 +521,38 @@ $(document).ready(function()
         var thisNode = $('select#allNodes');
         thisNode.empty();
         var newDogPortInput = $('input[name=newPort]');
-        _();
-        function _()
+        dealReceive();
+        function dealReceive()
         {   
             $(this).empty();
-            $.post('/vm/nodes/', 'item=nodes', __);
-            function __(receive)
+            $.post('/vm/nodes/', 'item=nodes', _dealReceive);
+            function _dealReceive(receive)
             {
                 var thisNodes = $('select#allNodes');
                 thisNodes.append(receive);
             }
         };
-        deskAddPort.dialog({
-            title: "add dog port",
+        
+        var _dialog = {
+            title: gettext("add dog port"),
             resizable: false,
             modal: false,
-            buttons: {
-                Submit: function() {
-                    if (thisNode == '')
-                    {
-                        thisNode.css('border', '1px solid rgb(255, 0, 0)');
-                    }
-                    else
-                    {
-                        $.post('/vm/adddog/',
-                            'dogPort=' + newDogPortInput.val() +
-                            '&node=' + thisNode.val(),
-                            isSaved);
-                    }
-                }
+            buttons: {}
+        };
+        _dialog.buttons[gettext('Submit')] = function() {
+            if (thisNode == '')
+            {
+                thisNode.css('border', '1px solid rgb(255, 0, 0)');
             }
-        });
+            else
+            {
+                $.post('/vm/adddog/',
+                    'dogPort=' + newDogPortInput.val() +
+                    '&node=' + thisNode.val(),
+                    isSaved);
+            }
+        };
+        deskAddPort.dialog(_dialog);
 
         function isSaved(receive)
         {
@@ -567,130 +574,133 @@ $(document).ready(function()
     userIcon.click(function()
     { // user的icon
         $('div#usersDiv').empty();
-        deskUser.dialog({
-            title: "users",
+        
+        var _dialog = {
+            title: gettext("users"),
             resizable: true,
             modal: false,
             width: 1190,
             height: 300,
             close: function(){$(this).dialog("destroy")},
-            buttons: {
-                Submit: function() {
-                    $(this).dialog("destroy");
+            buttons: {}
+        };
+        _dialog.buttons[gettext('Submit')] = function() {
+            $(this).dialog("destroy");
+        }
+        _dialog.buttons[gettext('Register')] = function() {
+            $('form[name=register]').css('background-color', '#ffffff');
+            $('input#usernameInput').removeClass().addClass('notRegistered').val('');
+            $('input#passwordInput').css({
+                'border': '1px solid #A9A8A8',
+                'width': '100%'
+            }).val('');
+            $('input#pswdConfirmInput').css({
+                'border': '1px solid #A9A8A8',
+                'width': '100%'
+            }).val('');
+
+            var registerDialog = $('div#registerDialogDiv');
+            
+            var _dialogInner = {
+                title: gettext("register"),
+                modal: true,
+                resizable: false,
+                focus: function() {
+                    $(this).css('background-color', '#ffffff');
                 },
-                Register: function() {
-                    $('form[name=register]').css('background-color', '#ffffff');
-                    $('input#usernameInput').removeClass().addClass('notRegistered').val('');
-                    $('input#passwordInput').css({
-                        'border': '1px solid #A9A8A8',
-                        'width': '100%'
-                    }).val('');
-                    $('input#pswdConfirmInput').css({
-                        'border': '1px solid #A9A8A8',
-                        'width': '100%'
-                    }).val('');
-
-                    var registerDialog = $('div#registerDialogDiv');
-                    registerDialog.dialog({
-                        title: "register",
-                        modal: true,
-                        resizable: false,
-                        focus: function() {
-                            $(this).css('background-color', '#ffffff');
-                        },
-                        close: function(){$(this).dialog("destroy")},
-                        buttons: {
-                            Submit: function() {
-                                var usernameInput = $('input#usernameInput');
-                                var passwordInput = $('input#passwordInput');
-                                var pswdConfirmInput = $('input#pswdConfirmInput');
-                                if(usernameInput.val() != '')
-                                {
-                                    if (passwordInput.val() == pswdConfirmInput.val())
-                                    {
-                                        if(passwordInput.val() == '' || pswdConfirmInput == '')
-                                        {
-                                            passwordInput.css('border', '1px solid rgb(255, 0, 0)');
-                                            pswdConfirmInput.css('border', '1px solid rgb(255, 0, 0)');
-                                        }
-                                        else
-                                        {
-                                            $.post('/login/register/', 'username=' + usernameInput.val() + '&password=' + passwordInput.val(), __isSaved);
-                                            function __isSaved(receive)
-                                            {
-                                                if(receive == 'successful')
-                                                {
-                                                    $('form[name=register]').css('background-color', '#00ff00');
-                                                }
-                                                else
-                                                {
-                                                    $('form[name=register').css('background-color', '#ff00ff');
-                                                }
-                                            }
-                                            
-                                        }
-                                    }
-                                    else
-                                    {
-                                        pswdConfirmInput.css('border', '1px solid rgb(255, 0, 0)');
-                                    }
-                                }
-                            },
-                            Close: function() {
-                                $(this).dialog('destroy');
-                            }
-                        }
-                    });
-
-                    // 注册对话框中的用户名输入框失焦时，向服务器判断该用户名是否已被注册
-                    var usernameInput = $('input#usernameInput');
-                    var passwordInput = $('input#passwordInput');
-                    var pswdConfirmInput = $('input#pswdConfirmInput');
-                    usernameInput.focus(function()
+                close: function(){$(this).dialog("destroy")},
+                buttons: {}
+            };
+            _dialogInner.buttons[gettext('Submit')] = function() {
+                var usernameInput = $('input#usernameInput');
+                var passwordInput = $('input#passwordInput');
+                var pswdConfirmInput = $('input#pswdConfirmInput');
+                if(usernameInput.val() != '')
+                {
+                    if (passwordInput.val() == pswdConfirmInput.val())
+                    {
+                        if(passwordInput.val() == '' || pswdConfirmInput == '')
                         {
-                            $(this).css('width', '100%');
-                    });
-                    passwordInput.focus(function()
-                    {
-                        $(this).css({
-                            'width': '100%',
-                            'border': '1px solid #A9A8A8'
-                        });
-                    });
-                    pswdConfirmInput.focus(function()
-                    {
-                        $(this).css({
-                            'width': '100%',
-                            'border': '1px solid #A9A8A8'
-                        });
-                    });
-                    usernameInput.blur(checkUser);
-                    function checkUser()
-                    {
-                        if (usernameInput.val() != '')
-                        {
-                            $.post('/login/checkuser/', 'username=' + usernameInput.val(), __isRegister);
+                            passwordInput.css('border', '1px solid rgb(255, 0, 0)');
+                            pswdConfirmInput.css('border', '1px solid rgb(255, 0, 0)');
                         }
                         else
                         {
-                            usernameInput.removeClass('isRegistered notRegistered');
-                        }
-                        // 如果该用户名已被注册，将注册对话框的边框设置为红色, 如果未被注册，设置为绿色
-                        function __isRegister(receive)
-                        {
-                            if (receive == 'failed')
+                            $.post('/login/register/', 'username=' + usernameInput.val() + '&password=' + passwordInput.val(), __isSaved);
+                            function __isSaved(receive)
                             {
-                                usernameInput.removeClass().addClass('isRegistered');
+                                if(receive == 'successful')
+                                {
+                                    $('form[name=register]').css('background-color', '#00ff00');
+                                }
+                                else
+                                {
+                                    $('form[name=register').css('background-color', '#ff00ff');
+                                }
                             }
-                            else if (receive == 'successful')
-                            {
-                                usernameInput.removeClass().addClass('notRegistered')
-                            }
+                            
                         }
+                    }
+                    else
+                    {
+                        pswdConfirmInput.css('border', '1px solid rgb(255, 0, 0)');
                     }
                 }
             }
-        });
+            _dialogInner.buttons[gettext('Close')] = function() {
+                $(this).dialog('destroy');
+            }
+            registerDialog.dialog(_dialogInner);
+            
+            // 注册对话框中的用户名输入框失焦时，向服务器判断该用户名是否已被注册
+            var usernameInput = $('input#usernameInput');
+            var passwordInput = $('input#passwordInput');
+            var pswdConfirmInput = $('input#pswdConfirmInput');
+            usernameInput.focus(function()
+                {
+                    $(this).css('width', '100%');
+            });
+            passwordInput.focus(function()
+            {
+                $(this).css({
+                    'width': '100%',
+                    'border': '1px solid #A9A8A8'
+                });
+            });
+            pswdConfirmInput.focus(function()
+            {
+                $(this).css({
+                    'width': '100%',
+                    'border': '1px solid #A9A8A8'
+                });
+            });
+            usernameInput.blur(checkUser);
+            function checkUser()
+            {
+                if (usernameInput.val() != '')
+                {
+                    $.post('/login/checkuser/', 'username=' + usernameInput.val(), __isRegister);
+                }
+                else
+                {
+                    usernameInput.removeClass('isRegistered notRegistered');
+                }
+                // 如果该用户名已被注册，将注册对话框的边框设置为红色, 如果未被注册，设置为绿色
+                function __isRegister(receive)
+                {
+                    if (receive == 'failed')
+                    {
+                        usernameInput.removeClass().addClass('isRegistered');
+                    }
+                    else if (receive == 'successful')
+                    {
+                        usernameInput.removeClass().addClass('notRegistered')
+                    }
+                }
+            }
+        }
+
+        deskUser.dialog(_dialog);
 
         $.post('/user/', 'user=all', renderUsers);
         function renderUsers(receive)
@@ -771,90 +781,92 @@ $(document).ready(function()
     deskLogDiv.hide();
     logIcon.click(function()
     { // log 的icon
-        deskLogDiv.dialog({
-            title: "log",
+        
+        var _dialog = {
+            title: gettext("log"),
             resizable: true,
             modal: false,
             width: 1000,
             height: 500,
             close: function(){$(this).dialog("close")},
-            buttons: {
-                Query: function() {
-                    var conditionLogDiv = $('div#conditionLogDiv');
-                    conditionLogDiv.dialog({
-                        title: "log query",
-                        resizable: true,
-                        modal: true,
-                        width: 230,
-                        height: 230,
-                        close: function(){$(this).dialog("destroy")},
-                        buttons: {
-                            Submit: function() {
-                                var hostName = $('select#logQueryHostName').val();
-                                var startTime = $('input#logQueryStartTime').val();
-                                var endTime = $('input#logQueryEndTime').val();
-                                $.post(
-                                    'log/conditionlog/',
-                                    'hostname=' + hostName +
-                                    '&starttime=' + startTime +
-                                    '&endtime=' + endTime,
-                                    __query
-                                    )
-                                function __query(receive)
-                                {
-                                    deskLogDiv.empty();
-                                    deskLogDiv.append(receive); 
-                                }
-                            }
-                        }   
-                    });
-                    
-                    var vmNameSelector = $('select#logQueryHostName');
-                    $.post('/log/vmnames/', '', renderVmNames);
-                    function renderVmNames(receive)
-                    {
-                        vmNameSelector.empty();
-                        vmNameSelector.append(receive);
-                    }
-                    
-                    function getDate()
-                    {
-                        var date = new Date();
-                        var year = date.getFullYear()
-                        var month = date.getMonth() + 1
-                        var day = date.getDate()
-                        return month + "/" + day + "/" + year;
-                    }
-
-                    var logQueryStartTime = $('input#logQueryStartTime');
-                    var logQueryEndTime = $('input#logQueryEndTime');
-                    logQueryStartTime.val(getDate);
-                    logQueryEndTime.val(getDate);
-                    logQueryStartTime.datepicker({
-                        altFormat: "mm/dd/yy",
-                        defaultDate: +0,
-                        defaultDate: "+1w",
-                        changeMonth: true,
-                        numberOfMonths: 1,
-                        onClose: function(selectedDate)
-                            {
-                                logQueryEndTime.datepicker("option", "minDate", selectedDate)
-                            }
-                    });
-                    logQueryEndTime.datepicker({
-                        altFormat: "mm/dd/yy",
-                        defaultDate: +0,
-                        defaultDate: "+1w",
-                        changeMonth: true,
-                        numberOfMonths: 1,
-                        onClose: function(selectedDate)
-                            {
-                                logQueryStartTime.datepicker("option", "maxDate", selectedDate)
-                            }
-                    });
+            buttons: {}
+        };
+        _dialog.buttons[gettext('log')] = function() {
+            var conditionLogDiv = $('div#conditionLogDiv');
+            
+            var _dialogInner = {
+                title: gettext("log query"),
+                resizable: true,
+                modal: true,
+                width: 230,
+                height: 230,
+                close: function(){$(this).dialog("destroy")},
+                buttons: {}   
+            };
+            _dialogInner.buttons[gettext('Submit')] = function() {
+                var hostName = $('select#logQueryHostName').val();
+                var startTime = $('input#logQueryStartTime').val();
+                var endTime = $('input#logQueryEndTime').val();
+                $.post(
+                    'log/conditionlog/',
+                    'hostname=' + hostName +
+                    '&starttime=' + startTime +
+                    '&endtime=' + endTime,
+                    __query
+                    )
+                function __query(receive)
+                {
+                    deskLogDiv.empty();
+                    deskLogDiv.append(receive); 
                 }
             }
-        });
+            conditionLogDiv.dialog(_dialogInner);
+            
+            var vmNameSelector = $('select#logQueryHostName');
+            $.post('/log/vmnames/', '', renderVmNames);
+            function renderVmNames(receive)
+            {
+                vmNameSelector.empty();
+                vmNameSelector.append(receive);
+            }
+            
+            function getDate()
+            {
+                var date = new Date();
+                var year = date.getFullYear()
+                var month = date.getMonth() + 1
+                var day = date.getDate()
+                return month + "/" + day + "/" + year;
+            }
+
+            var logQueryStartTime = $('input#logQueryStartTime');
+            var logQueryEndTime = $('input#logQueryEndTime');
+            logQueryStartTime.val(getDate);
+            logQueryEndTime.val(getDate);
+            logQueryStartTime.datepicker({
+                altFormat: "mm/dd/yy",
+                defaultDate: +0,
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 1,
+                onClose: function(selectedDate)
+                    {
+                        logQueryEndTime.datepicker("option", "minDate", selectedDate)
+                    }
+            });
+            logQueryEndTime.datepicker({
+                altFormat: "mm/dd/yy",
+                defaultDate: +0,
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 1,
+                onClose: function(selectedDate)
+                    {
+                        logQueryStartTime.datepicker("option", "maxDate", selectedDate)
+                    }
+            });
+        }
+        deskLogDiv.dialog(_dialog);
 
         $.post('/log/', '', renderLogs);
         function renderLogs(receive)

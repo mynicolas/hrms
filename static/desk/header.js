@@ -73,49 +73,50 @@ $(document).ready(function()
             var reg = /^$/;
         });
         var changePasswordDialog = $('div#changePasswordDialog');
-        changePasswordDialog.dialog({
-            title: 'change password',
+        
+        var _dialog = {
+            title: gettext('change password'),
             width: 240,
             resizable: false,
             focus: function() {$(this).css('background-color', '#ffffff')},
-            buttons: {
-                Submit: function() {
-                    if (oldPassword.val() != '' && newPassword.val() != '' && pswdConfirm.val() != '')
+            buttons: {}
+        };
+        _dialog.buttons[gettext('Submit')] = function() {
+            if (oldPassword.val() != '' && newPassword.val() != '' && pswdConfirm.val() != '')
+            {
+                if (newPassword.val() == pswdConfirm.val())
+                {
+                    if (matchType('password', newPassword.val()))
                     {
-                        if (newPassword.val() == pswdConfirm.val())
+                        $.post('/login/changepassword/', '&oldpassword=' + $.md5(oldPassword.val()) + '&newpassword=' + $.md5(newPassword.val()), __isChanged);
+                        function __isChanged(receive)
                         {
-                            if (matchType('password', newPassword.val()))
+                            if (receive == 'successful')
                             {
-                                $.post('/login/changepassword/', '&oldpassword=' + $.md5(oldPassword.val()) + '&newpassword=' + $.md5(newPassword.val()), __isChanged);
-                                function __isChanged(receive)
-                                {
-                                    if (receive == 'successful')
-                                    {
-                                        changePasswordDiv.addClass('isChanged');
-                                    }
-                                    else if(receive == 'failed')
-                                    {
-                                        changePasswordDiv.addClass('notChanged');
-                                    }
-                                    else if(receive == 'notmatch')
-                                    {
-                                        oldPassword.addClass('pswdNotMatch');
-                                    }
-                                }
+                                changePasswordDiv.addClass('isChanged');
                             }
-                            else
+                            else if(receive == 'failed')
                             {
-                                alert('password must contain @#$%^&*...')
+                                changePasswordDiv.addClass('notChanged');
                             }
-                        }
-                        else 
-                        {
-                            pswdConfirm.removeClass().addClass('pswdNotMatch');
+                            else if(receive == 'notmatch')
+                            {
+                                oldPassword.addClass('pswdNotMatch');
+                            }
                         }
                     }
+                    else
+                    {
+                        alert('password must contain @#$%^&*...')
+                    }
+                }
+                else 
+                {
+                    pswdConfirm.removeClass().addClass('pswdNotMatch');
                 }
             }
-        });
+        }
+        changePasswordDialog.dialog(_dialog);
     });
 
     function matchType(type, value)
